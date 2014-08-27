@@ -1,4 +1,4 @@
-//Classe Global : section critique, index, stop, réglages et paramètres
+//Classe Global : section critique, index, stop, rÃ©glages et paramÃ¨tres
 
 #include <string.h>
 #ifdef WIN32
@@ -33,7 +33,7 @@ short Global::getNbIndexEcr() {
 	return nbInd;
 }
 void Global::setNbIndexEcr(short nbInd) {
-	if (nbInd<1) nbInd++;	//min 1 pour ignorer le dernier index (repoussé à la fin car il reste un peu de signal derrière)
+	if (nbInd<1) nbInd++;	//min 1 pour ignorer le dernier index (repoussÃ© Ã  la fin car il reste un peu de signal derriÃ¨re)
 	entreSectionCritiqueGlobal2();	// E E E E E E E E E E E E E
 	nbIndexEcr=nbInd;
 	quitteSectionCritiqueGlobal2();	// Q Q Q Q Q Q Q Q Q Q Q Q
@@ -65,7 +65,7 @@ void Global::setDemandeStop(bool demStop) {
 	quitteSectionCritiqueGlobal2();	// Q Q Q Q Q Q Q Q Q Q Q Q
 }
 
-//Contrôle le passage des paramètres vers les threads (pour debug...)
+//ContrÃ´le le passage des paramÃ¨tres vers les threads (pour debug...)
 bool Global::getThreadOK() {
 	entreSectionCritiqueGlobal();	// E E E E E E E E E E E E E
 	bool thOK=threadOK;
@@ -79,7 +79,7 @@ void Global::setThreadOK(bool thOK) {
 	quitteSectionCritiqueGlobal2();	// Q Q Q Q Q Q Q Q Q Q Q Q
 }
 
-//Réglages
+//RÃ©glages
 short Global::getVolume() {
 	entreSectionCritiqueGlobal();	// E E E E E E E E E E E E E
 	short vol=volume;
@@ -125,7 +125,7 @@ void Global::setHauteur(short hau) {
 	quitteSectionCritiqueGlobal();	// Q Q Q Q Q Q Q Q Q Q Q Q
 }
 
-//Paramètres de lecture
+//ParamÃ¨tres de lecture
 short Global::getPhon() {
 	entreSectionCritiqueGlobal();	// E E E E E E E E E E E E E
 	short phon=phonetique;	//pas bool car -1 possible pour ignorer
@@ -165,11 +165,11 @@ void Global::setModeCompta(short modeCompt) {
 	quitteSectionCritiqueGlobal();	// Q Q Q Q Q Q Q Q Q Q Q Q
 }
 
-//Paramètres de son
+//ParamÃ¨tres de son
 short Global::getSortieSon() {	//tj ds le thread de l'instance : pas de section critque
 	return sortieSon;
 }
-void Global::setSortieSon(short sortSon) {	//thread de l'instance arrêté : pas de section critique
+void Global::setSortieSon(short sortSon) {	//thread de l'instance arrÃªtÃ© : pas de section critique
 	if (sortSon==-1) return;
 	sortieSon=sortSon;
 }
@@ -177,7 +177,7 @@ void Global::setSortieSon(short sortSon) {	//thread de l'instance arrêté : pas d
 short Global::getSortieWave() {	//tj ds le thread de l'instance : pas de section critque
 	return sortieWave;
 }
-void Global::setSortieWave(short sortWave) {	//thread de l'instance arrêté : pas de section critique
+void Global::setSortieWave(short sortWave) {	//thread de l'instance arrÃªtÃ© : pas de section critique
 	if (sortWave==-1) return;
 	sortieWave=sortWave;
 }
@@ -185,7 +185,7 @@ void Global::setSortieWave(short sortWave) {	//thread de l'instance arrêté : pas
 char* Global::getNomFichierWave() {	//tj ds le thread de l'instance : pas de section critque
 	return nomFichierWave;
 }
-void Global::setNomFichierWave(char* nomFicWave) {	//thread de l'instance arrêté : pas de section critique
+void Global::setNomFichierWave(char* nomFicWave) {	//thread de l'instance arrÃªtÃ© : pas de section critique
 	if (nomFichierWave)
 		delete[] nomFichierWave;
 	if (nomFicWave==NULL)
@@ -195,19 +195,19 @@ void Global::setNomFichierWave(char* nomFicWave) {	//thread de l'instance arrêté
 }
 
 //Pour index sous Linux
-int Global::getktime0us() {	//le set est dans le même thread -> pas de section critique
+int Global::getktime0us() {	//le set est dans le mÃªme thread -> pas de section critique
 	return ktime0us;
 }
-void Global::setktime0us(int a) {	//le get est dans le même thread -> pas de section critique
+void Global::setktime0us(int a) {	//le get est dans le mÃªme thread -> pas de section critique
 	ktime0us=a;
 }
-int Global::getktime0s() {	//le set est dans le même thread -> pas de section critique
+int Global::getktime0s() {	//le set est dans le mÃªme thread -> pas de section critique
 	return ktime0s;
 }
-void Global::setktime0s(int a) {	//le get est dans le même thread -> pas de section critique
+void Global::setktime0s(int a) {	//le get est dans le mÃªme thread -> pas de section critique
 	ktime0s=a;
 }
-void Global::initTNEch(short a) {	//avant le message de début -> pas de section critique
+void Global::initTNEch(short a) {	//avant le message de dÃ©but -> pas de section critique
 	if (a>0 && a<=NM_INDEX) {	//il y a une place de plus que d'index
 		if (tNEch!=NULL) {
 			delete tNEch;
@@ -216,7 +216,7 @@ void Global::initTNEch(short a) {	//avant le message de début -> pas de section 
 		tNEch=new int[a];
 	}
 }
-void Global::destTNEch(void) {	//après la fin -> pas de section critique
+void Global::destTNEch(void) {	//aprÃ¨s la fin -> pas de section critique
 	delete[] tNEch;
 	tNEch=NULL;
 }
@@ -248,7 +248,7 @@ void Global::setCtEch(int a) {
 	ctEch=a;
 	quitteSectionCritiqueGlobal2();	// Q Q Q Q Q Q Q Q Q Q Q Q
 }
-//Incrémente le compteur d'échantillons pour gérer le tableau d'index (position de lecture sous Linux)
+//IncrÃ©mente le compteur d'Ã©chantillons pour gÃ©rer le tableau d'index (position de lecture sous Linux)
 void Global::incrCtEch(void) {
 	entreSectionCritiqueGlobal2();	// E E E E E E E E E E E E E
 	ctEch+=1;

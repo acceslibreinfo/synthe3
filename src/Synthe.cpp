@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////
 // *** SYNTHE ***
-// Synthé logiciel (fonctions publiques)
+// SynthÃ© logiciel (fonctions publiques)
 ///////////////////////////////////////////////////////
 
 #ifdef WIN32
@@ -11,7 +11,7 @@
 	#include <pthread.h>
 #endif
 
-#define SYNTHE_VERSION "Synthé version 1.1"
+#define SYNTHE_VERSION "SynthÃ© version 1.1"
 //#define SYNTHE_VOIX "" //Chemin et nom du fichier de voix
 //#define SYNTHE_TAB "" //Chemin et nom du fichier des tables
 
@@ -26,28 +26,28 @@ HANDLE hThread;
 short posLec[NM_INDEX+1];	//il y a une place de plus que d'index
 short nbIndex;
 Voix** tVoix;	//tableau des voix
-Tab* tab;	//les tables de Synthé (objet, ne pas confondre avec tTab, table qui fait partie de cet objet)
+Tab* tab;	//les tables de SynthÃ© (objet, ne pas confondre avec tTab, table qui fait partie de cet objet)
 
 //////////////////////////////////////////////////////////////////
-// Fonctions publiques pour faire parler Synthé
+// Fonctions publiques pour faire parler SynthÃ©
 //////////////////////////////////////////////////////////////////
 
-//Les fonctions de Synthé sont en mode _stdcall pour les appels à partir d'autres langages (Visual Basic, ...)
-//Le nombre d'index est calculé avant de créer le thread, pour être bon dès le début (min 1 pendant le son)
+//Les fonctions de SynthÃ© sont en mode _stdcall pour les appels Ã  partir d'autres langages (Visual Basic, ...)
+//Le nombre d'index est calculÃ© avant de crÃ©er le thread, pour Ãªtre bon dÃ¨s le dÃ©but (min 1 pendant le son)
 
-//Envoi d'un texte à lire par Synthé
-//Le paramètre texte est obligatoire, les autres sont facultatifs, la valeur -1 indique la conservation de la valeur courante
+//Envoi d'un texte Ã  lire par SynthÃ©
+//Le paramÃ¨tre texte est obligatoire, les autres sont facultatifs, la valeur -1 indique la conservation de la valeur courante
 void _stdcall synTexte(
-	char* texte,	//peut être constitué de plusieurs paragraphes, sans dépasser NM_CAR_TEX caractères.
-	short volume,	//0 à 15 par pas de 25 % (par défaut 10)
-	short debit,	//0 à 15 par pas de 12 % (par défaut 4)
-	short hauteur,	//0 à 15 par pas de 12 % (par défaut 4)
-	short phon, 	//1, le texte est phonétique
+	char* texte,	//peut Ãªtre constituÃ© de plusieurs paragraphes, sans dÃ©passer NM_CAR_TEX caractÃ¨res.
+	short volume,	//0 Ã  15 par pas de 25 % (par dÃ©faut 10)
+	short debit,	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
+	short hauteur,	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
+	short phon, 	//1, le texte est phonÃ©tique
 	short modeLecture,	//0, normal, 1, dit la ponctuation
-	short modeCompta,	//0, le séparateur de milliers reste, 1, le séprateur de milliers est enlevé
+	short modeCompta,	//0, le sÃ©parateur de milliers reste, 1, le sÃ©prateur de milliers est enlevÃ©
 	short sortieSon,		//sortie sur la carte-son
 	short sortieWave,		//sortie sous forme de fichier wave
-	char* nomFicWave	//nom éventuel du fichier à construire
+	char* nomFicWave	//nom Ã©ventuel du fichier Ã  construire
 	) {
 	
 	typeParamThread* lpParamThread=new typeParamThread;
@@ -65,10 +65,10 @@ void _stdcall synTexte(
 	longTex=strlen((char*)texte);
 	if (longTex>NM_CAR_TEX) longTex=NM_CAR_TEX;
 	bufferMessage=new char[longTex*2+10];	//au pire : "a b c d ..."
-	//Demande la version de Synthé
+	//Demande la version de SynthÃ©
 	if (strncmp(texte,"nversionsyn",9)==0) strcpy (bufferMessage, SYNTHE_VERSION);
 	copieEtAjouteIndexSiPas(texte, bufferMessage);	//compte les index
-	//Crée le thread
+	//CrÃ©e le thread
 	lpParamThread->texte=bufferMessage;
 	lpParamThread->phon=phon;
 	lpParamThread->volume=volume;
@@ -83,14 +83,14 @@ void _stdcall synTexte(
 #ifdef WIN32
 	hThread=CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&fThAlpha, lpParamThread, 0, &idThread);
 	SetPriorityClass(hThread, HIGH_PRIORITY_CLASS);
-	Sleep(0);	//accélère la création du thread
+	Sleep(0);	//accÃ©lÃ¨re la crÃ©ation du thread
 #else
 	pthread_create(&hThread, NULL, (void*(*)(void*))fThAlpha, lpParamThread);
-	sleep(0);	//accélère la création du thread
+	sleep(0);	//accÃ©lÃ¨re la crÃ©ation du thread
 #endif
 }
 
-//Retourne la valeur de l'index de lecture (va du nb d'index à 0 en fin de lecture)
+//Retourne la valeur de l'index de lecture (va du nb d'index Ã  0 en fin de lecture)
 short synIndex() {
 	return synGlobal.getNbIndexLec();
 }
@@ -102,18 +102,18 @@ short _stdcall synPosLec() {
 	return posLec[nbIndex-n];
 }
 
-//Stop parole : arrête la lecture (effet immédiat)
-//Indispensable quand on arrête un programme utilisant Synthé avec DirectX
-//	sous peine de bouclage irréversible du tampon de lecture
+//Stop parole : arrÃªte la lecture (effet immÃ©diat)
+//Indispensable quand on arrÃªte un programme utilisant SynthÃ© avec DirectX
+//	sous peine de bouclage irrÃ©versible du tampon de lecture
 void _stdcall synStop() {
 	demandeStopEtAttendFinThread();
 }
 
 /////////////////////////////
-//	Fonctions privées
+//	Fonctions privÃ©es
 /////////////////////////////
 
-//Démarrage du thread : synthèse à partir du texte
+//DÃ©marrage du thread : synthÃ¨se Ã  partir du texte
 void fThAlpha(void* lpParam) {
 	synTex(lpParam);
 }
@@ -134,9 +134,9 @@ void demandeStopEtAttendFinThread() {
 		synGlobal.setDemandeStop(false);	//OK, on peut envoyer un nouveau message
 	}
 #endif
-	synGlobal.setNbIndexLec(-1);	//-1 -> 0 indique lecture terminée (à 0 -> 1, il reste ce qui suit le dernier index)
-	initWave(false);	//termine une éventuelle sortie wave
-	sonDestruction();	//détruit l'objet son synSon (donc le buffer circulaire et l'objet carte-son snd_dev)
+	synGlobal.setNbIndexLec(-1);	//-1 -> 0 indique lecture terminÃ©e (Ã  0 -> 1, il reste ce qui suit le dernier index)
+	initWave(false);	//termine une Ã©ventuelle sortie wave
+	sonDestruction();	//dÃ©truit l'objet son synSon (donc le buffer circulaire et l'objet carte-son snd_dev)
 }
 
 //Indexation automatique : copie la chaine en ajoutant des index si elle n'en comporte pas (et les compte)
@@ -146,12 +146,12 @@ void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr) {
 	bool marqValide=false;
 
 	posLec[0]=0;	//position initiale
-	nbIndex=1;	//init comptage à 1 pour posLec car 0 représente le 1er mot (mais on décrémente après)
+	nbIndex=1;	//init comptage Ã  1 pour posLec car 0 reprÃ©sente le 1er mot (mais on dÃ©crÃ©mente aprÃ¨s)
 	for (lec=chaineLec; *lec!=0; lec++) {
-		if (*lec=='ø') {
-			if (lec[1]=='í') {	//index trouvé
+		if (*lec=='Ã¸') {
+			if (lec[1]=='Ã­') {	//index trouvÃ©
 				if (nbIndex<=NM_INDEX)
-					posLec[nbIndex++]=lec-chaineLec;	//repère l'index et compte
+					posLec[nbIndex++]=lec-chaineLec;	//repÃ¨re l'index et compte
 				lec++;
 			}
 		}
@@ -159,21 +159,21 @@ void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr) {
 	if (nbIndex>1) {
 		//La chaine comporte des index
 		ecr=chaineEcr;
-		for (lec=chaineLec; *lec!=0 && lec<chaineLec+NM_CAR_TEX; lec++)	//limite la lecture à NM_CAR_TEX carac
+		for (lec=chaineLec; *lec!=0 && lec<chaineLec+NM_CAR_TEX; lec++)	//limite la lecture Ã  NM_CAR_TEX carac
 			*ecr++=*lec;	//recopie simplement
 		*ecr=0;
-		synGlobal.setNbIndexLec(nbIndex-1);	//valeur pour Synthé avant mise à jour par lecture tampon
+		synGlobal.setNbIndexLec(nbIndex-1);	//valeur pour SynthÃ© avant mise Ã  jour par lecture tampon
 		synGlobal.setNbIndexMax(nbIndex-1);	//pour index sous linux
 		return;
 	}
 	//Pas d'index : on les place
 	ecr=chaineEcr;
-	for (lec=chaineLec; *lec!=0 && lec<chaineLec+NM_CAR_TEX; lec++) {	//limite la lecture à NM_CAR_TEX carac
+	for (lec=chaineLec; *lec!=0 && lec<chaineLec+NM_CAR_TEX; lec++) {	//limite la lecture Ã  NM_CAR_TEX carac
 		if (*lec==0) {
 			break;	//si finit par marqueur
 		}
 		if (!caracValide((char)*lec)) {
-			if (marqValide) {	//place l'index derrière le car valide et le repère
+			if (marqValide) {	//place l'index derriÃ¨re le car valide et le repÃ¨re
 				if (nbIndex<NM_INDEX) {
 					posLec[nbIndex++]=lec-chaineLec;
 					*ecr++=MARQ_MARQ; *ecr++=MARQ_INDEX;
@@ -181,24 +181,24 @@ void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr) {
 			}
 			marqValide=false;
 		} else
-		  marqValide=true;  //prêt à placer le prochain index
+		  marqValide=true;  //prÃªt Ã  placer le prochain index
 		*ecr++=*lec;
 	}
 	*ecr++=MARQ_MARQ; *ecr++=MARQ_INDEX;*ecr=0;	//finit par un index
-	posLec[nbIndex]=lec-chaineLec;	//position du dernier index (inutile car il sera ignoré et la vraie fin de lecture renverra -1)
-	synGlobal.setNbIndexEcr(nbIndex);	//à écrire dans le tampon circulaire (min 1 pendant le son)
-	synGlobal.setNbIndexLec(nbIndex);	//à retourner avant mise à jour par lecture tampon (min 1 pendant le son)
+	posLec[nbIndex]=lec-chaineLec;	//position du dernier index (inutile car il sera ignorÃ© et la vraie fin de lecture renverra -1)
+	synGlobal.setNbIndexEcr(nbIndex);	//Ã  Ã©crire dans le tampon circulaire (min 1 pendant le son)
+	synGlobal.setNbIndexLec(nbIndex);	//Ã  retourner avant mise Ã  jour par lecture tampon (min 1 pendant le son)
 	synGlobal.setNbIndexMax(nbIndex);	//Romain pour index sous linux
 }
 
-//Détermine s'il s'agit d'un caractère ou d'un séparateur
+//DÃ©termine s'il s'agit d'un caractÃ¨re ou d'un sÃ©parateur
 bool caracValide(char carac) {
 	if (carac==' ' || carac==10 || carac==13) return false;	//on pourrait affiner avec qques carac ou un tableau
 	return true;
 }
 
 ////////////////////////////////////
-// Initialisation de Synthé
+// Initialisation de SynthÃ©
 ////////////////////////////////////
 
 //Au lancement
@@ -215,15 +215,15 @@ void initSynthe() {
 	synGlobal.setModeCompta(1);
 	synGlobal.setSortieSon(1);
 	synGlobal.setSortieWave(0);
-	tVoix=new Voix*[1];	//une seule voix (prévu pour plusieurs)
+	tVoix=new Voix*[1];	//une seule voix (prÃ©vu pour plusieurs)
 	tVoix[0]=new Voix(0, "Michel.seg");	//construit la voix 0 (la seule)
 	tab=new Tab("Synthe.tab");	//construit les tables
-	//		synTexte("synthé prêt");
+	//		synTexte("synthÃ© prÃªt");
 }
 
 //Pour quitter
 void quitteSynthe() {
-	demandeStopEtAttendFinThread();	//stoppe le message en cours, index à -1, détruit l'objet son synSon, donc le buffer circulaire et l'objet carte-son snd-dev
+	demandeStopEtAttendFinThread();	//stoppe le message en cours, index Ã  -1, dÃ©truit l'objet son synSon, donc le buffer circulaire et l'objet carte-son snd-dev
 	synGlobal.destTNEch();	//index sous Linux
 	synGlobal.setNomFichierWave(NULL);
 	detruitVariablesSectionCritiqueGlobal();
@@ -232,7 +232,7 @@ void quitteSynthe() {
 	delete[] tVoix;
 }
 
-//Initialisation chargement/déchargement la dll (pour Linux, il faut appeler initSynthe et quitteSynthe
+//Initialisation chargement/dÃ©chargement la dll (pour Linux, il faut appeler initSynthe et quitteSynthe
 #ifdef WIN32
 BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, void* lpReserved) {
 	switch (dwReason) {

@@ -4,9 +4,9 @@ private:
 	char* texteLec;
 	char* texteEcr;
 	short iLec;	//lecture
-	short iEcr;	//écriture
+	short iEcr;	//Ã©criture
 	unsigned char carac;	//carac alpha
-	unsigned char categ;	//sa catégorie
+	unsigned char categ;	//sa catÃ©gorie
 	short ctBava;
 	char liaison;
 	char* ptArbre;
@@ -17,7 +17,7 @@ public:
 	void minMajNFois(char* texteAlphaLec, char* texteAlphaEcr);
 	void graphemePhoneme(char* texte, char* texPhon);
 	void traiteNombre();
-	void phonChif(char* ptChif);	//Phonétise le chiffre
+	void phonChif(char* ptChif);	//PhonÃ©tise le chiffre
 	void finNombre(char& iN);
 	unsigned char carSuiv();
 	void ecritPhon (char c);

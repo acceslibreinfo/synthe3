@@ -2,7 +2,7 @@
 #include "SynMain.h"
 
 ///////////////////////////////////////////
-// MÈthodes de la classe Voix
+// M√©thodes de la classe Voix
 ///////////////////////////////////////////
 
 Voix::Voix(char nVoix, char* nomFicVoix) {	//constructeur : charge la voix
@@ -28,7 +28,7 @@ char* Voix::getPtSeg(unsigned char nSeg) {
 }
 
 //////////////////////////////////////////
-// MÈthodes de la classe Tab
+// M√©thodes de la classe Tab
 //////////////////////////////////////////
 
 Tab::Tab(char* nomFicTab) {
@@ -69,7 +69,7 @@ Tab::Tab(char* nomFicTab) {
 	tTab=new char[lgTab];
 	ficTab.read(tTab, lgTab);
 	ficTab.close ();
-	tTab-=decal;	//dÈcalage liste des adresses
+	tTab-=decal;	//d√©calage liste des adresses
 }
 
 Tab::~Tab() {
@@ -77,7 +77,7 @@ Tab::~Tab() {
 	delete[] tTab;
 }
 
-//codes Windows (127 ‡ 255) -> code commun
+//codes Windows (127 √† 255) -> code commun
 unsigned char Tab::tWin(unsigned char carac) {
 	if (carac<32) carac=32;
 	if (carac>='a' && carac<='z') carac-=32;
@@ -85,13 +85,13 @@ unsigned char Tab::tWin(unsigned char carac) {
 	return ((unsigned char*)tTab+aTWin)[carac-123];
 }
 
-//code commun (32 ‡ 189) -> catÈgorie
+//code commun (32 √† 189) -> cat√©gorie
 char Tab::tCat(unsigned char c) {
 	if (c<32 || c>FOIS) return PONC;
 	return (tTab+aTCat)[c-32];
 }
 
-//code commun (97 ‡ 122)(FOIS-30 ‡ FOIS-8) -> code phonÈtique
+//code commun (97 √† 122)(FOIS-30 √† FOIS-8) -> code phon√©tique
 char Tab::tPhon(unsigned char c) {
 	if (c==',') return VR;
 	if (c==':') return PL;
@@ -105,7 +105,7 @@ char Tab::tPhon(unsigned char c) {
 	return NULP;
 }
 
-//code commun (97 ‡ 122)(FOIS-30 ‡ FOIS-8) -> catÈgorie phonÈtique
+//code commun (97 √† 122)(FOIS-30 √† FOIS-8) -> cat√©gorie phon√©tique
 char Tab::tCatP(unsigned char c) {
 	if (c<97) return NULP;
 	if (c<123) return (tTab+aTCatP1)[c-97];
@@ -114,7 +114,7 @@ char Tab::tCatP(unsigned char c) {
 	return NULP;
 }
 
-//liste des unitÈs jusqu'‡ 16
+//liste des unit√©s jusqu'√† 16
 char* Tab::chListUnit(char c) {
 	return tTab+((short*)(tTab+aChLst1))[c-48];
 }
@@ -129,95 +129,95 @@ char* Tab::chListMil(char n) {
 	return tTab+((short*)(tTab+aChLst3))[n];
 }
 
-//"zÈro"
+//"z√©ro"
 char* Tab::ch01() {
 	return tTab+aCh01;
 }
 
-//"Ó:[n]" ("un" seul)
+//"√Æ:[n]" ("un" seul)
 char* Tab::ch1S() {
 	return tTab+aCh1S;
 }
 
-//"s‚[t]"
+//"s√¢[t]"
 char* Tab::ch100() {
 	return tTab+aCh100;
 }
 
-//"s‚:[z]"
+//"s√¢:[z]"
 char* Tab::ch100Z() {
 	return tTab+aCh100Z;
 }
 
-//table des volumes : -10 ‡ 5 (pas 1.26 = 2 tons)
+//table des volumes : -10 √† 5 (pas 1.26 = 2 tons)
 short Tab::tabVol(char n) {
 	return ((short*)(tTab+aTabVol))[n+10];
 }
 
-//table des vitesses : -3 ‡ 12 (pas 1.1225 = 1 ton)
+//table des vitesses : -3 √† 12 (pas 1.1225 = 1 ton)
 short Tab::tabVit(char n) {
 	return ((short*)(tTab+aTabVit))[n+3];
 }
 
-//table des hauteurs : -6 ‡ 9 (pas 1.05946 = 1/2 tons)
+//table des hauteurs : -6 √† 9 (pas 1.05946 = 1/2 tons)
 short Tab::tabHau(char n) {
 	return ((short*)(tTab+aTabHau))[n+6];
 }
 
-//catÈgories de phonËmes
+//cat√©gories de phon√®mes
 char Tab::categ(char phon) {
 	return (tTab+aCateg)[phon];
 }
 
-//n∞ de courbe d'amplitude de fin de phonËme (dÈbut de diphone)
+//n¬∞ de courbe d'amplitude de fin de phon√®me (d√©but de diphone)
 unsigned char Tab::finAmp(char catG, char catD) {
 	return (tTab+aFinAmp)[catG*10+catD];
 }
 
-//n∞ de segment de fin de phonËme
+//n¬∞ de segment de fin de phon√®me
 unsigned char Tab::finTim(char phon) {
 	return ((unsigned char*)tTab+aFinTim)[phon];
 }
 
-//n∞ de courbe d'amplitude de la transition
+//n¬∞ de courbe d'amplitude de la transition
 unsigned char Tab::traAmp(char catG, char catD) {
 	return (tTab+aTraAmp)[catG*10+catD];
 }
 
-//n∞ de segment de la transition
+//n¬∞ de segment de la transition
 unsigned char Tab::traTim(char phonG, char phonD) {
 	return ((unsigned char*)tTab+aTraTim)[phonG*32+phonD];
 }
 
-//n∞ de courbe d'amplitude de dÈbut de phonËme (dÈbut de diphone)
+//n¬∞ de courbe d'amplitude de d√©but de phon√®me (d√©but de diphone)
 unsigned char Tab::debAmp(char catG, char catD) {
 	return (tTab+aDebAmp)[catG*10+catD];
 }
 
-//n∞ de segment de dÈbut de phonËme
+//n¬∞ de segment de d√©but de phon√®me
 unsigned char Tab::debTim(char phon) {
 	return ((unsigned char*)tTab+aDebTim)[phon];
 }
 
-//n∞ courbe d'amplitude -> pt courbe d'amplitude
+//n¬∞ courbe d'amplitude -> pt courbe d'amplitude
 unsigned char* Tab::getPtAmp(short nAmp) {
 	short adr=((short*)(tTab+aAdAmp))[nAmp];
 	return (unsigned char*)(tTab+aTabAmp+adr);
 }
 
-//pt table des adresses pour dÈbut de mot (32 ‡ 189)
+//pt table des adresses pour d√©but de mot (32 √† 189)
 char* Tab::getPtTabDeb(unsigned char c) {
 	short adr=((short*)(tTab+aTabDeb))[c-32];
 	return tTab+adr;
 }
 
-//PrÈpare adresse suivante (branche)
+//Pr√©pare adresse suivante (branche)
 char* Tab::getPtArbre(char* ptArbre) {
 	short adr=*((short*)ptArbre);
 	return tTab+adr;
 }
 
-//PrÈpare adresse suivante selon carac (racine)
+//Pr√©pare adresse suivante selon carac (racine)
 char* Tab::getPtArbre(char* ptArbre, unsigned char carac) {
 	short adr=*((short*)ptArbre);
 	adr=((short*)(tTab+adr))[carac-32];

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////
-// Synthé : fonction parole
+// SynthÃ© : fonction parole
 ////////////////////////////////////////////////////
 
 #include "SynMain.h"
@@ -10,13 +10,13 @@
 char tamponAlpha[NM_CAR_TEX];
 char tamponPhon[NM_CAR_TEX];
 
-//Synthèse à partir du texte
+//SynthÃ¨se Ã  partir du texte
 void synTex(void* lpPara) {
 	typeParamThread* lpParamThread=(typeParamThread*)lpPara;
 
 	synGlobal.setThreadOK(true);
-	synGlobal.setNbIndexLec(1);	//valeur de départ (pour cas phonétique, sans index)
-	//Positionne les paramètres
+	synGlobal.setNbIndexLec(1);	//valeur de dÃ©part (pour cas phonÃ©tique, sans index)
+	//Positionne les paramÃ¨tres
 	synGlobal.setPhon(lpParamThread->phon);
 	synGlobal.setVolume(lpParamThread->volume);
 	synGlobal.setDebit(lpParamThread->debit);
@@ -27,18 +27,18 @@ void synTex(void* lpPara) {
 	synGlobal.setSortieWave(lpParamThread->sortieWave);
 	synGlobal.setNomFichierWave(lpParamThread->nomFicWave);
 	Transcription* synTranscription=new Transcription;
-	if (!synGlobal.getPhon()) {	//si le texte est alphabétique
+	if (!synGlobal.getPhon()) {	//si le texte est alphabÃ©tique
 		synTranscription->minMajNFois(lpParamThread->texte, tamponAlpha);	//min->maj et n fois
-		synTranscription->graphemePhoneme(tamponAlpha, tamponPhon);	//phonétise
+		synTranscription->graphemePhoneme(tamponAlpha, tamponPhon);	//phonÃ©tise
 	} else
-		synTranscription->phonemePhoneme(lpParamThread->texte, tamponPhon);	//phonétise
+		synTranscription->phonemePhoneme(lpParamThread->texte, tamponPhon);	//phonÃ©tise
 	delete synTranscription;
-	initWave(true);	//initialise un éventuel fichier wave
+	initWave(true);	//initialise un Ã©ventuel fichier wave
 	Parle* synParle=new Parle;
-	synParle->traiteTextePhonetique(tamponPhon);	//prononce le texte phonétique
+	synParle->traiteTextePhonetique(tamponPhon);	//prononce le texte phonÃ©tique
 	delete synParle;
-	initWave(false);	//termine un éventuel fichier wave
-	sonDestruction();	//détruit l'objet classSon
+	initWave(false);	//termine un Ã©ventuel fichier wave
+	sonDestruction();	//dÃ©truit l'objet classSon
 	delete[] lpParamThread->texte;
 	delete (typeParamThread*)lpPara;
 	synGlobal.setNbIndexLec(-1);	//indique la fin de la lecture

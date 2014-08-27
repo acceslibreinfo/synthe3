@@ -14,36 +14,36 @@
 #endif
 
 //////////////////////////////////////////////////////////////////
-// Fonctions publiques pour faire parler Synthé
+// Fonctions publiques pour faire parler SynthÃ©
 //////////////////////////////////////////////////////////////////
 
-//Envoi d'un texte à lire par Synthé
-//Le paramètre texte est obligatoire, les autres sont facultatifs, la valeur -1 indique la conservation de la valeur courante
+//Envoi d'un texte Ã  lire par SynthÃ©
+//Le paramÃ¨tre texte est obligatoire, les autres sont facultatifs, la valeur -1 indique la conservation de la valeur courante
 EXTERNE void _stdcall synTexte(
-	char* texte,	//peut être constitué de plusieurs paragraphes, sans dépasser NM_CAR_TEX caractères.
-	short volume=-1,	//0 à 15 par pas de 25 % (par défaut 10) (-1 indique inchangé)
-	short debit=-1,	//0 à 15 par pas de 12 % (par défaut 4)
-	short hauteur=-1,	//0 à 15 par pas de 12 % (par défaut 4)
-	short phon=-1, 	//1, le texte est phonétique
-	short modeLec=-1,	//0 à 15 par pas de 6 % (par défaut 6)
-	short compta=-1,	//0, le séparateur de milliers reste, 1, le séprateur de milliers est enlevé
+	char* texte,	//peut Ãªtre constituÃ© de plusieurs paragraphes, sans dÃ©passer NM_CAR_TEX caractÃ¨res.
+	short volume=-1,	//0 Ã  15 par pas de 25 % (par dÃ©faut 10) (-1 indique inchangÃ©)
+	short debit=-1,	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
+	short hauteur=-1,	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
+	short phon=-1, 	//1, le texte est phonÃ©tique
+	short modeLec=-1,	//0 Ã  15 par pas de 6 % (par dÃ©faut 6)
+	short compta=-1,	//0, le sÃ©parateur de milliers reste, 1, le sÃ©prateur de milliers est enlevÃ©
 	short son=-1,		//sortie sur la carte-son
 	short wave=-1,		//1, sortie sous forme de fichier wave
-	char* nomWave=NULL	//nom éventuel du fichier à construire
+	char* nomWave=NULL	//nom Ã©ventuel du fichier Ã  construire
 	);
 
-//Retourne la valeur de l'index de lecture (va du nb d'index à 0 en fin de lecture)
+//Retourne la valeur de l'index de lecture (va du nb d'index Ã  0 en fin de lecture)
 EXTERNE short synIndex();
 
-//Retourne la position de lecture du texte (indice du caractère en cours de lecture)
+//Retourne la position de lecture du texte (indice du caractÃ¨re en cours de lecture)
 EXTERNE short _stdcall synPosLec();
 
-//Stop parole : arrête la lecture (effet immédiat)
-//Indispensable quand on arrête un programme utilisant Synthé sous peine de bouclage irréversible du tampon de lecture
+//Stop parole : arrÃªte la lecture (effet immÃ©diat)
+//Indispensable quand on arrÃªte un programme utilisant SynthÃ© sous peine de bouclage irrÃ©versible du tampon de lecture
 EXTERNE void _stdcall synStop();
 
 //Initialisation de Synthe
-void initSynthe();	//init section critique, réglages, voix, tables (au démarrage de l'utilisation de Synthé)
-void quitteSynthe();	//stoppe parole, détruit tout (nécessaire pour quitter Synthé avant d'arrêter l'application)
+void initSynthe();	//init section critique, rÃ©glages, voix, tables (au dÃ©marrage de l'utilisation de SynthÃ©)
+void quitteSynthe();	//stoppe parole, dÃ©truit tout (nÃ©cessaire pour quitter SynthÃ© avant d'arrÃªter l'application)
 
 #endif

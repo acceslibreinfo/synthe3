@@ -1,5 +1,5 @@
 ///////////////////////////////////
-// Lit le texte phonétique
+// Lit le texte phonÃ©tique
 ///////////////////////////////////
 
 #include <stdio.h>
@@ -16,7 +16,7 @@
 ////////////////////////////////////////////
 #define FREQ_ECH 10000
 #define TYPE_ECH 16
-#define MUL_AMP 8	//pour max moitié pleine échelle
+#define MUL_AMP 8	//pour max moitiÃ© pleine Ã©chelle
 #define MS_UNSPEC 0x7ffff000 // magic length pour wave vers stdout
 
 ////////////////////////////
@@ -32,7 +32,7 @@ bool ficWaveFerme;
 // Fonctions de la classe Parle
 ////////////////////////////////////////////
 
-//Fonction principale : prononce le texte phonétique reçu
+//Fonction principale : prononce le texte phonÃ©tique reÃ§u
 void Parle::traiteTextePhonetique(char* chainePhon) {
 
 	sortieWave=synGlobal.getSortieWave();
@@ -43,7 +43,7 @@ void Parle::traiteTextePhonetique(char* chainePhon) {
 	texPhon=chainePhon;
 	if (!strcmp(texPhon, "IXIXIZTEESI_RI"))
 		strcpy(texPhon, "XDNIZXB[IZ\\IZITS[IZ\\[HR[BVCTMKG]J]SI[VDS_");
-	sonDestruction();	//redondance par sécurité
+	sonDestruction();	//redondance par sÃ©curitÃ©
 	if (synGlobal.getSortieSon()) {	//sortie sur la carte-son
 		entreSectionCritiqueGlobal2();	// E E E E E E E E E E E E E
 		synSon = new classSon(FREQ_ECH, TYPE_ECH);
@@ -53,21 +53,21 @@ void Parle::traiteTextePhonetique(char* chainePhon) {
 		synSon->finirSon(false);	//=son en cours
 	}
 	//Init signal de parole
-	iLecPhon=0;	//1er caractère du texte phonétique
+	iLecPhon=0;	//1er caractÃ¨re du texte phonÃ©tique
 	iLecPhonCroit=iLecPhon;
 	phonDCroit=VR;	//le texte commence par une virgule (va passer gauche)
 	catDCroit=tab->categ(phonDCroit);
 	nSousDiphCroit=2;	//avant le 1er sous-diphone (prochain=0)
 	nSegIni.DSCroit=tab->finTim(phonDCroit);	//segment de VR
 	nSeg.DSCroit=nSegIni.DSCroit;
-	marq.DSCroit=true;	//début de sous-diphone activé
+	marq.DSCroit=true;	//dÃ©but de sous-diphone activÃ©
 	marq.FSCroit=false;	//pas de fin de sous-diphone
 	//Le prochain sous-diphone sera en fait le 1er
 	if (!nouveauSousDiph(iLecPhonCroit, phonGCroit, phonDCroit, catGCroit, catDCroit, nSousDiphCroit,
 		nSegIni.DSCroit, nSeg.DSCroit, ptAmp.DSCroit, amp.DSCroit))	//fournit ts les DS
 		return;
-	ptAmp.DSCroit++;	//prépare la prochaine période
-	//Init Décroit sur Croit
+	ptAmp.DSCroit++;	//prÃ©pare la prochaine pÃ©riode
+	//Init DÃ©croit sur Croit
 	initDecroitSurCroit();
 	amp.DSDecroit=amp.DSCroit;
 	amp.FSDecroit=amp.FSCroit=0;	//pas de fin de sous-diphone
@@ -75,49 +75,49 @@ void Parle::traiteTextePhonetique(char* chainePhon) {
 	perio.DSDecroit=perio.DSCroit=(unsigned char)*ptSeg.DSCroit++;
 	ptSeg.DSDecroit=ptSeg.DSCroit;
 	perioResult=(unsigned char)(perio.DSCroit/mulHauteur);
-	xEcrEchelleDeLec=perioResult/2*mulDebit;	//simule l'écriture (envoi des éch) à l'échelle de la lecture
+	xEcrEchelleDeLec=perioResult/2*mulDebit;	//simule l'Ã©criture (envoi des Ã©ch) Ã  l'Ã©chelle de la lecture
 	allonge= -xEcrEchelleDeLec;	//pour l'allongement des voyelles
 
 #ifndef WIN32
-	//Gestion de l'index sous linux (juste avant le début d'écriture pour une meilleure précision)
+	//Gestion de l'index sous linux (juste avant le dÃ©but d'Ã©criture pour une meilleure prÃ©cision)
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	synGlobal.setktime0s(tv.tv_sec);	//temps initial qui servira de repère
-	synGlobal.setktime0us(tv.tv_usec);	//µs de la s pour la précision
+	synGlobal.setktime0s(tv.tv_sec);	//temps initial qui servira de repÃ¨re
+	synGlobal.setktime0us(tv.tv_usec);	//Âµs de la s pour la prÃ©cision
 	short i;
 	for (i=0; i<synGlobal.getNbIndexMax()+1; i++)	//il y a 1 place de plus que d'inde
-		synGlobal.setTNEch(i, 0);	//tout le tableau à 0
-	synGlobal.setCtEch(0);	//ainsi que le compteur d'échantillons
+		synGlobal.setTNEch(i, 0);	//tout le tableau Ã  0
+	synGlobal.setCtEch(0);	//ainsi que le compteur d'Ã©chantillons
 #endif
 	
-	//Traite période par période : corps du programme
+	//Traite pÃ©riode par pÃ©riode : corps du programme
 	while (traiteUnePeriode());
 
 	if (synGlobal.getSortieSon()) synSon->sonExit();
 }
 
-//Fabrique une période du signal vocal
+//Fabrique une pÃ©riode du signal vocal
 bool Parle::traiteUnePeriode() {
-	short ech;			//échantillon final à envoyer à la carte son
-	short echDecroit;	//échantillon de la période Decroit
-	short echCroit;	//échantillon de la période Croit
+	short ech;			//Ã©chantillon final Ã  envoyer Ã  la carte son
+	short echDecroit;	//Ã©chantillon de la pÃ©riode Decroit
+	short echCroit;	//Ã©chantillon de la pÃ©riode Croit
 	short echT;
 	long echS;
 	char ech8;
 
-	//Cherche la période Croit suivante (traitement du débit)
+	//Cherche la pÃ©riode Croit suivante (traitement du dÃ©bit)
 	while (true) {
-		// Si on trouve la bonne valeur on s'arrête
+		// Si on trouve la bonne valeur on s'arrÃªte
 		if (xEcrEchelleDeLec<0) break;
-		// Sinon on passe à la suivante (xEcrEchelleDeLec diminue de chaque période lue)
+		// Sinon on passe Ã  la suivante (xEcrEchelleDeLec diminue de chaque pÃ©riode lue)
 		if (!perioSuiv(marq.DSCroit, marq.FSCroit, iLecPhonCroit, phonGCroit, phonDCroit, catGCroit, catDCroit,
 			nSousDiphCroit, nSegIni.DSCroit, nSegIni.FSCroit, nSeg.DSCroit, nSeg.FSCroit, ptSeg.DSCroit, ptSeg.FSCroit,
 			perio.DSCroit, perio.FSCroit, ptAmp.DSCroit, ptAmp.FSCroit,
 			amp.DSCroit, amp.FSCroit, true))
-			break;	//fin du texte : on garde la dernière période valide
+			break;	//fin du texte : on garde la derniÃ¨re pÃ©riode valide
 	}
-	//Les 4 segments (.DSDecroit, .DSCroit, .FSDecroit, .FSCroit) sont prêts
-	//Calcule chaque échantillon de la nouvelle période
+	//Les 4 segments (.DSDecroit, .DSCroit, .FSDecroit, .FSCroit) sont prÃªts
+	//Calcule chaque Ã©chantillon de la nouvelle pÃ©riode
 	for (iEch=0; iEch<perioResult; iEch++) {
 //		for (short i=0;i<50;i++) {	//simule une machine plus lente (10 rien 20 un peu, 30 beaucoup, 50 un peu bouclage)
 		echDecroit=calculeEchPerioDecroit(iEch, ptSeg.DSDecroit, perio.DSDecroit, amp.DSDecroit)
@@ -127,7 +127,7 @@ bool Parle::traiteUnePeriode() {
 //		}
 		echT=echDecroit+echCroit;
 		echS=(long)(echT*mulVolume*MUL_AMP+32768.5);	//positif, arrondi sans distorsion
-		if (TYPE_ECH==8) {	//8 bits (pour une raison inconnue, le son est de très mauvaise qualité en 8 bits)
+		if (TYPE_ECH==8) {	//8 bits (pour une raison inconnue, le son est de trÃ¨s mauvaise qualitÃ© en 8 bits)
 			echS=echS/256-128;
 			if (echS>127) ech8=127;
 			else if (echS<-128) ech8=-128;
@@ -146,7 +146,7 @@ bool Parle::traiteUnePeriode() {
 			longWave++;
 		}
 		if (sortieSon) {
-			//Transfère l'échantillon vers le fichier ou le buffer de sortie de synSon
+			//TransfÃ¨re l'Ã©chantillon vers le fichier ou le buffer de sortie de synSon
 			if (TYPE_ECH==8) {
 				if (!synSon->transfert((void*)&ech8)) return false;	//faux si stop
 			}
@@ -155,27 +155,27 @@ bool Parle::traiteUnePeriode() {
 			}
 		}
 	}
-	//Mises à jour pour préparer la période suivante
+	//Mises Ã  jour pour prÃ©parer la pÃ©riode suivante
 	ampAnc=amp;	//on repartira de l'amplitude actuelle (4 .valeurs)
-	//Avance le pointeur simulant l'écriture à l'échelle de la lecture
+	//Avance le pointeur simulant l'Ã©criture Ã  l'Ã©chelle de la lecture
 	if (allonge>0)
 		allonge-=perioResult*mulDebit;	//cas du ':'
 	else
-		xEcrEchelleDeLec+=perioResult*mulDebit;	//période écrite
-	//Prépare pério décroit
-	if (iLecPhonCroit==iLecPhon) {	//Croit = courant : on s'y réfère avant de calculer Decroit (cas général)
-		initDecroitSurCroit();	//Initialise Décroit sur Croit
-		//Décroit est maintenant la période suivante
+		xEcrEchelleDeLec+=perioResult*mulDebit;	//pÃ©riode Ã©crite
+	//PrÃ©pare pÃ©rio dÃ©croit
+	if (iLecPhonCroit==iLecPhon) {	//Croit = courant : on s'y rÃ©fÃ¨re avant de calculer Decroit (cas gÃ©nÃ©ral)
+		initDecroitSurCroit();	//Initialise DÃ©croit sur Croit
+		//DÃ©croit est maintenant la pÃ©riode suivante
 		if (!perioSuiv(marq.DSDecroit, marq.FSDecroit, iLecPhonDecroit, phonGDecroit, phonDDecroit,
 			catGDecroit, catDDecroit, nSousDiphDecroit, nSegIni.DSDecroit, nSegIni.FSDecroit,
 			nSeg.DSDecroit, nSeg.FSDecroit, ptSeg.DSDecroit, ptSeg.FSDecroit, perio.DSDecroit, perio.FSDecroit,
 			ptAmp.DSDecroit, ptAmp.FSDecroit, amp.DSDecroit, amp.FSDecroit, false))
-			return false;	//fin du message phonétique
-	}	//sinon le décroit est à jour
+			return false;	//fin du message phonÃ©tique
+	}	//sinon le dÃ©croit est Ã  jour
 	return true;
 }
 
-//Initialise tous les Décroit sur les Croit
+//Initialise tous les DÃ©croit sur les Croit
 void Parle::initDecroitSurCroit() {
 	iLecPhonDecroit=iLecPhonCroit;
 	phonDDecroit=phonDCroit;
@@ -193,7 +193,7 @@ catGDecroit=catGCroit;
 	nSeg.FSDecroit=nSeg.FSCroit;
 }
 
-//Prépare les variables de la période suivante
+//PrÃ©pare les variables de la pÃ©riode suivante
 bool Parle::perioSuiv(bool& marqDS, bool& marqFS, long& iLecPhonX, char& phonG, char& phonD, char& catG, char& catD,
 		char& nSousDiph, unsigned char& nSegIniDS, unsigned char& nSegIniFS,
 		unsigned char& nSegDS, unsigned char& nSegFS, char*& ptSegDS, char*& ptSegFS,
@@ -202,11 +202,11 @@ bool Parle::perioSuiv(bool& marqDS, bool& marqFS, long& iLecPhonX, char& phonG, 
 		unsigned char& ampDS, unsigned char& ampFS, bool mCroit) {
 	if (!marqDS && !marqFS)
 		return false;
-	ampDS=ampFS=0;	//par défaut si pas marq
+	ampDS=ampFS=0;	//par dÃ©faut si pas marq
 	if (marqDS) {
 		while (marqDS) {
 			ampDS=*ptAmpDS;
-			if ((ampDS & 128)==128) {	//début du sous-phonème suivant
+			if ((ampDS & 128)==128) {	//dÃ©but du sous-phonÃ¨me suivant
 				ampDS-=128;
 				//DS devient FS
 				marqFS=marqDS;
@@ -222,7 +222,7 @@ bool Parle::perioSuiv(bool& marqDS, bool& marqFS, long& iLecPhonX, char& phonG, 
 							nSegIniDS, nSegDS, ptAmpDS, ampDS);	//fournit ts les DS
 			} else break;
 		}
-		if ((ampDS & 32)==32) {	//phonème avec bruit (fshvzjr), segment suivant
+		if ((ampDS & 32)==32) {	//phonÃ¨me avec bruit (fshvzjr), segment suivant
 			ampDS-=32;
 			nSegDS++;
 		} else
@@ -232,12 +232,12 @@ bool Parle::perioSuiv(bool& marqDS, bool& marqFS, long& iLecPhonX, char& phonG, 
 	}
 	if (marqFS) {
 		ampFS=*ptAmpFS & 127;
-		if ((ampFS & 32)==32) {	//phonème avec bruit (fshvzjr), segment suivant
+		if ((ampFS & 32)==32) {	//phonÃ¨me avec bruit (fshvzjr), segment suivant
 			ampFS-=32;
 			nSegFS++;
 		} else
 			nSegFS=nSegIniFS;
-		if ((ampFS & 64)==64) {	//dernière période du sous-phonème
+		if ((ampFS & 64)==64) {	//derniÃ¨re pÃ©riode du sous-phonÃ¨me
 			ampFS-=64;
 			marqFS=false;	//pour le prochain tour
 		}
@@ -251,11 +251,11 @@ bool Parle::perioSuiv(bool& marqDS, bool& marqFS, long& iLecPhonX, char& phonG, 
 		/(amp.DSDecroit+amp.FSDecroit+amp.DSCroit+amp.FSCroit);
 	perioResult=(unsigned char)(perioBase/mulHauteur+.5);
 	if (mCroit)
-		xEcrEchelleDeLec-=perioResult*mulHauteur;	//période lue mais pas forcément écrite
+		xEcrEchelleDeLec-=perioResult*mulHauteur;	//pÃ©riode lue mais pas forcÃ©ment Ã©crite
 	return true;
 }
 
-//Prépare les variables du sous-diphone décroit suivant
+//PrÃ©pare les variables du sous-diphone dÃ©croit suivant
 bool Parle::nouveauSousDiph(long& iLecPhonX, char& phonG, char& phonD, char& catG, char& catD, char& nSousDiph,
 		unsigned char& nSegIniDS, unsigned char& nSegDS, unsigned char*& ptAmpDS,
 		unsigned char& ampDS) {
@@ -293,73 +293,73 @@ bool Parle::nouveauSousDiph(long& iLecPhonX, char& phonG, char& phonD, char& cat
 	return true;
 }
 
-//Retourne le n° du phonème suivant du texte phonétique
+//Retourne le nÂ° du phonÃ¨me suivant du texte phonÃ©tique
 char Parle::phonSuiv(long& iLecPhonX, char phonG) {
 	
-	if (iLecPhonX<iLecPhon) {	//phonème déjà trouvé pour Croit ou Décroit
+	if (iLecPhonX<iLecPhon) {	//phonÃ¨me dÃ©jÃ  trouvÃ© pour Croit ou DÃ©croit
 		iLecPhonX=iLecPhon;
-		return phonMem;	//gardé en mémoire
-	}	//phonème suivant
+		return phonMem;	//gardÃ© en mÃ©moire
+	}	//phonÃ¨me suivant
 	while (true) {
 		phonMem=texPhon[iLecPhon];
 		if (phonMem==0) {
 			phonMem=-1;
-			break;	//fin du texte phonétique
+			break;	//fin du texte phonÃ©tique
 		}
 		phonMem-=65;
 		iLecPhon++;
 		if (phonMem<YY && phonMem==phonG)
 			phonMem=PL;
 		if (phonMem==PL)
-			allonge+=250;	//+25 ms à débit normal (~25 %)
+			allonge+=250;	//+25 ms Ã  dÃ©bit normal (~25 %)
 		else if (phonMem+65==INDEX) {
 			if (synGlobal.getSortieSon()) {
 				synGlobal.setTNEch(synGlobal.getNbIndexEcr(), synGlobal.getCtEch());	//pour index sous linux
-				synGlobal.setNbIndexEcr(synGlobal.getNbIndexEcr()-1);	//décrémente le nb d'index restant à lire (à écrire dans tampon)
+				synGlobal.setNbIndexEcr(synGlobal.getNbIndexEcr()-1);	//dÃ©crÃ©mente le nb d'index restant Ã  lire (Ã  Ã©crire dans tampon)
 			}
 		}
-		else break;	//rien de particulier donc phonème
+		else break;	//rien de particulier donc phonÃ¨me
 	}
 	iLecPhonX=iLecPhon;
 	if (phonMem==-1 && phonG!=VR) phonMem=VR;
 	return phonMem;
 }
 
-//Calcule un échantillon de la période décroissante.
-//x abscisse de l'échantillon dans la période
+//Calcule un Ã©chantillon de la pÃ©riode dÃ©croissante.
+//x abscisse de l'Ã©chantillon dans la pÃ©riode
 short Parle::calculeEchPerioDecroit(short x, char* ptSegDecroit, unsigned char perioDecroit,
 		unsigned char ampDecroit) {
 
 	if (ampDecroit==0) return 0;
-	short xCadre=x+perioDecroit/4;  //cadrage de la fenêtre sur la partie de forte amplitude
+	short xCadre=x+perioDecroit/4;  //cadrage de la fenÃªtre sur la partie de forte amplitude
 	if (xCadre>=perioDecroit) xCadre-=perioDecroit;
-	if (perioResult<=perioDecroit) {	// pério résultante <= pério decroit
+	if (perioResult<=perioDecroit) {	// pÃ©rio rÃ©sultante <= pÃ©rio decroit
 		return (short)(fenDecroit((float)x/perioResult)*ptSegDecroit[xCadre]*ampDecroit);
 	}
-	else {	// pério résultante > pério decroit
+	else {	// pÃ©rio rÃ©sultante > pÃ©rio decroit
 		if (x<perioDecroit)
 			return (short)(fenDecroit((float)x/perioDecroit)*ptSegDecroit[xCadre]*ampDecroit);
 		else
-			return 0;	//reste nul derrière la fenêtre décroit
+			return 0;	//reste nul derriÃ¨re la fenÃªtre dÃ©croit
 	}
 }
 
-//Calcule un échantillon de la période croissante.
-//x abscisse de l'échantillon dans la période
+//Calcule un Ã©chantillon de la pÃ©riode croissante.
+//x abscisse de l'Ã©chantillon dans la pÃ©riode
 short Parle::calculeEchPerioCroit(short x, char* ptSegCroit, unsigned char perioCroit,
 		unsigned char ampCroit) {
 
 	if (ampCroit==0) return 0;
-	short xCadre=x+perioCroit-perioResult+perioCroit/4;  //cadrage de la fenêtre sur la partie de forte amplitude
+	short xCadre=x+perioCroit-perioResult+perioCroit/4;  //cadrage de la fenÃªtre sur la partie de forte amplitude
 	if (xCadre>=perioCroit) xCadre-=perioCroit;
-	if (perioResult<=perioCroit) {	// pério résultante <= pério croit
+	if (perioResult<=perioCroit) {	// pÃ©rio rÃ©sultante <= pÃ©rio croit
 		return (short)(fenCroit((float)x/perioResult)*ptSegCroit[xCadre]*ampCroit);
 	}
-	else {	//pério résultante > pério croit
+	else {	//pÃ©rio rÃ©sultante > pÃ©rio croit
 		if (x>=perioResult-perioCroit)
 			return (short)(fenCroit((float)(x+perioCroit-perioResult)/perioCroit)*ptSegCroit[xCadre]*ampCroit);
 		else
-			return 0;	//nul avant la fenêtre croit
+			return 0;	//nul avant la fenÃªtre croit
 	}
 }
 
@@ -370,7 +370,7 @@ short Parle::calculeEchPerioCroit(short x, char* ptSegCroit, unsigned char perio
 //Initialise (init) ou termine (!init) la production d'un fichier wave
 void initWave(bool init) {
   if (!synGlobal.getSortieWave()) return;
-  if (init) {	//pas d'autre test car les éch suivent
+  if (init) {	//pas d'autre test car les Ã©ch suivent
     longWave=0;
     short entier;
     int entierLong;
@@ -387,17 +387,17 @@ void initWave(bool init) {
       entierLong=4 + (8+16) + (8+MS_UNSPEC);
     fwrite(&entierLong, 4, 1, ficWave);
     fwrite("WAVEfmt ", sizeof(char), 8, ficWave);
-    entierLong=16;	//taille des paramètres jusqu'à "data"
+    entierLong=16;	//taille des paramÃ¨tres jusqu'Ã  "data"
     fwrite(&entierLong, 4, 1, ficWave);
     entier=1;	//identifie si PCM, ULAW etc
     fwrite(&entier, sizeof(short), 1,ficWave);
     entier=1;	// Nombre de canaux
     fwrite(&entier, sizeof(short), 1,ficWave);
-    entierLong=FREQ_ECH;	//fréq éch
+    entierLong=FREQ_ECH;	//frÃ©q Ã©ch
     fwrite(&entierLong, 4,1,ficWave);
-    entierLong=FREQ_ECH*TYPE_ECH/8;	//fréq octets
+    entierLong=FREQ_ECH*TYPE_ECH/8;	//frÃ©q octets
     fwrite(&entierLong, 4,1,ficWave);
-    entier=TYPE_ECH/8;	//nb octets par éch
+    entier=TYPE_ECH/8;	//nb octets par Ã©ch
     fwrite(&entier,sizeof(short), 1,ficWave);
     entier=TYPE_ECH;	//8 ou 16 bits
     fwrite(&entier, sizeof(short), 1,ficWave);
@@ -423,15 +423,15 @@ void initWave(bool init) {
   }
 }
 
-//Détruit synSon après avoir parlé
+//DÃ©truit synSon aprÃ¨s avoir parlÃ©
 void sonDestruction() {
 	if (synSon) {
 #ifdef WIN32
 		entreSectionCritiqueGlobal3();	// E E E E E E E E E E E E E
-		delete synSon;	//détruit l'objet son (donc le buffer circulaire et l'objet carte-son snd_dev)
+		delete synSon;	//dÃ©truit l'objet son (donc le buffer circulaire et l'objet carte-son snd_dev)
 		quitteSectionCritiqueGlobal3();	// Q Q Q Q Q Q Q Q Q Q Q Q Q
 #else
-		delete synSon;	//détruit l'objet son (donc le buffer circulaire et l'objet carte-son snd_dev)
+		delete synSon;	//dÃ©truit l'objet son (donc le buffer circulaire et l'objet carte-son snd_dev)
 #endif
 		synSon=NULL;	//pour redondance de sonDestruction
 	}

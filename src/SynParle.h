@@ -3,30 +3,30 @@
 
 //Structures
 struct Marq {
-	bool DSDecroit;	//début sous-diphone décroit
-	bool DSCroit;	//début sous-diphone croit
-	bool FSDecroit;	//fin sous-diphone décroit
+	bool DSDecroit;	//dÃ©but sous-diphone dÃ©croit
+	bool DSCroit;	//dÃ©but sous-diphone croit
+	bool FSDecroit;	//fin sous-diphone dÃ©croit
 	bool FSCroit;	//fin sous-diphone croit
 };
 
 struct UChar {
-	unsigned char DSDecroit;	//début sous-diphone décroit
-	unsigned char DSCroit;	//début sous-diphone croit
-	unsigned char FSDecroit;	//fin sous-diphone décroit
+	unsigned char DSDecroit;	//dÃ©but sous-diphone dÃ©croit
+	unsigned char DSCroit;	//dÃ©but sous-diphone croit
+	unsigned char FSDecroit;	//fin sous-diphone dÃ©croit
 	unsigned char FSCroit;	//fin sous-diphone croit
 };
 
 struct PUChar {
-	unsigned char* DSDecroit;	//début sous-diphone décroit
-	unsigned char* DSCroit;	//début sous-diphone croit
-	unsigned char* FSDecroit;	//fin sous-diphone décroit
+	unsigned char* DSDecroit;	//dÃ©but sous-diphone dÃ©croit
+	unsigned char* DSCroit;	//dÃ©but sous-diphone croit
+	unsigned char* FSDecroit;	//fin sous-diphone dÃ©croit
 	unsigned char* FSCroit;	//fin sous-diphone croit
 };
 
 struct PSChar {
-	char* DSDecroit;	//début sous-diphone décroit
-	char* DSCroit;	//début sous-diphone croit
-	char* FSDecroit;	//fin sous-diphone décroit
+	char* DSDecroit;	//dÃ©but sous-diphone dÃ©croit
+	char* DSCroit;	//dÃ©but sous-diphone croit
+	char* FSDecroit;	//fin sous-diphone dÃ©croit
 	char* FSCroit;	//fin sous-diphone croit
 };
 
@@ -41,58 +41,58 @@ private:
 	short sortieSon;
 	short sortieWave;
 	char* texPhon;
-	float xEcrEchelleDeLec;	//position écriture à l'échelle de la lecture pour comparaison
+	float xEcrEchelleDeLec;	//position Ã©criture Ã  l'Ã©chelle de la lecture pour comparaison
 	float allonge;	//allongement du ':'
-	long iLecPhon;	//indice lecture chaine phonétique
+	long iLecPhon;	//indice lecture chaine phonÃ©tique
 	long iLecPhonDecroit;	//id selon le point de vue
 	long iLecPhonCroit;	//id selon le point de vue
-	char phonGDecroit;	//1er phonème du diphone décroit
-	char phonGCroit;	//1er phonème du diphone croit
-	char phonDDecroit;	//2ème phonème du diphone décroit
-	char phonDCroit;	//2ème phonème du diphone croit
-	char phonMem;	//mémorisé
-	char catGDecroit;	//catégorie de phonGDecroit
-	char catGCroit;	//catégorie de phonGCroit
-	char catDDecroit;	//catégorie de phonDDecroit
-	char catDCroit;	//catégorie de phonDCroit
-	char nSousDiphDecroit;	//0, 1, 2 n° de sous-diphone décroit
-	char nSousDiphCroit;	//0, 1, 2 n° de sous-diphone croit
-	Marq marq;	//présence d'un sous-diphone dans le mélange
-	UChar nSeg;	//n° de segment
+	char phonGDecroit;	//1er phonÃ¨me du diphone dÃ©croit
+	char phonGCroit;	//1er phonÃ¨me du diphone croit
+	char phonDDecroit;	//2Ã¨me phonÃ¨me du diphone dÃ©croit
+	char phonDCroit;	//2Ã¨me phonÃ¨me du diphone croit
+	char phonMem;	//mÃ©morisÃ©
+	char catGDecroit;	//catÃ©gorie de phonGDecroit
+	char catGCroit;	//catÃ©gorie de phonGCroit
+	char catDDecroit;	//catÃ©gorie de phonDDecroit
+	char catDCroit;	//catÃ©gorie de phonDCroit
+	char nSousDiphDecroit;	//0, 1, 2 nÂ° de sous-diphone dÃ©croit
+	char nSousDiphCroit;	//0, 1, 2 nÂ° de sous-diphone croit
+	Marq marq;	//prÃ©sence d'un sous-diphone dans le mÃ©lange
+	UChar nSeg;	//nÂ° de segment
 	UChar nSegIni;	//nSeg initial
 	PSChar ptSeg;	//pt sur segment
-	UChar perio;	//période
-	float perioBase;	//période avant action de la hauteur
-	unsigned char perioResult;		// période résultante
+	UChar perio;	//pÃ©riode
+	float perioBase;	//pÃ©riode avant action de la hauteur
+	unsigned char perioResult;		// pÃ©riode rÃ©sultante
 	PUChar ptAmp;	//pt sur amplitudes
 	UChar amp;	//amplitude
-	UChar ampAnc;	//amplitude précédente (pour interpolation linéaire)
-	short iEch;	//échantillon dans la période
+	UChar ampAnc;	//amplitude prÃ©cÃ©dente (pour interpolation linÃ©aire)
+	short iEch;	//Ã©chantillon dans la pÃ©riode
 
 public:
 	void traiteTextePhonetique(char* chainePhon);
 
 private:
-	//Sort une période du signal
+	//Sort une pÃ©riode du signal
 	bool traiteUnePeriode();
-	//Initialise tous les Décroit sur les Croit
+	//Initialise tous les DÃ©croit sur les Croit
 	void initDecroitSurCroit();
-	//Prépare les variables de la période suivante
+	//PrÃ©pare les variables de la pÃ©riode suivante
 	bool perioSuiv(bool& marqDS, bool& MarqFS, long& iLecPhonX, char& phonG, char& phonD, char& catG, char& catD,
 		char& nSousDiph, unsigned char& nSegIniDS, unsigned char& nSegIniFS,
 		unsigned char& nSegDS, unsigned char& nSegFS, char*& ptSegDS, char*& ptSegFS,
 		unsigned char& perioDS, unsigned char& perioFS,
 		unsigned char*& ptAmpDS, unsigned char*& ptAmpFS,
 		unsigned char& ampDS, unsigned char& ampFS, bool mCroit);
-	//Prépare les variables du sous-diphone décroit suivant
+	//PrÃ©pare les variables du sous-diphone dÃ©croit suivant
 	bool nouveauSousDiph(long& iLecPhonX, char& phonG, char& phonD, char& catG, char& catD, char& nSousDiph,
 		unsigned char& nSegIniDS, unsigned char& nSegDS, unsigned char*& ptAmpDS,
 		unsigned char& ampDS);
-	//Phonème suivant dans le texte phon
+	//PhonÃ¨me suivant dans le texte phon
 	char phonSuiv(long& iLecPhonX, char phonG);
-	//Calcule la part croissante de la période
+	//Calcule la part croissante de la pÃ©riode
 	short calculeEchPerioCroit(short x, char* ptSegDecroit, unsigned char perioDecroit, unsigned char ampDecroit);
-	//Calcule la part décroissante de la période
+	//Calcule la part dÃ©croissante de la pÃ©riode
 	short calculeEchPerioDecroit(short x, char* ptSegCroit, unsigned char perioCroit, unsigned char ampCroit);
 };
 

@@ -2,15 +2,15 @@
 #define SYN_CALCUL_H_
 
 ////////////////////////////////////////////////////
-// Synthé : fonctions mathématiques
+// SynthÃ© : fonctions mathÃ©matiques
 ////////////////////////////////////////////////////
 
-//Constantes : valeurs de référence
-#define VOLUME_REF 10	//devrait être 15, mais on le pousse un peu
+//Constantes : valeurs de rÃ©fÃ©rence
+#define VOLUME_REF 10	//devrait Ãªtre 15, mais on le pousse un peu
 #define HAUTEUR_REF 6
 #define DEBIT_REF 3
 
-//Constantes mathématiques
+//Constantes mathÃ©matiques
 const double PI=3.14159;
 
 //Fonctions

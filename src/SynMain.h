@@ -1,11 +1,11 @@
 #ifndef __SYN_MAIN_H__
 #define __SYN_MAIN_H__
 
-//Déclarations communes aux fichiers de Synthé
+//DÃ©clarations communes aux fichiers de SynthÃ©
 
 #include "SynGlobal.h"
 #ifdef WIN32
-	#include <windows.h>	//nécessaire pour Synthé
+	#include <windows.h>	//nÃ©cessaire pour SynthÃ©
 #else
 	#define LPVOID void*
 	#define DWORD int
@@ -18,11 +18,11 @@
 #define NM_CAR_TEX_1 NM_CAR_TEX-1
 #define NM_CAR_TEX_2 NM_CAR_TEX-2
 #define NM_CAR_TEX_8 NM_CAR_TEX-8
-//Constantes pour conversion alpha-phonèmes
+//Constantes pour conversion alpha-phonÃ¨mes
 #define BVRD 1	//teste le mode bavard
-#define NABR 2	//teste le mode non abréviations
-//Catégories (attention : ds l'arbre la catégorie est testée par < ou =)
-#define VOYM 3	//voyelle "mouillée"
+#define NABR 2	//teste le mode non abrÃ©viations
+//CatÃ©gories (attention : ds l'arbre la catÃ©gorie est testÃ©e par < ou =)
+#define VOYM 3	//voyelle "mouillÃ©e"
 #define VOY 4	//voyelle
 #define LET 5	//lettre
 #define CNS 5	//lettre
@@ -30,15 +30,15 @@
 #define SYMB 7	//symbole
 #define CHIF 8	//chiffre
 #define TTT 8	//tout
-//Terminateurs pour arbre (alpha-phonèmes)
-#define PG 80	//programme (retour au cas général)
+//Terminateurs pour arbre (alpha-phonÃ¨mes)
+#define PG 80	//programme (retour au cas gÃ©nÃ©ral)
 #define RB 81	//arbre
 #define DC 82	//dictionnaire
-//Catégories phonétiques
+//CatÃ©gories phonÃ©tiques
 #define VOYP 0	//voyelles
 #define GLIP 1	//glissantes
 #define CNSP 2	//consonnes
-//Phonèmes
+//PhonÃ¨mes
 #define OU 0
 #define WW 0
 #define OO 1
@@ -72,23 +72,23 @@
 #define INDEX '_'
 #define NULP -2	//nul phon
 
-//Tableaux nécessaire pour pouvoir retrouver les valeurs définies à l'extérieur du thread
+//Tableaux nÃ©cessaire pour pouvoir retrouver les valeurs dÃ©finies Ã  l'extÃ©rieur du thread
 extern HANDLE hThread;
 extern short posLec[NM_INDEX+1];	//il y a une place de plus que d'index
 extern short nbIndex;
 
 //Structures
 struct typeParamThread {
-	char* texte;	//peut être constitué de plusieurs paragraphes, sans dépasser NM_CAR_TEX caractères.
-	short phon; 	//1, le texte est phonétique
-	short volume;	//0 à 15 par pas de 25 % (par défaut 10)
-	short debit;	//0 à 15 par pas de 12 % (par défaut 4)
-	short hauteur;	//0 à 15 par pas de 12 % (par défaut 4)
+	char* texte;	//peut Ãªtre constituÃ© de plusieurs paragraphes, sans dÃ©passer NM_CAR_TEX caractÃ¨res.
+	short phon; 	//1, le texte est phonÃ©tique
+	short volume;	//0 Ã  15 par pas de 25 % (par dÃ©faut 10)
+	short debit;	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
+	short hauteur;	//0 Ã  15 par pas de 12 % (par dÃ©faut 4)
 	short modeLecture;	//0, normal, 1, dit la ponctuation
-	short modeCompta;	//0, le séparateur de milliers reste, 1, le séprateur de milliers est enlevé
+	short modeCompta;	//0, le sÃ©parateur de milliers reste, 1, le sÃ©prateur de milliers est enlevÃ©
 	short sortieSon;	//sortie sur la carte-son
 	short sortieWave;		//sortie sous forme de fichier wave
-	char* nomFicWave;	//nom éventuel du fichier à construire
+	char* nomFicWave;	//nom Ã©ventuel du fichier Ã  construire
 };
 
 //Fonctions externes de SynTex.cpp
@@ -98,7 +98,7 @@ extern void synTex(void* lpParam);
 extern void initWave(bool init);
 extern void sonDestruction();
 
-//Fonctions privées de Synthe.cpp
+//Fonctions privÃ©es de Synthe.cpp
 void fThAlpha(void*);
 void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr);
 bool caracValide(char carac);

@@ -1,8 +1,8 @@
 #ifndef _SYN_GLOBAL_H_
 #define _SYN_GLOBAL_H_
 
-//Classe des globales (constantes, section critique, index, stop, réglages et paramètres)
-//L'objet synGlobal représente l'état de Synthé à tout moment
+//Classe des globales (constantes, section critique, index, stop, rÃ©glages et paramÃ¨tres)
+//L'objet synGlobal reprÃ©sente l'Ã©tat de SynthÃ© Ã  tout moment
 
 #include <iostream>
 #include <fstream>
@@ -27,10 +27,10 @@ using namespace std;
 #define REGLAGE_HAUTEUR_DEFAUT 6
 //Index
 #define NM_INDEX 2500	//si " a b c ..."
-#define MARQ_MARQ 'ø'	//248
-#define MARQ_INDEX 'í'	//237
+#define MARQ_MARQ 'Ã¸'	//248
+#define MARQ_INDEX 'Ã­'	//237
 
-//Classe Global : section critique, index, stop, réglages et paramètres
+//Classe Global : section critique, index, stop, rÃ©glages et paramÃ¨tres
 class Global {
 private:
 	short nbIndexLec;
@@ -51,7 +51,7 @@ private:
 	short nbIndexMax;
 	int ktime0us;
 	int ktime0s;
-	int* tNEch;	//repère le nb d'échantillons fabriqués depuis le début pour chaque index rencontré
+	int* tNEch;	//repÃ¨re le nb d'Ã©chantillons fabriquÃ©s depuis le dÃ©but pour chaque index rencontrÃ©
 	int ctEch;
 
 public:
@@ -80,7 +80,7 @@ public:
 	void setCtEch(int);
 	void incrCtEch(void);
 
-	//Réglages
+	//RÃ©glages
 	short getVolume();
 	void setVolume(short vol);
 	short getDebit();
@@ -88,7 +88,7 @@ public:
 	short getHauteur();
 	void setHauteur(short hau);
 
-	//Paramètres de lecture
+	//ParamÃ¨tres de lecture
 	short getPhon();
 	void setPhon(short phon);
 	short getModeLecture();
@@ -96,7 +96,7 @@ public:
 	short getModeCompta();
 	void setModeCompta(short modeComp);
 
-	//Paramètres de son
+	//ParamÃ¨tres de son
 	void setSortieSon(short sortSon);
 	short getSortieSon();
 	void setSortieWave(short sortWave);

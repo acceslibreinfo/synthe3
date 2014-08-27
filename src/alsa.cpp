@@ -25,7 +25,7 @@ void classSon::open_snd() {
 		// PCM device will return immediately. If SND_PCM_ASYNC is specified, SIGIO will
 		// be emitted whenever a period has been completely processed by the soundcard.
 		if ((rc = snd_pcm_open(&snd_dev, pcm_name, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
-			cerr << "L'ouverture de la carte son a échoué : " << snd_strerror(rc) << endl;
+			cerr << "L'ouverture de la carte son a Ã©chouÃ© : " << snd_strerror(rc) << endl;
 			usleep(1000);
 		} else {
 			snd_ok=true;
@@ -51,39 +51,39 @@ void classSon::set_snd_params(int channels, int bits, int rate) {
 	
 	snd_pcm_hw_params_alloca(&params);
 
-	// Initialisation des paramètres
+	// Initialisation des paramÃ¨tres
 	if (snd_pcm_hw_params_any(snd_dev, params) < 0) {
-		cerr << "Impossible d'initialiser les paramètres." << endl;
+		cerr << "Impossible d'initialiser les paramÃ¨tres." << endl;
 	}
 	// Interleaved mode
 	if (snd_pcm_hw_params_set_access(snd_dev, params,SND_PCM_ACCESS_RW_INTERLEAVED) < 0) {
-		cerr << "Impossible de configurer le type d'accès." << endl;
+		cerr << "Impossible de configurer le type d'accÃ¨s." << endl;
 	}
-	// Format des échantillons : signed 16-bit little-endian
+	// Format des Ã©chantillons : signed 16-bit little-endian
 	if (snd_pcm_hw_params_set_format(snd_dev, params,SND_PCM_FORMAT_S16_LE) < 0) {
 		cerr << "Impossible de configurer le format." << endl;
 	}
-	// Nombre de voies (mono ou stéréo)
+	// Nombre de voies (mono ou stÃ©rÃ©o)
 	if (snd_pcm_hw_params_set_channels(snd_dev, params, /*channels*/2) < 0) {
 		cerr << "Impossible de configurer le nombre de voies." << endl;
 	}
-	// Fréquence. Si la fréquence exacte n'est pas supportée par la carte, on utilise la plus proche.
+	// FrÃ©quence. Si la frÃ©quence exacte n'est pas supportÃ©e par la carte, on utilise la plus proche.
 	exact_rate = rate;
 	if (snd_pcm_hw_params_set_rate_near(snd_dev, params, (unsigned int*)&exact_rate, &dir) < 0) {
-		cerr << "Impossible de configurer la fréquence." << endl;
+		cerr << "Impossible de configurer la frÃ©quence." << endl;
 	}
 	if (rate != exact_rate) {
-		cerr << "La fréquence " << rate << " n'est pas supportée, valeur utilisée : " << exact_rate << endl;
+		cerr << "La frÃ©quence " << rate << " n'est pas supportÃ©e, valeur utilisÃ©e : " << exact_rate << endl;
 	}
-	// Nombre de périodes
+	// Nombre de pÃ©riodes
 	if (snd_pcm_hw_params_set_periods(snd_dev, params, periods, 0) < 0) {
-		cerr << "Impossible de configurer la période à " << periods << "." << endl;
+		cerr << "Impossible de configurer la pÃ©riode Ã  " << periods << "." << endl;
 	}
 	// Taille du buffer (en frames). The resulting latency is given by latency = periodsize * periods / (rate * bytes_per_frame)
 	if (snd_pcm_hw_params_set_buffer_size(snd_dev, params, (periodsize * periods)>>2) < 0) {
 		cerr << "Impossible de configurer la taille du buffer." << endl;
 	}
-	// Ecriture des paramètres sur la carte
+	// Ecriture des paramÃ¨tres sur la carte
 	if ((rc = snd_pcm_hw_params(snd_dev, params)) < 0) {
 		cerr << "Impossible de configurer la carte son : " << snd_strerror(rc) << endl;
 	}
@@ -183,7 +183,7 @@ void classSon::get_snd_params() {
 
 void classSon::sonExit() {}	//fin du message : termine le buffer proprement sous DirectSound
 bool classSon::pauseSiJoue() { return false; }	//stoppe le son sous DirectSound
-bool classSon::joueSiPause() { return false; }	//démarre le son sous DirectSound
+bool classSon::joueSiPause() { return false; }	//dÃ©marre le son sous DirectSound
 void classSon::positionLecture() {}	//fournit iEchPosLec sous DirectSound
 
 bool classSon::transferePaquet(void* lpData, int dwSoundBytes) {

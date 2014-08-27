@@ -27,7 +27,7 @@
 
 #include <cstdio>
 
-const double UNITE_TEMPS=1./11025;	//unité de temps représentant 1 ou 2 échantillons
+const double UNITE_TEMPS=1./11025;	//unitÃ© de temps reprÃ©sentant 1 ou 2 Ã©chantillons
 const double TEMPS_PAQUET=.02;	//20 ms par paquet
 //const double TEMPS_PAQUET=.1;	//100 ms par paquet
 const double TEMPS_SECU=.2;	//200 ms pour incertitude position
@@ -36,40 +36,40 @@ const double TEMPS_TAMPON=1;	//1000 ms pour le tampon secondaire
 class classSon {
 
 protected :
-#ifdef WIN32 // partie dédiée DirectSound
+#ifdef WIN32 // partie dÃ©diÃ©e DirectSound
 	LPDIRECTSOUNDBUFFER lpBuffer; // buffer circulaire DirectSound (secondaire)
 	LPDWORD ptIOctLecDS; // pointeur sur position de lecture du buffer direct sound (en octets)
-	LPDWORD ptIOctEcrDS; // pointeur sur position d'écriture du buffer direct sound (en octets, non exploité)
-	HWND Handle; // Handle de la fenêtre courante
+	LPDWORD ptIOctEcrDS; // pointeur sur position d'Ã©criture du buffer direct sound (en octets, non exploitÃ©)
+	HWND Handle; // Handle de la fenÃªtre courante
 	long DSVolume;	// volume du buffer DirectSound
 #endif
 	CARTESON snd_dev;       // id de la carte son (DirectSound, ALSA et OSS)
-	long nbEchLpBuffer;	//nb éch dans buffer secondaire
+	long nbEchLpBuffer;	//nb Ã©ch dans buffer secondaire
 	long nbEchLpBuffer2;	//idem / 2
 	char* paquet8;	// paquet de mots 8 bits
 	short* paquet16;	// paquet de mots 16 bits
 	short* tIndex;		// table des index
-	short nbVoiesSon;	// nb voies : 1 mono, 2 stéréo
-	long nbEchPaquet;	//nb éch par paquet
-	long nbEchSecu;	//nb éch pour incertitude position lecture
+	short nbVoiesSon;	// nb voies : 1 mono, 2 stÃ©rÃ©o
+	long nbEchPaquet;	//nb Ã©ch par paquet
+	long nbEchSecu;	//nb Ã©ch pour incertitude position lecture
 	long nbOctetsPaquet;	//taille en octets du paquet
 	short nbPaquetsLpBuffer;
 	short nbBitsParEchVoie;	// 8 ou 16 bits
-	short nbOctetsParEch;	//1 à 4
-	int fEchCarte;          // fréquence d'échantillonnage de la carte son
-	short indexAEcrire;     // index à écrire dans le tableau tIndex (en début de paquet)
-	long iEchEcr;	// position d'écriture dans le buffer circulaire "lpBuffer"
+	short nbOctetsParEch;	//1 Ã  4
+	int fEchCarte;          // frÃ©quence d'Ã©chantillonnage de la carte son
+	short indexAEcrire;     // index Ã  Ã©crire dans le tableau tIndex (en dÃ©but de paquet)
+	long iEchEcr;	// position d'Ã©criture dans le buffer circulaire "lpBuffer"
 	long iEchPaquet;	// position dans le paquet
 	long iEchPosLec;	//position de lecture dans le buffer circulaire "lpBuffer"
-	long iEchPosLecAnc;	//id val précédente
+	long iEchPosLecAnc;	//id val prÃ©cÃ©dente
 	long iEchPosLecAv;	//variante pour finir son
 	bool marqJoue;	// sortie du son en cours
-	bool marqJoueInit;	//sortie du son initialisée et commencée
+	bool marqJoueInit;	//sortie du son initialisÃ©e et commencÃ©e
 	bool pauseEnCours;	// son en pause
-	short etatFin;	//0=normal, 1=lire derrière la limite, 2=lire jusqu'à la limite
+	short etatFin;	//0=normal, 1=lire derriÃ¨re la limite, 2=lire jusqu'Ã  la limite
 	long limLit;	//=iEchEcr final du message
 	long limLitPaquet;	//=iEchPaquet final du message
-	bool snd_ok;	// carte son ouverte avec succès
+	bool snd_ok;	// carte son ouverte avec succÃ¨s
 
 private :
 	long echTot;
@@ -84,7 +84,7 @@ public :
 	void sonExit();	//fin du message : termine le buffer proprement
 	void finirSon(bool marqFin);
 	bool pauseSiJoue();	//stoppe le son sous DirectSound
-	bool joueSiPause();	//démarre le son sous DirectSound
+	bool joueSiPause();	//dÃ©marre le son sous DirectSound
 	void attendSiEcrOuLecRattrape();
 	void positionLecture();
 #ifdef WIN32
