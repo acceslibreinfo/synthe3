@@ -46,4 +46,4 @@ clean:
 	rm -f *.o
 
 distclean: clean
-	rm -f $(LIBRARY)
+	rm -f $(library) $(program)
