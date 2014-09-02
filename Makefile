@@ -3,7 +3,7 @@ program = synthe
 
 library_source_files = \
   SynCalcul.cpp SynGlobal.cpp SynParle.cpp SynSon.cpp alsa.cpp \
-  SynTex.o Synthe.o SynTrans.o SynVoix.o
+  SynTex.cpp Synthe.cpp SynTrans.cpp SynVoix.cpp
 
 library_object_files := $(library_source_files:.cpp=.o) 
 
