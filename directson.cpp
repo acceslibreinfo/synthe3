@@ -1,10 +1,19 @@
-////////////////////////////////////////////////////////////////////////////
-//	SYNTHÉ : Module de Sortie vers la carte son
-//	ELECTREL : été 1998 (stage Pascal MONNIER)
-////////////////////////////////////////////////////////////////////////////
-
-// Ce fichier contient les membres publiques de la classe classSon
-// gérant les allocations mémoires pour l'initialisation et le transfert des données avec DirectSound.				 
+/*
+ * DirectX output module for Synthé 3 - use DirectX to let Synthé 3 speak aloud text
+ *
+ * Copyright (C) 1985-2014 by the CRISCO laboratory.
+ *
+ * This DirectX output module for Synthé 3 comes with ABSOLUTELY NO WARRANTY.
+ *
+ * This is free software, placed under the terms of the
+ * GNU Lesser General Public License, as published by the Free Software
+ * Foundation; either version 2.1 of the License, or (at your option) any
+ * later version. Please see the file LICENSE-LGPL for details.
+ *
+ * Web Page: https://github.com/acceslibreinfo/synthe3
+ *
+ * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
+ */
 
 #include "synSon.h"
 #include "synCalcul.h"

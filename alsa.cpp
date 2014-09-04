@@ -1,10 +1,19 @@
-/***************************************************************************************/
-/*  Module de sortie ALSA vers la carte son                                            */
-/*  Ce fichier contient tout ce qui concerne la gestion du son avec ALSA.              */
-/*                                                                                     */
-/*  Boris JAMOT (jamotb@yahoo.fr, http://bil.oute.org)                                 */
-/*                                                                                     */
-/***************************************************************************************/
+/*
+ * ALSA output module for Synthé 3 - use ALSA to let Synthé 3 speak aloud text
+ *
+ * Copyright (C) 1985-2014 by the CRISCO laboratory.
+ *
+ * This ALSA output module for Synthé 3 comes with ABSOLUTELY NO WARRANTY.
+ *
+ * This is free software, placed under the terms of the
+ * GNU Lesser General Public License, as published by the Free Software
+ * Foundation; either version 2.1 of the License, or (at your option) any
+ * later version. Please see the file LICENSE-LGPL for details.
+ *
+ * Web Page: https://github.com/acceslibreinfo/synthe3
+ *
+ * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
+ */
 
 #include <string.h>
 #include <iostream>
