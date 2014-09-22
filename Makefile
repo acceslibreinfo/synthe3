@@ -13,10 +13,10 @@
 #
 # This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
 
-library = synthe
+library = synthe3
 library_extension = so
 library_name = lib$(library).$(library_extension) 
-program = synthe
+program = synthe3
 
 library_source_files = \
   SynCalcul.cpp SynGlobal.cpp SynParle.cpp SynSon.cpp alsa.cpp \
