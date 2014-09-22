@@ -13,7 +13,9 @@
 #
 # This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
 
-library = libsynthe.so
+library = synthe
+library_extension = so
+library_name = lib$(library).$(library_extension) 
 program = synthe
 
 library_source_files = \
@@ -25,16 +27,16 @@ library_object_files := $(library_source_files:.cpp=.o)
 CPPFLAGS = -DALSA
 CXXFLAGS = -g3 -ggdb3 -fPIC -Wall -pthread
 LDFLAGS = -L.
-LDLIBS = -lasound -lsynthe
+LDLIBS = -lasound -l$(library)
 
 .PHONY : all clean distclean
 
 all: $(program)
 
-$(program): main.o $(library)
-	$(CC) $(CXXFLAGS) -o $@ -L. -lasound -lsynthe $<
+$(program): main.o $(library_name)
+	$(CC) $(CXXFLAGS) -o $@ -L. -lasound -l$(library) $<
 
-$(library): $(library_object_files)
+$(library_name): $(library_object_files)
 	$(CXX) -shared $(CPPFLAGS) -lasound -o $@ $^
 
 SynCalcul.o: SynCalcul.cpp SynCalcul.h
@@ -61,4 +63,4 @@ clean:
 	rm -f *.o
 
 distclean: clean
-	rm -f $(library) $(program)
+	rm -f $(library_name) $(program)
