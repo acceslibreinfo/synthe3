@@ -1,9 +1,10 @@
 /*
  * ALSA output module for Synthé 3 - use ALSA to let Synthé 3 speak aloud text
  *
- * Copyright (C) 1985-2014 by the CRISCO laboratory.
+ * Copyright (C) 1985-2014 by the CRISCO laboratory,
+ * university of Caen (France).
  *
- * This ALSA output module for Synthé 3 comes with ABSOLUTELY NO WARRANTY.
+ * This ALSA output module for Synth� 3 comes with ABSOLUTELY NO WARRANTY.
  *
  * This is free software, placed under the terms of the
  * GNU Lesser General Public License, as published by the Free Software
