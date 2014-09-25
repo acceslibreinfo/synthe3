@@ -1,10 +1,10 @@
 /*
- * ALSA output module for Synth√© 3 - use ALSA to let Synth√© 3 speak aloud text
+ * ALSA output module for Synth√© 3 - use ALSA to let Synth√É¬© 3 speak aloud text
  *
  * Copyright (C) 1985-2014 by the CRISCO laboratory,
  * university of Caen (France).
  *
- * This ALSA output module for SynthÈ 3 comes with ABSOLUTELY NO WARRANTY.
+ * This ALSA output module for Synth√© 3 comes with ABSOLUTELY NO WARRANTY.
  *
  * This is free software, placed under the terms of the
  * GNU Lesser General Public License, as published by the Free Software
@@ -13,10 +13,10 @@
  *
  * Web Page: https://github.com/acceslibreinfo/synthe3
  *
- * This software is maintained by Sh√©rab <Sebastien.Hinderer@ens-lyon.org>.
+ * This software is maintained by Sh√É¬©rab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
-#ifdef LINUX	//totalitÈ du fichier (utilisÈ exclusivement sous Linux)
+#ifdef LINUX	//totalit√© du fichier (utilis√© exclusivement sous Linux)
 #include "synSon.h"
 #include <iostream>
 #include <unistd.h>
@@ -34,7 +34,7 @@ void classSon::open_snd() {
 		// PCM device will return immediately. If SND_PCM_ASYNC is specified, SIGIO will
 		// be emitted whenever a period has been completely processed by the soundcard.
 		if ((rc = snd_pcm_open(&snd_dev, pcm_name, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
-			std::cerr << "L'ouverture de la carte son a ÈchouÈ : " << snd_strerror(rc) << std::endl;
+			std::cerr << "L'ouverture de la carte son a √©chou√© : " << snd_strerror(rc) << std::endl;
 			usleep(1000);
 		} else {
 			snd_ok=true;
@@ -59,40 +59,40 @@ void classSon::set_snd_params(int channels, int bits, int rate) {
 	
 	snd_pcm_hw_params_alloca(&params);
 
-	// Initialisation des paramËtres
+	// Initialisation des param√®tres
 	if (snd_pcm_hw_params_any(snd_dev, params) < 0) {
-		std::cerr << "Impossible d'initialiser les paramËtres." << std::endl;
+		std::cerr << "Impossible d'initialiser les param√®tres." << std::endl;
 	}
 	// Interleaved mode
 	if (snd_pcm_hw_params_set_access(snd_dev, params,SND_PCM_ACCESS_RW_INTERLEAVED) < 0) {
-		std::cerr << "Impossible de configurer le type d'accËs." << std::endl;
+		std::cerr << "Impossible de configurer le type d'acc√®s." << std::endl;
 	}
-	// Format des Èchantillons : signed 16-bit little-endian
+	// Format des √©chantillons : signed 16-bit little-endian
 	if (snd_pcm_hw_params_set_format(snd_dev, params,SND_PCM_FORMAT_S16_LE) < 0) {
 		std::cerr << "Impossible de configurer le format." << std::endl;
 	}
-	// Nombre de voies (mono ou stÈrÈo)
+	// Nombre de voies (mono ou st√©r√©o)
 	if (snd_pcm_hw_params_set_channels(snd_dev, params, /*channels*/2) < 0) {
 		std::cerr << "Impossible de configurer le nombre de voies." << std::endl;
 	}
-	// FrÈquence. Si la frÈquence exacte n'est pas supportÈe par la carte, on utilise la plus proche.
+	// Fr√©quence. Si la fr√©quence exacte n'est pas support√©e par la carte, on utilise la plus proche.
 	exact_rate = rate;
 	if (snd_pcm_hw_params_set_rate_near(snd_dev, params, (unsigned int*)&exact_rate, &dir) < 0) {
-		std::cerr << "Impossible de configurer la frÈquence." << std::endl;
+		std::cerr << "Impossible de configurer la fr√©quence." << std::endl;
 	}
 	if (rate != exact_rate) {
-		std::cerr << "La frÈquence " << rate << " n'est pas supportÈe, valeur utilisÈe : " << exact_rate << std::endl;
+		std::cerr << "La fr√©quence " << rate << " n'est pas support√©e, valeur utilis√©e : " << exact_rate << std::endl;
 	}
-	// Nombre de pÈriodes
+	// Nombre de p√©riodes
 	if (snd_pcm_hw_params_set_periods(snd_dev, params, nbPaquetsLpBuffer, 0) < 0) {
-		std::cerr << "Impossible de configurer la pÈriode ‡ " << nbPaquetsLpBuffer << "." << std::endl;
+		std::cerr << "Impossible de configurer la p√©riode √† " << nbPaquetsLpBuffer << "." << std::endl;
 	}
 	// Taille du buffer (en frames).
 	// The resulting latency is given by latency = periodsize * nbPaquetsLpBuffer / rate
 	if (snd_pcm_hw_params_set_buffer_size(snd_dev, params, (periodsize * nbPaquetsLpBuffer)) < 0) {
 		std::cerr << "Impossible de configurer la taille du buffer." << std::endl;
 	}
-	// Ecriture des paramËtres sur la carte
+	// Ecriture des param√®tres sur la carte
 	if ((rc = snd_pcm_hw_params(snd_dev, params)) < 0) {
 		std::cerr << "Impossible de configurer la carte son : " << snd_strerror(rc) << std::endl;
 	}
@@ -192,7 +192,7 @@ void classSon::get_snd_params() {
 
 void classSon::sonExit() {}	//fin du message : termine le buffer proprement sous DirectSound
 bool classSon::pauseSiJoue() { return false; }	//stoppe le son sous DirectSound
-bool classSon::joueSiPause() { return false; }	//dÈmarre le son sous DirectSound
+bool classSon::joueSiPause() { return false; }	//d√©marre le son sous DirectSound
 void classSon::positionLecture() {}	//fournit iEchPosLec sous DirectSound
 
 bool classSon::transferePaquet(void* lpData, int dwSoundBytes) {
