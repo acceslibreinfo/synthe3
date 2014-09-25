@@ -15,7 +15,7 @@
  * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
-/* main.cpp: command-line test program */ 
+/* main.cpp: command-line test program */
 
 #include <stdio.h>
 #include <stdlib.h>
