@@ -50,7 +50,7 @@ EXTERNE void _stdcall synTexte(
 	);
 
 //Retourne la valeur de l'index de lecture (va du nb d'index à 0 en fin de lecture)
-EXTERNE short synIndex();
+EXTERNE short _stdcall synIndex();
 
 //Retourne la position de lecture du texte (indice du caractère en cours de lecture)
 EXTERNE short _stdcall synPosLec();
