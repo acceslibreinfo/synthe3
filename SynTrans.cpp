@@ -72,12 +72,7 @@ void Transcription::minMajNFois(char* texteAlphaLec, char* texteAlphaEcr) {
 					for (iLecCherche=iLec+2; texteLec[iLecCherche]==carac; iLecCherche++)
 						nbFois++;
 					if (iEcr<NM_CAR_TEX_8) {
-					  // Fonction itoa() non définie en C++ sauf par certains compilateurs
-						#ifdef WIN32
-						itoa(nbFois, chaine,10);
-						#else
 						sprintf(chaine, "%d", nbFois);
-						#endif
 						texteEcr[iEcr]=0;	//pour concaténer
 						strcat(texteEcr, chaine);
 						iEcr+=strlen(chaine);
