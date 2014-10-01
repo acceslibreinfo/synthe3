@@ -20,9 +20,9 @@
 // (commune à Alsa et Direct-Sound)
 ////////////////////////////////////
 
-#include "synSon.h"
-#include "synGlobal.h"
-#include "synMain.h"
+#include "SynSon.h"
+#include "SynGlobal.h"
+#include "SynMain.h"
 #ifndef WIN32
 	#include <unistd.h>
 #endif
