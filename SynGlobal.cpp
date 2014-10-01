@@ -367,7 +367,3 @@ void detruitVariablesSectionCritiqueGlobal() {
 #endif
 #endif
 }
-
-//xxx faire tourner
-//xxx faire un main comme Kali
-//xxx faire tourner
