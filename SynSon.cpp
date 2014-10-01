@@ -1,9 +1,9 @@
 /*
- * SynthÃ© 3 - A speech synthetizer software for french
+ * Synthé 3 - A speech synthetizer software for french
  *
  * Copyright (C) 1985-2014 by Michel MOREL <michel.morel@unicaen.fr>.
  *
- * SynthÃ© 3 comes with ABSOLUTELY NO WARRANTY.
+ * Synthé 3 comes with ABSOLUTELY NO WARRANTY.
  *
  * This is free software, placed under the terms of the
  * GNU Lesser General Public License, as published by the Free Software
@@ -12,7 +12,7 @@
  *
  * Web Page: https://github.com/acceslibreinfo/synthe3
  *
- * This software is maintained by ShÃ©rab <Sebastien.Hinderer@ens-lyon.org>.
+ * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
 ////////////////////////////////////

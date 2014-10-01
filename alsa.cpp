@@ -1,5 +1,5 @@
 /*
- * ALSA output module for Synthé 3 - use ALSA to let SynthÃ© 3 speak aloud text
+ * ALSA output module for Synthé 3 - use ALSA to let Synthé 3 speak aloud text
  *
  * Copyright (C) 1985-2014 by the CRISCO laboratory,
  * university of Caen (France).
@@ -13,7 +13,7 @@
  *
  * Web Page: https://github.com/acceslibreinfo/synthe3
  *
- * This software is maintained by ShÃ©rab <Sebastien.Hinderer@ens-lyon.org>.
+ * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
 #ifdef LINUX	//totalité du fichier (utilisé exclusivement sous Linux)
