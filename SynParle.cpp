@@ -19,6 +19,8 @@
 // Lit le texte phonétique
 ///////////////////////////////////
 
+//Procédure de fabrication de la parole à partir du texte phonétique, sans prosodie
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,7 +65,11 @@ void Parle::traiteTextePhonetique(char* chainePhon) {
 	sonDestruction();	//redondance par sécurité
 	if (synGlobal.getSortieSon()) {	//sortie sur la carte-son
 		entreSectionCritiqueGlobal2();	// E E E E E E E E E E E E E
-		synSon = new classSon(FREQ_ECH, TYPE_ECH);
+#ifdef WIN32
+		synSon = new classSon(FREQ_ECH, MONO, TYPE_ECH);
+#else
+		synSon = new classSon(FREQ_ECH, STEREO, TYPE_ECH);
+#endif
 		quitteSectionCritiqueGlobal2();	// Q Q Q Q Q Q Q Q Q Q Q Q
 		if (!synSon->ouvertOK())
 			return;
@@ -157,9 +163,9 @@ bool Parle::traiteUnePeriode() {
 		}
 		if (sortieWave) {
 			if (TYPE_ECH==8)
-				fwrite(&ech8, sizeof(char), 1, ficWave);
+				fwrite(&ech8, 1, 1, ficWave);
 			else
-				fwrite(&ech, sizeof(short), 1, ficWave);
+				fwrite(&ech, 2, 1, ficWave);
 			longWave++;
 		}
 		if (sortieSon) {
@@ -198,7 +204,7 @@ void Parle::initDecroitSurCroit() {
 	phonDDecroit=phonDCroit;
 	phonGDecroit=phonGCroit;
 	catDDecroit=catDCroit;
-catGDecroit=catGCroit;
+	catGDecroit=catGCroit;
 	nSousDiphDecroit=nSousDiphCroit;
 	marq.DSDecroit=marq.DSCroit;
 	marq.FSDecroit=marq.FSCroit;
@@ -386,58 +392,58 @@ short Parle::calculeEchPerioCroit(short x, char* ptSegCroit, unsigned char perio
 
 //Initialise (init) ou termine (!init) la production d'un fichier wave
 void initWave(bool init) {
-  if (!synGlobal.getSortieWave()) return;
-  if (init) {	//pas d'autre test car les éch suivent
-    longWave=0;
-    short entier;
-    int entierLong;
-    // Ouvre un fichier wave sinon envoie vers stdout
-    if (synGlobal.getNomFichierWave() != NULL)
-      ficWave=fopen((char*)synGlobal.getNomFichierWave(), "wb");
-    else {
-      ficWave=stdout;
-    }
-    fwrite("RIFF", sizeof(char), 4, ficWave);
-    if (synGlobal.getNomFichierWave() != NULL)
-      entierLong=longWave+36;	//taille totale du fichier restant
-    else
-      entierLong=4 + (8+16) + (8+MS_UNSPEC);
-    fwrite(&entierLong, 4, 1, ficWave);
-    fwrite("WAVEfmt ", sizeof(char), 8, ficWave);
-    entierLong=16;	//taille des paramètres jusqu'à "data"
-    fwrite(&entierLong, 4, 1, ficWave);
-    entier=1;	//identifie si PCM, ULAW etc
-    fwrite(&entier, sizeof(short), 1,ficWave);
-    entier=1;	// Nombre de canaux
-    fwrite(&entier, sizeof(short), 1,ficWave);
-    entierLong=FREQ_ECH;	//fréq éch
-    fwrite(&entierLong, 4,1,ficWave);
-    entierLong=FREQ_ECH*TYPE_ECH/8;	//fréq octets
-    fwrite(&entierLong, 4,1,ficWave);
-    entier=TYPE_ECH/8;	//nb octets par éch
-    fwrite(&entier,sizeof(short), 1,ficWave);
-    entier=TYPE_ECH;	//8 ou 16 bits
-    fwrite(&entier, sizeof(short), 1,ficWave);
-    fwrite("data", sizeof(char), 4, ficWave);
-    if (synGlobal.getNomFichierWave() != NULL)
-      entierLong=longWave;
-    else
-      entierLong=MS_UNSPEC;
-    fwrite(&entierLong, 4, 1, ficWave);
-    ficWaveFerme=false;
-  } else if (!ficWaveFerme) {	//termine
-    if (synGlobal.getNomFichierWave() != NULL) {
-      longWave *=TYPE_ECH/8;			// nb octets
-      fseek(ficWave, 40, 0);
-      fwrite(&longWave, 4, 1, ficWave);
-      longWave+=36;
-      fseek(ficWave, 4, 0);
-      fwrite(&longWave, 4, 1, ficWave);
-      fclose(ficWave);
-    } else
-      fflush(ficWave);
-    ficWaveFerme=true;
-  }
+	if (!synGlobal.getSortieWave()) return;
+	if (init) {	//pas d'autre test car les éch suivent
+		longWave=0;
+		short entier;
+		long entierLong;
+		// Ouvre un fichier wave sinon envoie vers stdout
+		if (synGlobal.getNomFichierWave() != NULL)
+			ficWave=fopen((char*)synGlobal.getNomFichierWave(), "wb");
+		else {
+			ficWave=stdout;
+		}
+		fwrite("RIFF", 1, 4, ficWave);
+		if (synGlobal.getNomFichierWave() != NULL)
+			entierLong=longWave+36;	//taille totale du fichier restant
+		else
+			entierLong=4+(8+16)+(8+MS_UNSPEC);
+		fwrite(&entierLong, 4, 1, ficWave);
+		fwrite("WAVEfmt ", 1, 8, ficWave);
+		entierLong=16;	//taille des paramètres jusqu'à "data"
+		fwrite(&entierLong, 4, 1, ficWave);
+		entier=1;	//identifie si PCM, ULAW etc
+		fwrite(&entier, 2, 1,ficWave);
+		entier=1;	// Nombre de canaux
+		fwrite(&entier, 2, 1,ficWave);
+		entierLong=FREQ_ECH;	//fréq éch
+		fwrite(&entierLong, 4,1,ficWave);
+		entierLong=FREQ_ECH*TYPE_ECH/8;	//fréq octets
+		fwrite(&entierLong, 4,1,ficWave);
+		entier=TYPE_ECH/8;	//nb octets par éch
+		fwrite(&entier,2, 1,ficWave);
+		entier=TYPE_ECH;	//8 ou 16 bits
+		fwrite(&entier, 2, 1,ficWave);
+		fwrite("data", 1, 4, ficWave);
+		if (synGlobal.getNomFichierWave() != NULL)
+			entierLong=longWave;
+		else
+			entierLong=MS_UNSPEC;
+		fwrite(&entierLong, 4, 1, ficWave);
+		ficWaveFerme=false;
+	} else if (!ficWaveFerme) {	//termine
+		if (synGlobal.getNomFichierWave() != NULL) {
+			longWave *=TYPE_ECH/8;	// nb octets
+			fseek(ficWave, 40, 0);
+			fwrite(&longWave, 4, 1, ficWave);
+			longWave+=36;
+			fseek(ficWave, 4, 0);
+			fwrite(&longWave, 4, 1, ficWave);
+			fclose(ficWave);
+		} else
+			fflush(ficWave);
+		ficWaveFerme=true;
+	}
 }
 
 //Détruit synSon après avoir parlé
@@ -453,4 +459,3 @@ void sonDestruction() {
 		synSon=NULL;	//pour redondance de sonDestruction
 	}
 }
-
