@@ -30,6 +30,9 @@
 #endif
  
 //Constantes
+//Constantes pour SynSon
+#define MONO 1
+#define STEREO 2
 //Taille max texte
 #define NM_CAR_TEX 1000
 #define NM_CAR_TEX_1 NM_CAR_TEX-1
