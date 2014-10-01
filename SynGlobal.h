@@ -44,8 +44,8 @@ using namespace std;
 #define REGLAGE_HAUTEUR_DEFAUT 6
 //Index
 #define NM_INDEX 2500	//si " a b c ..."
-#define MARQ_MARQ 'ø'	//248
-#define MARQ_INDEX 'í'	//237
+#define MARQ_MARQ ((char) 248) /* LATIN SMALL LETTER O WITH STROKE */
+#define MARQ_INDEX ((char) 237) /* LATIN SMALL LETTER I WITH ACUTE */
 
 //Classe Global : section critique, index, stop, réglages et paramètres
 class Global {
