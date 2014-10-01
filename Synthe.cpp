@@ -24,13 +24,11 @@
 	#define EXTERNE extern "C" _declspec(dllexport)	//pour Synthe.h
 #else // linux ...
 	#define EXTERNE extern "C"
-#include <unistd.h>
+	#include <unistd.h>
 	#include <pthread.h>
 #endif
 
 #define SYNTHE_VERSION "Synthé version 1.1"
-//#define SYNTHE_VOIX "" //Chemin et nom du fichier de voix
-//#define SYNTHE_TAB "" //Chemin et nom du fichier des tables
 
 #include <ctime>
 #include <string.h>
@@ -83,7 +81,8 @@ void _stdcall synTexte(
 	if (longTex>NM_CAR_TEX) longTex=NM_CAR_TEX;
 	bufferMessage=new char[longTex*2+10];	//au pire : "a b c d ..."
 	//Demande la version de Synthé
-	if (strncmp(texte,"nversionsyn",9)==0) strcpy (bufferMessage, SYNTHE_VERSION);
+	if (strncmp(texte,"nversionsyn",9)==0)
+		strcpy (bufferMessage, SYNTHE_VERSION);
 	copieEtAjouteIndexSiPas(texte, bufferMessage);	//compte les index
 	//Crée le thread
 	lpParamThread->texte=bufferMessage;
@@ -108,7 +107,7 @@ void _stdcall synTexte(
 }
 
 //Retourne la valeur de l'index de lecture (va du nb d'index à 0 en fin de lecture)
-short synIndex() {
+short _stdcall synIndex() {
 	return synGlobal.getNbIndexLec();
 }
 
@@ -165,8 +164,8 @@ void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr) {
 	posLec[0]=0;	//position initiale
 	nbIndex=1;	//init comptage à 1 pour posLec car 0 représente le 1er mot (mais on décrémente après)
 	for (lec=chaineLec; *lec!=0; lec++) {
-		if (*lec=='ø') {
-			if (lec[1]=='í') {	//index trouvé
+		if (*lec==MARQ_MARQ) {
+			if (lec[1]==MARQ_MARQ) {	//index trouvé
 				if (nbIndex<=NM_INDEX)
 					posLec[nbIndex++]=lec-chaineLec;	//repère l'index et compte
 				lec++;
@@ -198,7 +197,7 @@ void copieEtAjouteIndexSiPas (char* chaineLec, char* chaineEcr) {
 			}
 			marqValide=false;
 		} else
-		  marqValide=true;  //prêt à placer le prochain index
+			 marqValide=true;	//prêt à placer le prochain index
 		*ecr++=*lec;
 	}
 	*ecr++=MARQ_MARQ; *ecr++=MARQ_INDEX;*ecr=0;	//finit par un index
@@ -235,7 +234,7 @@ void initSynthe() {
 	tVoix=new Voix*[1];	//une seule voix (prévu pour plusieurs)
 	tVoix[0]=new Voix(0, "Michel.seg");	//construit la voix 0 (la seule)
 	tab=new Tab("Synthe.tab");	//construit les tables
-	//		synTexte("synthé prêt");
+	synTexte("synthet prets");
 }
 
 //Pour quitter
@@ -249,8 +248,8 @@ void quitteSynthe() {
 	delete[] tVoix;
 }
 
-//Initialisation chargement/déchargement la dll (pour Linux, il faut appeler initSynthe et quitteSynthe
 #ifdef WIN32
+//Initialisation chargement/déchargement la dll (pour Linux, il faut appeler initSynthe et quitteSynthe
 BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, void* lpReserved) {
 	switch (dwReason) {
 	case DLL_PROCESS_ATTACH:
