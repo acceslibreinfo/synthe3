@@ -44,11 +44,11 @@
 
 #include <cstdio>
 
-const double UNITE_TEMPS=1./11025;	//unité de temps représentant 1 ou 2 échantillons
-const double TEMPS_PAQUET=.02;	//20 ms par paquet
-//const double TEMPS_PAQUET=.1;	//100 ms par paquet
-const double TEMPS_SECU=.2;	//200 ms pour incertitude position
-const double TEMPS_TAMPON=1;	//1000 ms pour le tampon secondaire
+const double UNITE_TEMPS=1./11025;	//2, unité de temps représentant 1 échantillon à 11025 Hertz (sert pour les arrondis)
+const double TEMPS_PAQUET=0.020;	//100 ms -> 20 ms par paquet (50 ms -> +10% sur ordi ancien)
+const double TEMPS_SECU_ECR=0.060;	//60 ms pour incertitude position 08/01/13
+const double TEMPS_SECU_LEC=0.060;	//200 ms -> 100 ms -> 60 ms pour incertitude position (et démarrage lect) (200ms -> +5% sur ordi ancien)
+const double TEMPS_TAMPON=1.000;	//1000 ms pour le tampon secondaire (on ne gagne rien à le réduire, on perd même 70% sur ordi ancien)
 
 class classSon {
 
@@ -68,7 +68,8 @@ protected :
 	short* tIndex;		// table des index
 	short nbVoiesSon;	// nb voies : 1 mono, 2 stéréo
 	long nbEchPaquet;	//nb éch par paquet
-	long nbEchSecu;	//nb éch pour incertitude position lecture
+	long nbEchSecuEcr;	//nb éch pour écriture (incertitude position lecture)
+	long nbEchSecuLec;	//nb éch pour lecture (incertitude position lecture)
 	long nbOctetsPaquet;	//taille en octets du paquet
 	short nbPaquetsLpBuffer;
 	short nbBitsParEchVoie;	// 8 ou 16 bits
@@ -78,23 +79,23 @@ protected :
 	long iEchEcr;	// position d'écriture dans le buffer circulaire "lpBuffer"
 	long iEchPaquet;	// position dans le paquet
 	long iEchPosLec;	//position de lecture dans le buffer circulaire "lpBuffer"
-	long iEchPosLecAnc;	//id val précédente
-	long iEchPosLecAv;	//variante pour finir son
+	long iEchPosLecSauv;	//pour retouche
+	long iEchPosLecAv;	//position d'avant (pour finir son)
 	bool marqJoue;	// sortie du son en cours
 	bool marqJoueInit;	//sortie du son initialisée et commencée
 	bool pauseEnCours;	// son en pause
-	short etatFin;	//0=normal, 1=lire derrière la limite, 2=lire jusqu'à la limite
+	short etatSon;	//0=normal, 1=lire jusqu'en bas, 2=lire jusqu'à la limite (après bouclage)
 	long limLit;	//=iEchEcr final du message
 	long limLitPaquet;	//=iEchPaquet final du message
 	bool snd_ok;	// carte son ouverte avec succès
 
-private :
+private:
 	long echTot;
 	short nbTot;
 	long cumul;
 
-public :
-	classSon(int frequence, short typeEchVoie); 
+public:
+	classSon(int frequence, short nbVoies, short typeEchVoie); 
 	~classSon();
 	bool ouvertOK();
 	bool transfert(LPVOID);
