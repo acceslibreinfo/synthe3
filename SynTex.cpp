@@ -16,8 +16,10 @@
  */
 
 ////////////////////////////////////////////////////
-// Synthé : fonction parole
+// Synthé : fonction synTex
 ////////////////////////////////////////////////////
+
+//Procédure de traitement du texte alphabétique
 
 #include "SynMain.h"
 #include "SynParle.h"
