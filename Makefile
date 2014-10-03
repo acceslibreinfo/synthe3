@@ -34,7 +34,7 @@ LDLIBS = -lasound -l$(library)
 all: $(program)
 
 $(program): main.o $(library_name)
-	$(CC) $(CXXFLAGS) -o $@ -L. -lasound -l$(library) $<
+	$(CXX) $(CXXFLAGS) -o $@ -L. -lasound -l$(library) $<
 
 $(library_name): $(library_object_files)
 	$(CXX) -shared $(CPPFLAGS) -lasound -o $@ $^
