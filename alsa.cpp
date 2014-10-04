@@ -16,8 +16,11 @@
  * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
+/*
 #ifdef LINUX	//totalité du fichier (utilisé exclusivement sous Linux)
-#include "synSon.h"
+*/
+
+#include "SynSon.h"
 #include <iostream>
 #include <unistd.h>
 
@@ -206,4 +209,7 @@ bool classSon::transferePaquet(void* lpData, int dwSoundBytes) {
 	
 	return false;
 }
+
+/*
 #endif	//LINUX
+*/
