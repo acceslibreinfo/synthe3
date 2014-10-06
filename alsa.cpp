@@ -16,9 +16,7 @@
  * This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
  */
 
-/*
-#ifdef LINUX	//totalité du fichier (utilisé exclusivement sous Linux)
-*/
+#ifndef WIN32	//totalité du fichier (utilisé exclusivement sous Linux)
 
 #include "SynSon.h"
 #include <iostream>
@@ -210,6 +208,4 @@ bool classSon::transferePaquet(void* lpData, int dwSoundBytes) {
 	return false;
 }
 
-/*
-#endif	//LINUX
-*/
+#endif	//WIN32
