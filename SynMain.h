@@ -34,7 +34,7 @@
 #define MONO 1
 #define STEREO 2
 //Taille max texte
-#define NM_CAR_TEX 1000
+#define NM_CAR_TEX 10000
 #define NM_CAR_TEX_1 NM_CAR_TEX-1
 #define NM_CAR_TEX_2 NM_CAR_TEX-2
 #define NM_CAR_TEX_8 NM_CAR_TEX-8
@@ -111,12 +111,22 @@ struct typeParamThread {
 	char* nomFicWave;	//nom éventuel du fichier à construire
 };
 
+//Variables pour la conversion UTF-8 latin1
+extern char latinC2[256];
+extern char latinC3[256];
+extern char latinC5[256];
+extern char latinC6[256];
+extern char latinCB[256];
+
 //Fonctions externes de SynTex.cpp
 extern void synTex(void* lpParam);
 
 //Fonctions externes de SynParle.cpp
 extern void initWave(bool init);
 extern void sonDestruction();
+
+//Fonction externe de Synthe.cpp
+extern bool UTF8Latin1(char* chLec, char* chEcr);
 
 //Fonctions privées de Synthe.cpp
 void fThAlpha(void*);
