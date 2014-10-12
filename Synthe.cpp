@@ -61,7 +61,7 @@ void _stdcall synTexte(
 	short hauteur,	//0 à 15 par pas de 12 % (par défaut 4)
 	short phon, 	//1, le texte est phonétique
 	short modeLecture,	//0, normal, 1, dit la ponctuation
-	short modeCompta,	//0, le séparateur de milliers reste, 1, le séprateur de milliers est enlevé
+	short modeCompta,	//0, le séparateur de milliers reste, 1, le séparateur de milliers est enlevé
 	short sortieSon,		//sortie sur la carte-son
 	short sortieWave,		//sortie sous forme de fichier wave
 	char* nomFicWave	//nom éventuel du fichier à construire
