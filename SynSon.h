@@ -108,9 +108,6 @@ public:
 #ifdef WIN32
 	bool initWindow();
 #endif
-	static char *yes_no(int condition) {
-		if (condition) return "yes"; else return "no";
-	}
 private:
 #ifdef WIN32
 	bool transferePaquet(LPDIRECTSOUNDBUFFER, DWORD, LPVOID, DWORD);
