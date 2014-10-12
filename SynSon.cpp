@@ -21,7 +21,6 @@
 ////////////////////////////////////
 
 #include "SynSon.h"
-#include "SynGlobal.h"
 #include "SynMain.h"
 #ifndef WIN32
 	#include <unistd.h>
