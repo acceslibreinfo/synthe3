@@ -183,7 +183,7 @@ void Global::setModeCompta(short modeCompt) {
 }
 
 //Paramètres de son
-short Global::getSortieSon() {	//tj ds le thread de l'instance : pas de section critque
+short Global::getSortieSon() {	//tj ds le thread de l'instance : pas de section critique
 	return sortieSon;
 }
 void Global::setSortieSon(short sortSon) {	//thread de l'instance arrêté : pas de section critique
@@ -191,7 +191,7 @@ void Global::setSortieSon(short sortSon) {	//thread de l'instance arrêté : pas
 	sortieSon=sortSon;
 }
 
-short Global::getSortieWave() {	//tj ds le thread de l'instance : pas de section critque
+short Global::getSortieWave() {	//tj ds le thread de l'instance : pas de section critique
 	return sortieWave;
 }
 void Global::setSortieWave(short sortWave) {	//thread de l'instance arrêté : pas de section critique
@@ -199,7 +199,7 @@ void Global::setSortieWave(short sortWave) {	//thread de l'instance arrêté : p
 	sortieWave=sortWave;
 }
 
-char* Global::getNomFichierWave() {	//tj ds le thread de l'instance : pas de section critque
+char* Global::getNomFichierWave() {	//tj ds le thread de l'instance : pas de section critique
 	return nomFichierWave;
 }
 void Global::setNomFichierWave(char* nomFicWave) {	//thread de l'instance arrêté : pas de section critique
