@@ -118,7 +118,6 @@ private:
 #endif
 	void open_snd();
 	void close_snd();
-	void get_snd_params();
 	void set_snd_params(int, int, int);
 };
 

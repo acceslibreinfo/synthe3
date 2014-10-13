@@ -59,7 +59,6 @@ void classSon::close_snd() {
 }
 
 void classSon::set_snd_params(int channels, int bits, int rate) {}
-void classSon::get_snd_params() {}
 
 //Fin du message : termine le buffer proprement
 //Indique la fin d'écriture du son et transfère des échantillons nuls en attendant l'arrêt de la lecture
