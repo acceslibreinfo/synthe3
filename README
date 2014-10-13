@@ -17,3 +17,10 @@ so that synthe3 can find the shared library.
 Compiling under Windows
 =======================
 
+Download Microsoft Windows SDK from Microsoft's web site:
+http://www.microsoft.com/en-us/download/details.aspx?id=8279
+
+Then install it and copy the DSound.lib file from
+Progam Files\Microsoft SDKs\Windows\V7.1\Lib\
+to the directory containing this README file.
+Then follow the standard installation procedure described above.
