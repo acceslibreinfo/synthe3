@@ -65,7 +65,7 @@ void Transcription::minMajNFois(char* texteAlphaLec, char* texteAlphaEcr) {
 			}
 		}
 		if (carac==0) break;
-		if (carac<48 && carac >32 || carac>57) {	//pas les chiffres ni esp ni tab
+		if ((carac<48 && carac >32) || carac>57) {	//pas les chiffres ni esp ni tab
 			if (texteLec[iLec]==carac) {
 				if (texteLec[iLec+1]==carac) {
 					nbFois=3;	//déjà trois fois
@@ -336,7 +336,7 @@ void Transcription::traiteNombre() {
 			}
 			if (c<'7' && (c1=='1' || c1=='7' || c1=='9'))	//...10 ... à ...16 ..., ...70 ... à ...76 ..., ...90 ... à ...96 ...
 				phonChif(tab->chListUnit(c+10));	//"di", "ô:z", "dùz", ...
-			else if (iN==1 || c1=='0' && c2=='0') {	//n, n nnn, n nnn nnn, n nnn nnn nnn, ... 00n ...
+			else if (iN==1 || (c1=='0' && c2=='0')) {	//n, n nnn, n nnn nnn, n nnn nnn nnn, ... 00n ...
 				if (c=='1') {	//1, 1 nnn, 1 nnn nnn, 1 nnn nnn nnn, ... 001 ...
 					if (nbGr3!=1) phonChif(tab->ch1S());	//"î:"
 				} else
@@ -364,8 +364,8 @@ void Transcription::finNombre(char& iN) {
 	else {
 		c1=0;
 		if (iN>0) c1=nombre[iN-1];
-		if ((c1=='0' || c1>'1' && c1<'7' || c1=='8' || c1==0) && c=='5') ecritPhon(KK);
-		if ((c1=='1' || c1=='7' || c1=='9') && c=='0' || c1!='1' && c1!='7' && c1!='9' && c=='6') ptArbre=tab->_Dix1();
+		if ((c1=='0' || (c1>'1' && c1<'7') || c1=='8' || c1==0) && c=='5') ecritPhon(KK);
+		if (((c1=='1' || c1=='7' || c1=='9') && c=='0') || (c1!='1' && c1!='7' && c1!='9' && c=='6')) ptArbre=tab->_Dix1();
 		else ptArbre=tab->XChif();
 	}
 	carSuiv();
@@ -404,7 +404,7 @@ unsigned char Transcription::carSuiv() {
 //Ecrit le caractère de la chaine cible avec la liaison éventuelle
 void Transcription::ecritPhon(char c) {
 	if (liaison>0) {
-		if (liaison<10 && c>9 || liaison>9 && c<10) {	//liaison possible
+		if ((liaison<10 && c>9) || (liaison>9 && c<10)) {	//liaison possible
 			ecrit(liaison+65);	//évite 0 et rend visibles les caractères
 		}
 	}
