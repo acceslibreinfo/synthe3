@@ -39,6 +39,8 @@ $(program): main.o $(library_name)
 $(library_name): $(library_object_files)
 	$(CXX) -shared $(CPPFLAGS) -lasound -o $@ $^
 
+utf-8.o : utf-8.cpp SynMain.h
+
 SynCalcul.o: SynCalcul.cpp SynCalcul.h
 
 alsa.o: alsa.cpp SynSon.h
