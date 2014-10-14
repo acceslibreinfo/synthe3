@@ -28,7 +28,7 @@ char latinC6[256];
 char latinCB[256];
 
 //Convertit chaîne UTF-8 en latin1
-bool UTF8Latin1(char* chaineLec, char* chaineEcr) {
+bool UTF8Latin1(const char* const chaineLec, char* chaineEcr) {
 	short iLec=0;
 	short iEcr=0;
 	unsigned char carac;

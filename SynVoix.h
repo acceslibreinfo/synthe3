@@ -29,7 +29,7 @@ private:
 	short nbSeg;	//nb de segments
 	short nbEch;	//nb d'échantillons en tout
 public:
-	Voix(char nVoix, char* nomFicVoix);
+	Voix(char nVoix, const char* nomFicVoix);
 	~Voix();
 	char* getPtSeg(unsigned char nSeg);	// demande pointeur sur segment
 };
@@ -77,7 +77,7 @@ private:
 	short lgTab;	//taille totale des tables
 
 public:
-	Tab(char* nomFicTab);
+	Tab(const char* nomFicTab);
 	~Tab();
 	unsigned char tWin(unsigned char carac);	//codes Windows (127 à 255) -> code commun
 	char tCat(unsigned char c);	//code commun (32 à 217) -> catégorie

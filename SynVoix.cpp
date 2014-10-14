@@ -22,7 +22,7 @@
 // Méthodes de la classe Voix
 ///////////////////////////////////////////
 
-Voix::Voix(char nVoix, char* nomFicVoix) {	//constructeur : charge la voix
+Voix::Voix(char nVoix, const char* nomFicVoix) {	//constructeur : charge la voix
 	//Charge voix Michel
 	ifstream ficVoix(nomFicVoix, ios::binary);
 	ficVoix.read((char*)&nbSeg, 2);
@@ -48,7 +48,7 @@ char* Voix::getPtSeg(unsigned char nSeg) {
 // Méthodes de la classe Tab
 //////////////////////////////////////////
 
-Tab::Tab(char* nomFicTab) {
+Tab::Tab(const char* nomFicTab) {
 	//Charge tables
 	ifstream ficTab(nomFicTab, ios::binary);
 	ficTab.read((char*)&aTWin, 2);
