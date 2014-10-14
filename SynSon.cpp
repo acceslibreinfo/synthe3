@@ -236,7 +236,7 @@ void classSon::attendSiEcrOuLecRattrape() {
 		float b=tv.tv_usec-synGlobal.getktime0us();
 		n=a+b;	//en µs
 		n/=1000000.0;	//en s
-		n*=22050.0;	//en échantillons
+		n*=fEchCarte;	//en échantillons
 		short i=0;
 		int nbIndexMax=synGlobal.getNbIndexMax();
 		for (i=0; i<=nbIndexMax; i++) {
