@@ -37,7 +37,7 @@
 //Envoi d'un texte à lire par Synthé
 //Le paramètre texte est obligatoire, les autres sont facultatifs, la valeur -1 indique la conservation de la valeur courante
 EXTERNE void _stdcall synTexte(
-	const char* const texte,	//peut être constitué de plusieurs paragraphes, sans dépasser NM_CAR_TEX caractères.
+	const char *texte,	//peut être constitué de plusieurs paragraphes, sans dépasser NM_CAR_TEX caractères.
 	short volume=-1,	//0 à 15 par pas de 25 % (par défaut 10) (-1 indique inchangé)
 	short debit=-1,	//0 à 15 par pas de 12 % (par défaut 4)
 	short hauteur=-1,	//0 à 15 par pas de 12 % (par défaut 4)

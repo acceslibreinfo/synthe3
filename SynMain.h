@@ -126,7 +126,7 @@ extern void initWave(bool init);
 extern void sonDestruction();
 
 //Fonction externe à Synthe.cpp, définie dans utf-8.cpp 
-extern bool UTF8Latin1(const char* const chLec, char* chEcr);
+extern bool UTF8Latin1(const char* chLec, char* chEcr);
 
 //Fonctions privées de Synthe.cpp
 void fThAlpha(void*);
