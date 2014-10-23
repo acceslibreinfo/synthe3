@@ -192,7 +192,7 @@ unsigned char Tab::finAmp(char catG, char catD) {
 }
 
 //n° de segment de fin de phonème
-unsigned char Tab::finTim(char phon) {
+unsigned char Tab::finTim(unsigned short int phon) {
 	return ((unsigned char*)tTab+aFinTim)[phon];
 }
 
@@ -212,7 +212,7 @@ unsigned char Tab::debAmp(char catG, char catD) {
 }
 
 //n° de segment de début de phonème
-unsigned char Tab::debTim(char phon) {
+unsigned char Tab::debTim(unsigned short int phon) {
 	return ((unsigned char*)tTab+aDebTim)[phon];
 }
 

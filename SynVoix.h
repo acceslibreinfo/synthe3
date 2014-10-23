@@ -95,11 +95,11 @@ public:
 	short tabHau(char n);	//table des hauteurs : -6 à 9 (pas 1.05946 = 1/2 tons)
 	char categ(unsigned short int phon);	//catégories de phonèmes
 	unsigned char finAmp(char catG, char catD);	//n° de courbe d'amplitude de fin de phonème (début de diphone)
-	unsigned char finTim(char phon);	//n° de segment de fin de phonème
+	unsigned char finTim(unsigned short int phon);	//n° de segment de fin de phonème
 	unsigned char traAmp(char catG, char catD);	//n° de courbe d'amplitude de la transition
 	unsigned char traTim(char phonG, char phonD);	//n° de segment de la transition
 	unsigned char debAmp(char catG, char catD);	//n° de courbe d'amplitude de début de phonème (début de diphone)
-	unsigned char debTim(char phon);	//n° de segment de début de phonème
+	unsigned char debTim(unsigned short int phon);	//n° de segment de début de phonème
 	unsigned char* getPtAmp(short nAmp);	//n° courbe d'amplitude -> pt courbe d'amplitude
 	char* getPtTabDeb(unsigned char c);	//pt table des adresses pour début de mot (32 à 189)
 	char* getPtArbre(char* ptArbre);	//prépare adresse suivante
