@@ -199,17 +199,17 @@ void Transcription::graphemePhoneme(char* texte, char* texPhon) {
 
 //Traite les nombres, y compris en mode compta
 void Transcription::traiteNombre() {
-	char nbC=0;	//nombre de chiffres dans le dernier groupe de 3 chiffres (1 à 3)
-	char nbGr3=0;	//nombre de groupes de 3 chiffres (1 à 3)
-	char iN=0;	//indice chiffre du nombre
-	char groupe=0;	//compte les chiffres dans un groupe continu
+	unsigned short int nbC=0;	//nombre de chiffres dans le dernier groupe de 3 chiffres (1 à 3)
+	unsigned short int nbGr3=0;	//nombre de groupes de 3 chiffres (1 à 3)
+	unsigned short int iN=0;	//indice chiffre du nombre
+	unsigned short int groupe=0;	//compte les chiffres dans un groupe continu
 	bool petitGroupeInterdit=false;	//groupe <3 chiffres interdit (sauf au début)
 	short iLecPrec;
 	short iEcrPrec;
 	short iLecAnc;
 	short iEcrAnc;
-	char nbCAnc;
-	char nbGr3Anc;
+	unsigned short int nbCAnc;
+	unsigned short int nbGr3Anc;
 	char c;	//chiffre
 	char c1;	//chiffre
 	char c2;	//chiffre
@@ -355,7 +355,7 @@ void Transcription::traiteNombre() {
 }
 
 //Fin du nombre
-void Transcription::finNombre(char& iN) {
+void Transcription::finNombre(short unsigned int& iN) {
 	char c;
 	char c1;
 

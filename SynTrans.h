@@ -35,7 +35,7 @@ public:
 	void graphemePhoneme(char* texte, char* texPhon);
 	void traiteNombre();
 	void phonChif(char* ptChif);	//Phonétise le chiffre
-	void finNombre(char& iN);
+	void finNombre(unsigned short int& iN);
 	unsigned char carSuiv();
 	void ecritPhon (char c);
 	void ecrit (char c);
