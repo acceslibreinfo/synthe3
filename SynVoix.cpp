@@ -142,7 +142,7 @@ char* Tab::chListDiz(char c) {
 }
 
 //mille, million, milliard
-char* Tab::chListMil(char n) {
+char* Tab::chListMil(unsigned short int n) {
 	return tTab+((short*)(tTab+aChLst3))[n];
 }
 

@@ -85,7 +85,7 @@ public:
 	char tCatP(unsigned char c);	//code commun (97 à 122)(186 à 208) -> catégorie phonétique
 	char* chListUnit(char c);	//liste des unités jusqu'à 16
 	char* chListDiz(char c);	//liste des dizaines
-	char* chListMil(char n);	//mille, million, milliard
+	char* chListMil(unsigned short int n);	//mille, million, milliard
 	char* ch01();	//"zéro"
 	char* ch1S();	//"î:[n]" ("un" seul)
 	char* ch100();	//"sâ[t]"
