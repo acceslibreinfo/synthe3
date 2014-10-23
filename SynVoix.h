@@ -93,7 +93,7 @@ public:
 	short tabVol(char n);	//table des volumes : -10 à 5 (pas 1.26 = 2 tons)
 	short tabVit(char n);	//table des vitesses : -3 à 12 (pas 1.1225 = 1 ton)
 	short tabHau(char n);	//table des hauteurs : -6 à 9 (pas 1.05946 = 1/2 tons)
-	char categ(char phon);	//catégories de phonèmes
+	char categ(unsigned short int phon);	//catégories de phonèmes
 	unsigned char finAmp(char catG, char catD);	//n° de courbe d'amplitude de fin de phonème (début de diphone)
 	unsigned char finTim(char phon);	//n° de segment de fin de phonème
 	unsigned char traAmp(char catG, char catD);	//n° de courbe d'amplitude de la transition

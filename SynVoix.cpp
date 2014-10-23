@@ -182,7 +182,7 @@ short Tab::tabHau(char n) {
 }
 
 //catégories de phonèmes
-char Tab::categ(char phon) {
+char Tab::categ(unsigned short int phon) {
 	return (tTab+aCateg)[phon];
 }
 
