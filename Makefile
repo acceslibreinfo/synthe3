@@ -34,10 +34,10 @@ LDLIBS = -lasound -l$(library)
 all: $(program)
 
 $(program): main.o $(library_name)
-	$(CXX) $(CXXFLAGS) -o $@ $(LDFLAGS) -lasound -l$(library) $<
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS) -lasound -l$(library)
 
 $(library_name): $(library_object_files)
-	$(CXX) -shared $(CPPFLAGS) -lasound -o $@ $^
+	$(CXX) -shared $(CPPFLAGS) -o $@ $^ -lasound
 
 utf-8.o : utf-8.cpp SynMain.h
 
