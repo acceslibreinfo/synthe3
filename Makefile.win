@@ -1,0 +1,74 @@
+# Synthé 3 - A speech synthetizer software for french
+#
+# Copyright (C) 1985-2014 by Michel MOREL <michel.morel@unicaen.fr>.
+#
+# Synthé 3 comes with ABSOLUTELY NO WARRANTY.
+#
+# This is free software, placed under the terms of the
+# GNU Lesser General Public License, as published by the Free Software
+# Foundation; either version 2.1 of the License, or (at your option) any
+# later version. Please see the file LICENSE-LGPL for details.
+#
+# Web Page: https://github.com/acceslibreinfo/synthe3
+#
+# This software is maintained by Shérab <Sebastien.Hinderer@ens-lyon.org>.
+
+library = synthe3
+library_extension = dll
+library_name = lib$(library).$(library_extension) 
+program = synthe3
+
+library_source_files = \
+  utf-8.cpp SynCalcul.cpp SynGlobal.cpp SynParle.cpp SynSon.cpp directson.cpp \
+  SynTex.cpp Synthe.cpp SynTrans.cpp SynVoix.cpp
+
+library_object_files := $(library_source_files:.cpp=.o) 
+
+#CPPFLAGS = -IC:/dx9mgw/Include
+CPPFLAGS = -I.
+#CXXFLAGS = -g3 -ggdb3 -Wall
+CXXFLAGS = -g3 -ggdb3 -Wall -fleading-underscore
+#LDFLAGS = -LC:/dx9mgw/Lib -v -Wl,-v
+LDFLAGS = -L. -v -Wl,--verbose
+LDLIBS = -ldsound -l$(library)
+
+.PHONY : all clean distclean
+
+all: $(program)
+
+$(program): main.o $(library_name)
+#	$(CXX) $(CXXFLAGS) -o $@ -LC:/dx9mgw/Lib -ldsound -l$(library) $<
+	$(CXX) $(CXXFLAGS) -o $@ -Wl,--verbose -ldsound -l$(library) $<
+
+$(library_name): $(library_object_files)
+#	$(CXX) -shared $(CPPFLAGS) -LC:/dx9mgw/Lib -ldsound -o $@ $^
+	$(CXX) -shared $(CPPFLAGS) $(LDFLAGS) -ldsound -o $@ $^
+
+utf-8.o : utf-8.cpp SynMain.h
+
+SynCalcul.o: SynCalcul.cpp SynCalcul.h
+
+directson.o: directson.cpp SynSon.h SynGlobal.h
+
+SynVoix.o: SynVoix.cpp SynVoix.h SynMain.h
+
+SynGlobal.o: SynGlobal.cpp SynGlobal.h
+
+SynSon.o: SynSon.cpp SynSon.h SynGlobal.h
+
+SynParle.o: SynParle.cpp SynParle.h SynSon.h SynMain.h SynCalcul.h SynVoix.h
+
+SynTrans.o: SynTrans.cpp SynTrans.h SynMain.h SynVoix.h
+
+SynTex.o: SynTex.cpp Synthe.h SynMain.h SynParle.h SynTrans.h
+
+Synthe.o: Synthe.cpp Synthe.h SynMain.h SynVoix.h
+
+main.o: main.cpp libSynthe.cpp libSynthe.h
+
+clean:
+	del *.o
+#	rm -f *.o
+
+distclean: clean
+	rm -f $(library_name) $(program)
