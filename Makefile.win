@@ -27,7 +27,7 @@ library_object_files := $(library_source_files:.cpp=.o)
 #CPPFLAGS = -IC:/dx9mgw/Include
 CPPFLAGS = -I.
 #CXXFLAGS = -g3 -ggdb3 -Wall
-CXXFLAGS = -g3 -ggdb3 -Wall -fleading-underscore
+CXXFLAGS = -g3 -ggdb3 -Wall
 #LDFLAGS = -LC:/dx9mgw/Lib -v -Wl,-v
 LDFLAGS = -L.
 LDLIBS = -l$(library) -ldsound
