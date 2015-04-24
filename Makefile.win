@@ -29,20 +29,19 @@ CPPFLAGS = -I.
 #CXXFLAGS = -g3 -ggdb3 -Wall
 CXXFLAGS = -g3 -ggdb3 -Wall -fleading-underscore
 #LDFLAGS = -LC:/dx9mgw/Lib -v -Wl,-v
-LDFLAGS = -L. -v -Wl,--verbose
-LDLIBS = -ldsound -l$(library)
+LDFLAGS = -L.
+LDLIBS = -l$(library) -ldsound
 
 .PHONY : all clean distclean
 
 all: $(program)
 
 $(program): main.o $(library_name)
-#	$(CXX) $(CXXFLAGS) -o $@ -LC:/dx9mgw/Lib -ldsound -l$(library) $<
-	$(CXX) $(CXXFLAGS) -o $@ -Wl,--verbose -ldsound -l$(library) $<
+	$(CXX) $(CXXFLAGS) -o $@ -Wl,--verbose $< $(LDFLAGS) $(LDLIBS)
 
 $(library_name): $(library_object_files)
 #	$(CXX) -shared $(CPPFLAGS) -LC:/dx9mgw/Lib -ldsound -o $@ $^
-	$(CXX) -shared $(CPPFLAGS) $(LDFLAGS) -ldsound -o $@ $^
+	$(CXX) -shared $(CPPFLAGS) $(LDFLAGS) -o $@ $^ -ldsound
 
 utf-8.o : utf-8.cpp SynMain.h
 
