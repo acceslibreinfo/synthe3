@@ -60,7 +60,7 @@ EXTERNE short _stdcall synPosLec();
 EXTERNE void _stdcall synStop();
 
 //Initialisation de Synthe
-void initSynthe();	//init section critique, réglages, voix, tables (au démarrage de l'utilisation de Synthé)
-void quitteSynthe();	//stoppe parole, détruit tout (nécessaire pour quitter Synthé avant d'arrêter l'application)
+EXTERNE void initSynthe();	//init section critique, réglages, voix, tables (au démarrage de l'utilisation de Synthé)
+EXTERNE void quitteSynthe();	//stoppe parole, détruit tout (nécessaire pour quitter Synthé avant d'arrêter l'application)
 
 #endif
