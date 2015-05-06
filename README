@@ -23,4 +23,20 @@ http://www.microsoft.com/en-us/download/details.aspx?id=8279
 Then install it and copy the DSound.lib file from
 Progam Files\Microsoft SDKs\Windows\V7.1\Lib\
 to the directory containing this README file.
-Then follow the standard installation procedure described above.
+
+Then do:
+
+MinGW32-make -f Makefile.win
+
+Cross compiling
+===============
+
+In order to produce Windows binaries under Linux, first install:
+
+apt-get install mingw32-binutils gcc-mingw-w64 mingw32-runtime
+
+And then run:
+
+./configure --host=i586-mingw32msvc
+
+
