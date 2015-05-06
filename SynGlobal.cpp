@@ -19,7 +19,7 @@
 
 #include <string.h>
 #ifdef WIN32
-	#include <afxdisp.h>
+	#include <windows.h>
 #endif
 
 #include "SynGlobal.h"
