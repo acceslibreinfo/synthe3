@@ -63,7 +63,7 @@ SynTex.o: SynTex.cpp Synthe.h SynMain.h SynParle.h SynTrans.h
 
 Synthe.o: Synthe.cpp Synthe.h SynMain.h SynVoix.h
 
-main.o: main.cpp libSynthe.cpp libSynthe.h
+main.o: main.cpp Synthe.cpp Synthe.h
 
 clean:
 	del *.o
