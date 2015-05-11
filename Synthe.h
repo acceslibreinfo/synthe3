@@ -20,7 +20,7 @@
 
 #ifndef EXTERNE
 	#ifdef WIN32
-		#define EXTERNE extern "C" _declspec(dllimport)
+		#define EXTERNE extern "C" __declspec(dllimport)
 	#else // linux ...
 		#define EXTERNE extern "C"
 	#endif
