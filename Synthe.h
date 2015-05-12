@@ -19,14 +19,14 @@
 #define ___SYNTHE_H__
 
 #ifndef EXTERNE
-	#if (defined(WIN32) && !defined(WIN64))
+	#if (defined(_WIN32) && !defined(_WIN64))
 		#define EXTERNE extern "C" __declspec(dllexport)
 	#else // linux ...
 		#define EXTERNE extern "C"
 	#endif
 #endif
 
-#ifndef WIN32
+#ifndef _WIN32
 	#define _stdcall
 #endif
 
