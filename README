@@ -24,6 +24,13 @@ Then install it and copy the DSound.lib file from
 Progam Files\Microsoft SDKs\Windows\V7.1\Lib\
 to the directory containing this README file.
 
+Similarly, download the following archive:
+
+http://alleg.sourceforge.net/files/dx9mgw.zip
+
+This archive contains a dx9mgw\include folder which itself contains a
+dsound.h file. Copy that file to the directory containing this README, too.
+
 Then do:
 
 MinGW32-make -f Makefile.win
