@@ -20,12 +20,9 @@
 // Synthé logiciel (fonctions publiques)
 ///////////////////////////////////////////////////////
 
-#ifdef WIN32
-	#define EXTERNE extern "C" _declspec(dllexport)	//pour Synthe.h
-#else // linux ...
-	#define EXTERNE extern "C"
-	#include <unistd.h>
-	#include <pthread.h>
+#ifndef _WIN32
+    #include <unistd.h>
+    #include <pthread.h>
 #endif
 
 #define SYNTHE_VERSION "Synthé version 1.1"
