@@ -17,25 +17,21 @@ so that synthe3 can find the shared library.
 Compiling under Windows
 =======================
 
-Download Microsoft Windows SDK from Microsoft's web site:
-http://www.microsoft.com/en-us/download/details.aspx?id=8279
-
-Then install it and copy the DSound.lib file from
-Progam Files\Microsoft SDKs\Windows\V7.1\Lib\
-to the directory containing this README file.
-
-Similarly, download the following archive:
+Download the following archive:
 
 http://alleg.sourceforge.net/files/dx9mgw.zip
 
-This archive contains a dx9mgw\include folder which itself contains a
-dsound.h file. Copy that file to the directory containing this README, too.
+This archive contains a dx9mgw folder which itself contains an include and a
+lib subfolder.
+
+Copy both include\dsound.h and lib\libd3dxof.a to the directory
+containing this README.
 
 Then do:
 
 MinGW32-make -f Makefile.win
 
-Cross compiling
+Cross-compiling
 ===============
 
 In order to produce Windows binaries under Linux, first install:
