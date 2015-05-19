@@ -24,7 +24,7 @@ http://alleg.sourceforge.net/files/dx9mgw.zip
 This archive contains a dx9mgw folder which itself contains an include and a
 lib subfolder.
 
-Copy both include\dsound.h and lib\libd3dxof.a to the directory
+Copy both include\dsound.h and lib\libdsound.a to the directory
 containing this README.
 
 Then do:
