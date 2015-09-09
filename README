@@ -3,7 +3,9 @@ This is Synthé 3, a free and open-source text-to-speech engine for french.
 Compiling under Linux
 =====================
 
-Just run make
+Make sure you have libasound2-dev installed.
+
+Then, just run make
 
 This will produce a shared library (libsynthe3.so) and a test executable
 (synthe3).
@@ -13,6 +15,10 @@ To run the program from its sources, first do:
 export LD_LIBRARY_PATH=`pwd`
 
 so that synthe3 can find the shared library.
+
+Then, to hear the sentence "Ceci est un exemple.", do:
+
+./synthe3 "Ceci est un exemple."
 
 Compiling under Windows
 =======================
