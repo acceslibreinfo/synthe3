@@ -5,7 +5,11 @@ Compiling under Linux
 
 Make sure you have libasound2-dev installed.
 
-Then, just run make
+The following commands can then be used to compile Synthé 3:
+
+./autogen
+./configure
+make
 
 This will produce a shared library (libsynthe3.so) and a test executable
 (synthe3).
