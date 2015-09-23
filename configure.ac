@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([synthe3], [0.1], [Sebastien.Hinderer@ens-lyon.org])
+AC_INIT([synthe3],[0.1],[Sebastien.Hinderer@ens-lyon.org])
 
 # Programs
 AC_PROG_CC
@@ -26,6 +26,7 @@ AC_CHECK_FUNCS(
   [strdup]
 )
 
-AC_OUTPUT(
+AC_CONFIG_FILES(
   [Makefile]
 )
+AC_OUTPUT
