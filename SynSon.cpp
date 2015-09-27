@@ -1,7 +1,7 @@
 /*
  * Synthé 3 - A speech synthetizer software for french
  *
- * Copyright (C) 1985-2014 by Michel MOREL <michel.morel@unicaen.fr>.
+ * Copyright (C) 1985-2015 by Michel MOREL <michel.morel@unicaen.fr>.
  *
  * Synthé 3 comes with ABSOLUTELY NO WARRANTY.
  *

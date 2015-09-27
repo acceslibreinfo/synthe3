@@ -1,7 +1,7 @@
 /*
  * DirectX output module for Synthé 3 - use DirectX to let Synthé 3 speak aloud text
  *
- * Copyright (C) 1985-2014 by the CRISCO laboratory,
+ * Copyright (C) 1985-2015 by the CRISCO laboratory,
  * University of Caen (France).
  *
  * This DirectX output module for Synthé 3 comes with ABSOLUTELY NO WARRANTY.
