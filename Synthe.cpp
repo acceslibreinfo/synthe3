@@ -30,10 +30,22 @@
 #define TAILLE_PARAG 10000	//pour conversion utf-8 - latin1
 
 #include <ctime>
+#include <stdlib.h>
 #include <string.h>
 #include "SynMain.h"
 #include "Synthe.h"
 #include "SynVoix.h"
+
+/* Get a value from an environment variable */
+/* Returns the specified default if the variable is not defined */
+static const char *env_or_default(const char *envvar, const char *def)
+{
+	char *result = getenv(envvar);
+        if (result == NULL) {
+        	return def;
+        }
+        return result;
+}
 
 //Variables de Synthe.cpp
 HANDLE hThread;
@@ -229,6 +241,8 @@ bool caracValide(char carac) {
 //Au lancement
 void initSynthe() {
 	short i;
+	const char *segFile = NULL;
+	const char *tabFile = NULL;
 
 	//Initialise les tables latin1 à 0
 	for (i=0; i<256; i++) {
@@ -350,6 +364,9 @@ void initSynthe() {
 	latinCB[134]=(char)136;	//CIRCUMFLEX
 	latinCB[156]=(char)152;	//SMALL TILDE
 
+	segFile = env_or_default("SYNTHE3_SEGFILE", "Michel.seg");
+	tabFile = env_or_default("SYNTHE3_TABFILE", "Synthe.tab");
+
 	//Autres initialisations
 	initVariablesSectionCritiqueGlobal();
 	synGlobal.initTNEch(NM_INDEX);	//pour index sous Linux
@@ -364,8 +381,8 @@ void initSynthe() {
 	synGlobal.setSortieSon(1);
 	synGlobal.setSortieWave(0);
 	tVoix=new Voix*[1];	//une seule voix (prévu pour plusieurs)
-	tVoix[0]=new Voix(0, "Michel.seg");	//construit la voix 0 (la seule)
-	tab=new Tab("Synthe.tab");	//construit les tables
+	tVoix[0]=new Voix(0, segFile);	//construit la voix 0 (la seule)
+	tab=new Tab(tabFile);	//construit les tables
 	synTexte("synthé prêt");
 }
 
