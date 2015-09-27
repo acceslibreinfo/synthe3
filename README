@@ -14,15 +14,13 @@ make
 This will produce a shared library (libsynthe3.so) and a test executable
 (synthe3).
 
-To run the program from its sources, first do:
+At the moment, the TTS can not be installed (no make install target yet).
+It can unly be run directly from its sources through the run-synthe3 
+script:
 
-export LD_LIBRARY_PATH=`pwd`
+./synthe3
 
-so that synthe3 can find the shared library.
-
-Then, to hear the sentence "Ceci est un exemple.", do:
-
-./synthe3 "Ceci est un exemple."
+This should make the TTS pronounce a hard-coded sentence.
 
 Compiling under Windows
 =======================
