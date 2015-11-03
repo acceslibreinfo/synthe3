@@ -16,6 +16,9 @@
 
 library = synthe3
 library_extension = so
+executable_extension = @EXEEXT@
+object_extension = @OBJEXT@
+
 library_name = lib$(library).$(library_extension) 
 program = synthe3
 
@@ -23,7 +26,7 @@ library_source_files = \
   utf-8.cpp SynCalcul.cpp SynGlobal.cpp SynParle.cpp SynSon.cpp alsa.cpp \
   SynTex.cpp Synthe.cpp SynTrans.cpp SynVoix.cpp
 
-library_object_files := $(library_source_files:.cpp=.o) 
+library_object_files := $(library_source_files:.cpp=.$(object_extension)) 
 
 CPPFLAGS = -DALSA
 CXXFLAGS = -g3 -ggdb3 -fPIC -Wall -pthread
@@ -34,36 +37,36 @@ LDLIBS = -lasound -l$(library)
 
 all: $(program)
 
-$(program): main.o $(library_name)
+$(program): main.$(object_extension) $(library_name)
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS) -lasound -l$(library)
 
 $(library_name): $(library_object_files)
 	$(CXX) -shared $(CPPFLAGS) -o $@ $^ -lasound
 
-utf-8.o : utf-8.cpp SynMain.h
+utf-8.$(object_extension) : utf-8.cpp SynMain.h
 
-SynCalcul.o: SynCalcul.cpp SynCalcul.h
+SynCalcul.$(object_extension): SynCalcul.cpp SynCalcul.h
 
-alsa.o: alsa.cpp SynSon.h
+alsa.$(object_extension): alsa.cpp SynSon.h
 
-SynVoix.o: SynVoix.cpp SynVoix.h SynMain.h
+SynVoix.$(object_extension): SynVoix.cpp SynVoix.h SynMain.h
 
-SynGlobal.o: SynGlobal.cpp SynGlobal.h
+SynGlobal.$(object_extension): SynGlobal.cpp SynGlobal.h
 
-SynSon.o: SynSon.cpp SynSon.h SynGlobal.h
+SynSon.$(object_extension): SynSon.cpp SynSon.h SynGlobal.h
 
-SynParle.o: SynParle.cpp SynParle.h SynSon.h SynMain.h SynCalcul.h SynVoix.h
+SynParle.$(object_extension): SynParle.cpp SynParle.h SynSon.h SynMain.h SynCalcul.h SynVoix.h
 
-SynTrans.o: SynTrans.cpp SynTrans.h SynMain.h SynVoix.h
+SynTrans.$(object_extension): SynTrans.cpp SynTrans.h SynMain.h SynVoix.h
 
-SynTex.o: SynTex.cpp Synthe.h SynMain.h SynParle.h SynTrans.h
+SynTex.$(object_extension): SynTex.cpp Synthe.h SynMain.h SynParle.h SynTrans.h
 
-Synthe.o: Synthe.cpp Synthe.h SynMain.h SynVoix.h
+Synthe.$(object_extension): Synthe.cpp Synthe.h SynMain.h SynVoix.h
 
-main.o: main.cpp Synthe.h
+main.$(object_extension): main.cpp Synthe.h
 
 clean:
-	rm -f *.o
+	rm -f *.$(object_extension)
 
 distclean: clean
 	rm -f $(library_name) $(program)
