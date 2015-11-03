@@ -17,8 +17,6 @@ AC_CHECK_HEADER_STDBOOL
 # Library functions
 AC_CHECK_FUNCS([gettimeofday, memset, strdup])
 
-AC_CONFIG_FILES(
-  [Makefile]
-)
+AC_CONFIG_FILES([Makefile])
 AC_CONFIG_HEADERS([config.h])
 AC_OUTPUT
