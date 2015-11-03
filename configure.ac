@@ -9,22 +9,13 @@ AC_PROG_CXX
 AC_CHECK_LIB([asound], [snd_pcm_open])
 
 # Headers
-AC_CHECK_HEADERS(
-  [fcntl.h],
-  [sys/ioctl.h],
-  [sys/time.h],
-  [alsa/asoundlib.h]
-)
+AC_CHECK_HEADERS([fcntl.h, sys/ioctl.h, sys/time.h, alsa/asoundlib.h])
 
 # Typedefs, structures and compiler characteristics
 AC_CHECK_HEADER_STDBOOL
 
 # Library functions
-AC_CHECK_FUNCS(
-  [gettimeofday],
-  [memset],
-  [strdup]
-)
+AC_CHECK_FUNCS([gettimeofday, memset, strdup])
 
 AC_CONFIG_FILES(
   [Makefile]
