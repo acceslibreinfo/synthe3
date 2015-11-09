@@ -34,6 +34,8 @@
 // Constantes de synParle.cpp
 ////////////////////////////////////////////
 #define FREQ_ECH 10000
+#define FREQ_COUPURE 400	//fréquence de coupure basse
+#define PI 3.14159
 #define TYPE_ECH 16
 #define MUL_AMP 8	//pour max moitié pleine échelle
 #define MS_UNSPEC 0x7ffff000 // magic length pour wave vers stdout
@@ -46,6 +48,7 @@ extern classSon* synSon;
 long longWave;	//longueur du wave
 FILE* ficWave;
 bool ficWaveFerme;
+long echE_Prec, echS_Prec;	//échantillons précédents entrée et sortie du filtre
 
 ////////////////////////////////////////////
 // Fonctions de la classe Parle
@@ -54,6 +57,7 @@ bool ficWaveFerme;
 //Fonction principale : prononce le texte phonétique reçu
 void Parle::traiteTextePhonetique(char* chainePhon) {
 
+	echE_Prec=echS_Prec=32768;	//init car utilisés dès le 1er échantillon
 	sortieWave=synGlobal.getSortieWave();
 	sortieSon=synGlobal.getSortieSon();
 	mulHauteur=(float)tab->tabHau(synGlobal.getHauteur()-HAUTEUR_REF)/1000;
@@ -125,7 +129,7 @@ bool Parle::traiteUnePeriode() {
 	short echDecroit;	//échantillon de la période Decroit
 	short echCroit;	//échantillon de la période Croit
 	short echT;
-	long echS;
+	long echE, echS;	//échantillon entrée et sortie du filtre
 	char ech8;
 
 	//Cherche la période Croit suivante (traitement du débit)
@@ -149,7 +153,11 @@ bool Parle::traiteUnePeriode() {
 			+calculeEchPerioCroit(iEch, ptSeg.FSCroit, perio.FSCroit, amp.FSCroit);
 //		}
 		echT=echDecroit+echCroit;
-		echS=(long)(echT*mulVolume*MUL_AMP+32768.5);	//positif, arrondi sans distorsion
+		echE=(long)(echT*mulVolume*MUL_AMP+32768.5);	//positif, arrondi sans distorsion (echE au lieu de echS)
+		//Attention, le zéro est à 32768
+		echS=echS_Prec+echE-echE_Prec-(echS_Prec-32768)*2*PI*FREQ_COUPURE/FREQ_ECH;	//formule du filtre des basses
+		echS_Prec=echS;	//pour le prochain échantillon
+		echE_Prec=echE;	//idem
 		if (TYPE_ECH==8) {	//8 bits (pour une raison inconnue, le son est de très mauvaise qualité en 8 bits)
 			echS=echS/256-128;
 			if (echS>127) ech8=127;
