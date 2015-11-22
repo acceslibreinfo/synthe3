@@ -70,3 +70,5 @@ clean:
 
 distclean: clean
 	rm -f $(library_name) $(program)
+	rm config.h config.status config.log configure
+	rm -rf autom4te.cache
