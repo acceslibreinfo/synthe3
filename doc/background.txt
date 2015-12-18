@@ -1,0 +1,71 @@
+Les ressources du logiciel Synthé 3
+
+Synthé 3 utilise deux ressources : le fichier des segments de parole Michel.seg et le fichier des tables Synthe.tab. Afin de faciliter les développements ultérieurs de Synthé 3, ce document décrit son principe général, la structure du fichier de parole Michel.seg, la structure du fichier tables synthe.txt, et l'utilitaire CompiTab qui fabrique le fichier binaire Synthe.tab à partir de synthe.txt.
+Avec ces informations, il devrait être possible de modifier la voix, d'en créer une nouvelle, voire de modifier partiellement le principe de Synthé 3. Néanmoins, il faut savoir que Synthé 3 a été optimisé au maximum avec la voix actuelle et que le prélèvement d'une autre voix ne garantirait pas un meilleur résultat, le principe même de Synthé 3 ne pouvant aboutir à une voix naturelle.
+
+1. Principe de Synthé 3
+Pour décrire le principe de Synthé 3, il est nécessaire de le replacer dans l'historique des synthèses vocales conçues en totalité ou en partie par Michel Morel, leurs principes dépendant grandement de l'évolution des technologies et des connaissances : Synthé 1 conçu en 1979, Synthé 2 en 1983, Synthé 3 en 1985 et enfin Kali entre 1996 et 1999 (toujours en évolution). La description de Synthé 1 est à lire avec soin car Synthé 3 résulte de son évolution en reprenant plusieurs de ses principes.
+
+1.1. Synthé 1 et 2 : synthèse avec une période par phonème
+A l'époque de Synthé 1, il existait un seul processeur à faible consommation (CMOS), le CDP1802, et les mémoires mortes, coûteuses (400 F pièce en 1979), avaient une capacité de 2 ko. Les seules synthèses vocales existantes tournaient sur de gros ordinateurs. Pour réaliser un synthétiseur portatif d'environ 1 kg et d'un coût raisonnable (15 circuits intégrés dont 6 ko de mémoire morte), le choix d'une méthode par phonème a été fait, alors que les publications de l'époque montraient déjà que les transitions entre phonèmes sont indispensables pour un minimum de qualité et d'intelligibilité. A défaut, la transition fait entendre le mélange de deux sons différents (diaphonie) au lieu d'un son qui se transforme progressivement en un autre. Mais avec la technologie disponible, ce choix s'imposait.
+La partie centrale des phonèmes étant presque périodique pour les voyelles et certaines consonnes, chaque phonème est représenté par un segment formé d'une seule période, ce qui réduit considérablement la taille du stockage. Les consonnes fricatives et plosives, non périodiques, sont représentées par trois périodes consécutives. Un jeu de courbes d'amplitude permet d'assembler les différentes périodes, avec pour chaque phonème, des amplitudes de plus en plus grandes jusqu'au milieu du phonème, puis de plus en plus petites, avec une balise indiquant le départ du phonème suivant (avant la fin du phonème en cours, donc superposé en fondu enchainé) et une balise indiquant la fin du phonème. Ces courbes d'amplitude ont des formes différentes selon les catégories des phonèmes voisins (fricatives voisées ou non, plosives voisées ou non, nasales, liquides, voyelles, silence).
+Les segments de parole sont entrés manuellement à partir d'enregistrements restitués à vitesse réduite sur papier. L'étude des tracés permet d'élaborer les principes de base, de sélectionner la meilleure période de chaque phonème et de construire les tableaux d'amplitude. Aucune rétroaction n'est prévue : tout est basé sur l'étude des tracés, la part d'intuition étant considérable. Le résultat est cependant intéressant : 70 à 95 % d'intelligibilité, malgré une voix caverneuse et horriblement artificielle. Le premier des Synthé est né.
+Un article dans la revue Micro-Systèmes n° 16 (mars 1981), récompensé par le prix des lecteurs, décrit Synthé et propose de le réaliser entièrement, la société Electrel (Caen) fournissant les composants. Le Synthé 2 n'est que la réalisation industrielle de Synthé 1, après retouches du circuit imprimé et du programme, le principe restant le même. Synthé est alors le seul appareil de synthèse vocale léger et peu coûteux. De son côté, le CNET éprouve quelques difficultés à créer un synthétiseur de taille raisonnable conservant les qualités des synthétiseurs de laboratoire.
+
+1.2. Synthé 3 : synthèse avec une période par phonème et une par diphone
+En 1984, les progrès des circuits intégrés permettent d'envisager un système à base d'un Z80 CMOS avec 64 ko de mémoire, ce qui permettra d'ajouter des périodes, notamment les transitions entre phonèmes. Cette fois, un ordinateur est utilisé pour le développement : le Zénith Z100, concurrent du PC sorti en même temps. Une carte-son est créée pour l'occasion, avec une partie enregistrement et une partie restitution. Il est possible d'enregistrer des petites phrases de 3 secondes, d'afficher et de prélever des périodes, et de les utiliser pour fabriquer de nouvelles phrases. L'ordinateur permet alors une rétroaction : le choix de telle règle ou de telle période est jugé perceptivement par comparaison à d'autres choix.
+Grâce à ce programme de développement, des essais peuvent être effectués sur des enregistrements naturels : tout d'abord la fréquence d'échantillonnage est fixée à 10 kHz, ce qui est un peu faible (limitant la fréquence maximale à 5 kHz) mais acceptable et économique. Autre type d'essai : sur les énoncés, on ne conserve qu'une période ici ou là et on fabrique les autres par interpolation (fondu enchainé). L'utilisation d'une période par phonème permet alors de simuler le Synthé 1 sur des énoncés réels, puis d'essayer diverses façons d'ajouter des périodes. L'ajout d'une période dans la transition entre phonèmes améliore considérablement le résultat : la distance spectrale entre les périodes à combiner étant réduite, l'oreille reconstitue à peu près la transition complète. Les mémoires de l'époque ne permettant pas encore de stocker la transition (ou diphone) entièrement, le choix est fait d'une période par phonème + une par diphone.
+Le jeu de phonèmes reste le même que celui de Synthé 1 :
+- 10 voyelles : ou, o, u, i, a, an, on, eu, é, in
+- 16 consonnes : f, s, ch (fricatives sourdes), v, z, j (fricatives voisées), p, t, k (plosives sourdes), b, d, g (plosives voisées), m, n (nasales), l, r (liquides).
+La distinction entre les versions ouvertes et fermées de o, eu, é n'est pas faite, une version moyenne est utilisée. Les consonnes glissantes (comme dans "oui", "lui", "pied") sont fabriquées à partir des voyelles ou, u, i, avec des durées plus courtes, ce qui donne un bon résultat.
+Un tableau de 27 x 27 est fabriqué (26 phonèmes + silence), dans lequel seront placées les adresses des diphones. La mémoire disponible (20 ko pour la voix) ne permet pas de stocker les 27 x 27 = 729 périodes de diphones, de 80 échantillons en moyenne. Seuls 256 peuvent être stockées. Grâce aux ressemblances entre certains phonèmes de même position de production (f, v, p, b, m, ou encore s, z, t, d, n, par exemple), certains segments peuvent être utilisés dans plusieurs diphones différents. Chaque diphone est testé avec plusieurs segments possibles, les résultats étant comparés perceptivement.
+Lorsque la fabrication de la voix arrive à son terme, des petites phrases contenant de nombreuses combinaisons possibles de phonèmes sont produites afin de procéder aux dernières retouches. L'intelligibilité avoisine les 100 % en première écoute, la voix est plus humaine (pour l'époque), plus ronde, plus agréable que celle de Synthé 1. Le Synthé 3 est produit entre 1986 et 2002 sous forme d'appareils à clavier ou de cartes internes par Electrel, puis entre 2002 et 2008 sous forme d'appareils à clavier par Aria, soit une carrière totale de 23 ans dans ses versions commerciales.
+
+1.3. La transcription phonétique dans Synthé 3
+Lorsque la société Electrel, après avoir produit les premiers Synthé 3 à clavier pour le déficit de la parole, est sollicitée pour fabriquer des cartes internes Synthé 3 capables de lire du texte, notamment pour la lecture d'écran (poste de travail adapté au déficit visuel), la question se pose de la transcription des textes alphabétiques en textes phonétiques. Début 1986, un module de transcription phonétique est ajouté à Synthé 3 pour la version carte.
+Le principe repose sur une arborescence codée symboliquement en langage machine. Tout d'abord, le code de chaque nouvelle lettre du texte permet de fabriquer un pointeur vers le cas général de la lettre, avec deux possibilités : première lettre du mot ou position quelconque. Le tableau de pointeurs contient les étiquettes correspondant aux différentes lettres, par exemple :
+TabGen:
+	Xa, Xb, Xc, …
+où le début des adresses en 'X' indique le cas général. Ensuite, Dans Xa par exemple, on trouve les lettres qui peuvent agir sur la phonétisation du 'a', par exemple :
+Xa:
+	'I', Xai
+	'M', Xan
+signifie que si on rencontre 'I' ou 'N' après 'A', on va respectivement en Xai ou Xan (beaucoup d'autres cas sont ignorés ici par souci de clarté). Dans Xan, on a par exemple :
+Xan:
+	VOY, AA, Xn
+	TTT, AN, Gen
+qui signifie : si on rencontre une voyelle derrière "an", 	alors le phonème 'A' et le phonème 'N' sont établis. On indique donc 'AA' (constante = code du phonème 'A') et branchement sur Xn (cas général du 'n') qui fournira toujours le phonème 'N' avant de regarder la suite. La ligne suivante dit que dans tous les cas ('TTT'), hormis ceux déjà traités, on écrit le phonème 'AN' et on va dans le cas général (donc dans le tableau TabGen pour la lettre suivante. Là encore, le raisonnement a été simplifié par souci de clarté.
+Comme on le voit, le premier caractère testé dans chaque branche d'une arborescence est une lettre, une catégorie de lettres ou le reste des cas. Derrière, on indique les phonèmes à écrire (de zéro à plusieurs phonèmes), puis la branche suivante. On peut aussi faire aller le programme vers un dictionnaire de morceaux de mots si on doit tester une suite de lettres sans branchements intermédiaires. Par exemple, sur le cas général du 'i', si on rencontre 'c', on teste plusieurs morceaux de mots, dont :
+Xiceps: 'EPS',0,SS,EE,PP, Xs2
+qui signifie : si on rencontre la séquence "eps", soit "iceps" depuis le cas général, on enregistre les phonèmes 'SS' (code du phonème 'S'), 'EE' (code du phonème 'é' ou 'è') et 'PP' (code du phonème 'P'), et on va à l'adresse Xs2, cas général d'un 'S' toujours prononcé.
+Chaque entrée de ce dictionnaire permet de traiter plusieurs mots qui contiennent une même chaîne de caractères, par exemple ici, "biceps", "triceps", quadriceps", etc. Plusieurs centaines de formes (613 à ce jour) sont ainsi traitées. N'étant plus limités à des adresses de 16 bits, on pourrait ajouter d'autres formes ainsi qu'un véritable dictionnaire de mots, qui serait testé dès la première lettre de chaque mot.
+Le principe d'implémentation d'un arbre en langage machine, performant en 1986 car très économe en mémoire et en temps machine, reste lourd en temps de développement. Avec les moyens actuels, on s'y prendrait différemment, comme dans Kali. Mais l'arbre actuel étant fonctionnel et relativement complet, l'ajout d'un dictionnaire de mots semble l'amélioration la plus souhaitable et la plus facile à mettre en œuvre, notamment pour la prononciation des noms propres et des mots d'emprunt.
+
+1.4. Kali : synthèse par diphones
+(reprise)
+Une petite description de Kali, successeur de Synthé 3, est nécessaire pour situer la technologie de Synthé 3 et éviter de réinventer ce qui existe déjà. Une description détaillée de Kali est fournie sur le site du CRISCO :
+http://www.crisco.unicaen.fr/Description-des-differentes.html en bas de la page.
+Des évolutions importantes ont été apportées pour passer de Synthé 3 à Kali, dont les principales sont :
+Voix : Kali utilise pour la voix des diphones complets. Les diphones d'un énoncé quelconque étant nécessairement prélevés dans des contextes différents, chaque diphone doit être normalisé en hauteur, intensité, durée, timbre, de façon à ce que ses extrémités puissent se raccorder dans toutes les combinaisons possibles. Le résultat est une voix plus agréable, plus naturelle et plus intelligible.
+Transcription phonétique : elle utilise des règles écrites en texte selon une structure hiérarchisée (arborescente), pratique pour la maintenance, ainsi qu'un dictionnaire de milliers de mots.
+Prosodie : absente de Synthé 3, la prosodie permet de rendre la voix plus naturelle et de repérer acoustiquement les frontières entre groupes de mots fortement liés entre eux, les liens entre ces groupes de mots, leur importance relative dans la phrase. Elle se base sur l'analyse syntaxique et pragmatique du texte à lire. Cette analyse met en œuvre des règles et des traitements informatiques complexes. La prosodie proprement dite utilise plusieurs centaines de contours naturels des groupes de mots, accessibles selon le nombre de syllabes vides ou pleines, la position du groupe dans la phrase, la ponctuation.
+(à suivre)
+
+2. Structure du fichier de parole Michel.seg
+(documentation non disponible pour l'instant)
+
+3. Structure du fichier tables synthe.txt
+(documentation non disponible pour l'instant)
+
+4. Utilitaire CompiTab fournissant synthe.tab
+(documentation non disponible pour l'instant)
+
+5. Améliorations possibles de Synthé 3
+(documentation non disponible pour l'instant)
+Quelques idées à développer :
+Garder le principe d'une période par diphone (logiciel très léger). Au-delà, on retombe sur la problématique de la synthèse par diphones (cf. Kali), avec des fichiers 50 fois plus gros et des traitements évolués pour raccorder la hauteur, l'intensité, le timbre.
+Voix : choisir une voix souple, agréable, enregistrer les 27 périodes de phonèmes (+ des périodes excédentaires pour les fricatives et les plosives) et les 729 périodes des diphones (compter environ 60 ko pour la voix, contre 20 ko pour la version actuelle). On peut aussi améliorer sensiblement la qualité en passant de 8 bits à 16 bits pour le signal (taille 120 ko pour la voix). J'envisage (un jour lointain) de faire générer par Kali les voix au format Synthé 3 pour lui donner 3 voix en français et 2 voix en anglais.
+Tables : supprimer l'étape CompiTab, partir du format texte (synthe.txt) et faire charger directement les tables par Synthé 3 en réutilisant les méthodes de CompiTab.
+
+
