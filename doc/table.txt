@@ -1,0 +1,7406 @@
+﻿;************
+; Constantes
+;************
+
+
+;Phonèmes et marqueurs phonétiques
+OU	= 0
+WW	= 0
+OO	= 1
+UU	= 2
+II	= 3
+AA	= 4
+An	= 5
+On	= 6
+EU	= 7
+EE	= 8
+In	= 9
+YY	= 10
+FF	= 11
+SS	= 12
+HH	= 13
+VV	= 14
+ZZ	= 15
+JJ	= 16
+PP	= 17
+TT	= 18
+KK	= 19
+BB	= 20
+DD	= 21
+GG	= 22
+MM	= 23
+NN	= 24
+LL	= 25
+RR	= 26
+VR	= 27	;virgule
+PL	= 28	;+
+NULP	= 254
+
+;Terminateurs pour arbre (alpha-phonèmes)
+PG	= 80	;Programme
+RB	= 81	;Arbre
+DC	= 82	;Dictionnaire
+
+;Constantes pour conversion alpha-phonèmes
+BVRD	= 1	;teste le mode bavard
+NABR	= 2	;Teste le mode non abréviations
+;Catégories (attention : ds l'arbre la catégorie est testée par < ou =)
+VOYM	= 3	;Voyelle "mouillée"
+VOY	= 4	;Voyelle
+LET	= 5	;Lettre
+PONC	= 6	;Ponctuation
+SYMB	= 7	;Symbole
+CHIF	= 8	;chiffre
+TTT	= 8	;Tout
+
+;Catégories phonétiques
+VOYP	= 0
+GLIP	= 1
+CNSP	= 2
+
+;Caractères alpha code commun avant passage en phonétique
+NulA	= 0
+APOST	= 39
+APOSG	= 96	; 96 ` 145 ‘
+ACCO	=	;123 {
+TRAIV	=	;124 |
+ACCF	=	;125 }
+TILDE	=	;126 ~ 152 ˜
+EURO	=	;128 €
+C129	=	;129 
+		;130 ‚
+FCUR	=	;131 ƒ
+DVIR	=	;132 „
+PSUSP	=	;133 …
+CROIX	=	;134 †
+DCROI	=	;135 ‡
+ACCIR	=	;136 ˆ
+PRMIL	=	;137 ‰
+SACC	=	;138 Š 154 š
+GLMSO	=	;139 ‹
+OECOL	=	;140 Œ 156 œ
+C141	=	;141 
+ZACC	=	;142 Ž 158 ž
+C143	=	;143 
+C144	=	;144 
+		;145 ‘
+		;146 ’
+DAPOG	=	;147 “
+DAPOD	=	;148 ”
+POING	=	;149 •
+SEMIQ	=	;150 -
+QUADR	=	;151 -
+		;152 ˜
+TM	=	;153 ™
+		;154 š
+GLMSF	=	;155 ›
+		;156 œ
+C157	=	;157 
+		;158 ž
+YTREM	=	;159 Ÿ 255 ÿ
+ESPIN	=	;160 esp insécable
+PTEXR	=	;161 ¡
+CBARR	=	;162 ¢
+LIVRE	=	;163 £
+RONDC	=	;164 ¤
+YEN	=	;165 ¥
+DEUTR	=	;166 ¦
+CHAPI	=	;167 §
+TREMA	=	;168 ¨
+COPYR	=	;169 ©
+AEXP	=	;170 ª
+GUILO	=	;171 «
+TIREC	=	;172 ¬
+TIREI	=	;173 ­
+RESER	=	;174 ®
+SURLI	=	;175 ¯
+DEGRE	=	;176 ° 186 º
+PLUM	=	;177 ±
+CARRE	=	;178 ²
+CUBE	=	;179 ³
+APOSD	=	;180 ´ 146 ’
+MU	=	;181 µ
+PARAG	=	;182 ¶
+MULTI	=	;183 · 215 ×
+CEDI	=	;184 ¸
+UNEXP	=	;185 ¹
+		;186 º
+GUILF	=	;187 »
+QUART	=	;188 ¼
+DEMI	=	;189 ½
+TROIQ	=	;190 ¾
+PTINR	=	;191 ¿
+AGRA	=	;192 À 224 à
+AGU	=	;193 Á 225 á
+ACIRC	=	;194 Â 226 â
+ATILD	=	;195 Ã 227 ã
+ATREM	=	;196 Ä 228 ä
+AROND	=	;197 Å 229 å
+AECOL	=	;198 Æ 230 æ
+CCEDI	=	;199 Ç 231 ç
+EGRA	=	;200 È 232 è
+EGU	=	;201 É 233 é
+ECIRC	=	;202 Ê 234 ê
+ETREM	=	;203 Ë 235 ë
+IGRA	=	;204 Ì 236 ì
+IGU	=	;205 Í 237 í
+ICIRC	=	;206 Î 238 î
+ITREM	=	;207 Ï 239 ï
+DBARR	=	;208 Ð 240 ð
+NTILD	=	;209 Ñ 241 ñ
+OGRA	=	;210 Ò 242 ò
+OGU	=	;211 Ó 243 ó
+OCIRC	=	;212 Ô 244 ô
+OTILD	=	;213 Õ 245 õ
+OTREM	=	;214 Ö 246 ö
+		;215 ×
+OBARR	=	;216 Ø 248 ø
+UGRA	=	;217 Ù 249 ù
+UGU	=	;218 Ú 250 ú
+UCIRC	=	;219 Û 251 û
+UTREM	=	;220 Ü 252 ü
+YEGU	=	;221 Ý 253 ý
+BEPE	=	;222 Þ 254 þ
+BETA	=	;223 ß
+DIVI	=	;247 ÷
+FOIS	=
+		;255 ÿ
+
+;Début
+;Adresses des tables
+	DW TWin,TCat,TPhon1,TPhon2,TCatP1,TCatP2
+	DW ChLst1,ChLst2,ChLst3
+	DW Ch01,Ch1S,Ch100,Ch100Z
+	DW TabVol,TabVit,TabHau,Categ,FinAmp,FinTim,TrAmp,TraTim
+	DW DebAmp,DebTim,TabAmp,AdAmp,TabDeb
+	DW .Huit1,.Dix1,XChif,lgTab
+	DB FOIS
+
+;Copyright
+	DB	'SYNTHE (C) Michel MOREL & ELECTREL 2001'
+
+;Table des codes 850
+;T850:	 ;127 à 255
+;	 DB NulA,CCEDI,UTREM
+;	 ;130
+;	 DB EGU,ACIRC,ATrem,AGRA,NulA,CCEDI,ECIRC,ETrem,EGRA,ITREM
+;	 DB ICIRC,NulA,ATrem,NulA,EGU,AECol,AECol,OCIRC,OTrem,NulA
+;	 ;150
+;	 DB UCIRC,UGRA,YTrem,OTrem,UTrem,NulA,LIVRE,YEN,Fois,NulA
+;	 DB AGU,IGU,OGU,UGU,NulA,NulA,NulA,NulA,NulA,MESSYM
+;	 DB NulA,NulA,NulA,DECSYM,PHOSYM,ALPSYM,NulA,NulA,NulA,NulA
+;	 DB NulA,Agu,ACIRC,AGra,CARSYM,NulA,NulA,NulA,NulA,CLSYM
+;	 DB Yen,NulA,NulA,NulA,NulA,NulA,NulA,NulA,NulA,NulA
+;	 ;200
+;	 DB NulA,NulA,NulA,NulA,NulA,NulA,NulA,MEMSYM,NulA,NulA
+;	 DB ECIRC,ETrem,EGra,NulA,Igu,ICIRC,ITREM,NulA,NulA,NulA
+;	 DB NulA,NulA,NulA,NulA,Ogu,ABRSYM,OCIRC,NulA,NulA,NulA
+;	 DB MU,NulA,NulA,Ugu,UCIRC,UGra,NulA,NulA,NulA,APOST
+;	 DB '-',NulA,'=',NulA,OPTSYM,Parag,Divi,NulA,Degre,Trema
+;	 DB Multi,NulA,NulA,CARRE,NulA,NulA
+
+;Table des codes Windows
+TWin:	;123 à 255
+	DB ACCO,TRAIV,ACCF,TILDE,NULA,EURO,C129
+	;130
+	DB ',',FCUR,DVIR,PSUSP,CROIX,DCROI,ACCIR,PRMIL,SACC,GLMSO
+	DB OECOL,C141,ZACC,C143,C144,APOSG,APOSD,DAPOG,DAPOD,POING
+	;150
+	DB SEMIQ,QUADR,TILDE,TM,SACC,GLMSF,OECOL,C157,ZACC,YTREM
+	DB ESPIN,PTEXR,CBARR,LIVRE,RONDC,YEN,DEUTR,CHAPI,TREMA,COPYR
+	DB AEXP,GUILO,TIREC,TIREI,RESER,SURLI,DEGRE,PLUM,CARRE,CUBE
+	DB APOSD,MU,PARAG,MULTI,CEDI,UNEXP,DEGRE,GUILF,QUART,DEMI
+	DB TROIQ,PTINR,AGRA,AGU,ACIRC,ATILD,ATREM,AROND,AECOL,CCEDI
+	;200
+	DB EGRA,EGU,ECIRC,ETREM,IGRA,IGU,ICIRC,ITREM,DBARR,NTILD
+	DB OGRA,OGU,OCIRC,OTILD,OTREM,MULTI,OBARR,UGRA,UGU,UCIRC
+	DB UTREM,YEGU,BEPE,BETA,AGRA,AGU,ACIRC,ATILD,ATREM,AROND
+	DB AECOL,CCEDI,EGRA,EGU,ECIRC,ETREM,IGRA,IGU,ICIRC,ITREM
+	DB DBARR,NTILD,OGRA,OGU,OCIRC,OTILD,OTREM,DIVI,OBARR,UGRA
+	DB UGU,UCIRC,UTREM,YEGU,BEPE,YTREM
+	
+;Code commun -> catégorie
+TCat:	;32 à 189
+	DB PONC,PONC,PONC,SYMB,SYMB,SYMB,SYMB,VOYM
+	DB PONC,PONC,SYMB,SYMB,PONC,PONC,PONC,PONC,CHIF,CHIF
+	;50
+	DB CHIF,CHIF,CHIF,CHIF,CHIF,CHIF,CHIF,CHIF,PONC,PONC
+	DB SYMB,SYMB,SYMB,PONC,SYMB,Voy,Let,Let,LET,VOYM
+	DB Let,Let,Let,VoyM,Let,Let,Let,Let,LET,VOY
+	DB Let,Let,Let,Let,Let,Voy,Let,Let,LET,VOYM
+	DB LET,PONC,SYMB,PONC,SYMB,SYMB,PONC,PONC,SYMB,PONC
+	;100
+	DB SYMB,SYMB,SYMB,SYMB,SYMB,PONC,SYMB,SYMB,SYMB,SYMB
+	DB LET,PONC,VOY,SYMB,LET,SYMB,SYMB,PONC,PONC,SYMB
+	DB PONC,PONC,SYMB,PONC,SYMB,VOYM,PONC,PONC,SYMB,SYMB
+	DB SYMB,SYMB,SYMB,SYMB,SYMB,SYMB,SYMB,PONC,PONC,PONC
+	DB SYMB,SYMB,SYMB,SYMB,SYMB,SYMB,PONC,SYMB,SYMB,SYMB
+	;150
+	DB SYMB,SYMB,PONC,SYMB,SYMB,SYMB,PONC,VOY,VOY,VOY
+	DB VOY,VOY,VOY,VOY,LET,VOYM,VOYM,VOYM,VOYM,VOYM
+	DB VOYM,VOYM,VOYM,LET,LET,VOY,VOY,VOY,VOY,VOY
+	DB VOY,VOY,VOY,VOY,VOY,VOYM,SYMB,LET,SYMB,SYMB
+
+;Code commun -> code phonétique
+;Test sur ',' et 'µ' 174
+TPhon1:	;97 à 122 (tests sur ù ö â ô ë é è î)
+	DB AA,BB,KK
+	;100
+	DB DD,EU,FF,GG,HH,II,JJ,KK,LL,MM
+	DB NN,OO,PP,KK,RR,SS,TT,UU,VV,OU
+	DB NULP,YY,ZZ
+TPhon2:	;186 à 208
+	DB AN,AN,AA,AA
+	DB NULP,SS,EE,EE,EE,EU,II,II,IN,II
+	DB NULP,NULP,OO,OO,ON,ON,OO,NULP,OU
+	
+;Code commun -> catégorie phonétique
+TCatP1:	;97 à 122
+	DB VOYP,CNSP,CNSP
+	;100
+	DB CNSP,VOYP,CNSP,CNSP,CNSP,VOYP,CNSP,CNSP,CNSP,CNSP
+	DB CNSP,VOYP,CNSP,CNSP,CNSP,CNSP,CNSP,VOYP,CNSP,GLIP
+	DB NULP,GLIP,CNSP
+TCatP2:	;186 à 208
+	DB VOYP,VOYP,VOYP,VOYP
+	DB NULP,CNSP,VOYP,VOYP,VOYP,VOYP,VOYP,VOYP,VOYP,VOYP
+	DB NULP,NULP,VOYP,VOYP,VOYP,VOYP,VOYP,NULP,VOYP
+
+;--------------------
+;Messages phonétiques
+;--------------------
+;Prononciation des nombres
+Ch0:	DB 80
+Ch01:	DB ZZ,EE,RR,OO,80,PL
+Ch1S:	DB In,In,80,NN
+Ch1:	DB Pl,In,80,NN
+Ch2:	DB DD,EU,EU,EU,80,ZZ
+Ch3:	DB TT,RR,WW,AA,AA,80,ZZ
+Ch4:	DB KK,AA,TT,80,RR
+Ch5:	DB SS,In,In,80,0
+Ch6:	DB SS,II,80,0
+Ch7:	DB SS,EE,TT,80,0
+Ch8:	DB Pl,UU,II,80,0
+Ch9:	DB NN,EU,FF,80,0
+Ch10:	DB DD,II,80,0
+Ch10Z: DB DD,II,ZZ,80,0
+Ch11:	DB Pl,On,On,ZZ,80,0
+Ch12:	DB DD,WW,ZZ,80,0
+Ch13:	DB TT,RR,EE,EE,ZZ,80,0
+Ch14:	DB KK,AA,TT,OO,RR,ZZ,80,0
+Ch15:	DB KK,In,In,ZZ,80,0
+Ch16:	DB SS,EE,EE,ZZ,80,0
+Ch20:	DB VV,In,In,80,TT
+Ch30:	DB TT,RR,An,TT,80,0
+Ch40:	DB KK,AA,RR,An,An,TT,80,0
+Ch50:	DB SS,In,In,KK,An,An,TT,80,0
+Ch60:	DB SS,WW,AA,SS,An,An,TT,80,0
+Ch80:	DB KK,AA,TT,RR,EU,VV,In,In,80,ZZ
+Ch100: DB SS,An,80,TT
+Ch100Z: DB SS,An,An,80,ZZ
+ChMil: DB MM,II,LL,80,0
+ChMili: DB MM,II,LL,II,On,On,80,0
+ChMila: DB MM,II,LL,II,AA,AA,RR,80,0
+
+;Adresses des chiffres
+ChLst1: DW Ch0,Ch1,Ch2,Ch3,Ch4,Ch5,Ch6,Ch7,Ch8,Ch9
+	DW Ch10,Ch11,Ch12,Ch13,Ch14,Ch15,Ch16
+ChLst2: DW Ch10Z,Ch20,Ch30,Ch40,Ch50,Ch60
+	DW Ch60,Ch80,Ch80
+ChLst3: DW ChMil,ChMili,ChMila
+
+;---------------------------------
+; Tables pour générateur de parole
+;---------------------------------
+;Table volume
+TabVol:	;-10 à 5 (pas 1.26 = 2 tons)
+	DW 99,125,157,198,250,315,397,500,630,794,1000,1260,1588,2000,2520,3175
+
+;Table débit
+TabVit:	;-3 à 12 (pas 1.1225)
+	DW 707,794,891,1000,1123,1260,1414,1588,1782,2000,2245,2520,2829,3175,3564,4000
+
+;Table hauteur : variation de longueur des périodes
+TabHau:	;-6 à 9 (pas 1.05946 = 1/2 tons)
+	DW 707,749,794,841,891,944,1000,1059,1122,1189,1260,1335,1414,1498,1587,1682
+
+;Catégories de phonèmes
+Categ:
+	DB 0,0,0,0,0,0,0,0,0,0	; Ou O U I A An On Eu é In
+	DB 1				; Y
+	DB 2,2,2			; F S Ch
+	DB 3,3,3			; V Z J
+	DB 4,4,4			; P T K
+	DB 5,5,5			; B D G
+	DB 6,6			; M N
+	DB 7				; L
+	DB 8				; R
+	DB 9				; ,
+
+;Amplitudes fin phonèmes
+;N° courbe amplitude = FinAmp(categ1,categ2)
+FinAmp: DB 5,5,5,5,5,5,5,5,5,5			; voy
+	DB 36,36,36,36,36,36,36,36,36,36		; Y
+	DB 6,6,109,109,108,9,106,106,106,109	; F S Ch
+	DB 7,7,109,109,109,9,109,109,9,109		; V Z J
+	DB 14,14,14,14,14,14,14,14,14,14		; P T K
+	DB 14,14,14,14,14,14,14,14,14,14		; B D G
+	DB 25,25,125,125,125,25,125,125,25,25	; M N
+	DB 25,25,125,125,125,25,125,125,25,25	; L
+	DB 30,30,130,130,131,31,38,38,130,130	; R
+	DB 11,11,111,111,111,11,111,111,111,111 	; ,
+
+;N° des segments de fin des phonèmes
+;NSeg1 = FinTim(Car1)
+FinTim: DB 1,26,31,4,7,10,13,35,44,16		; Ou O U I A An On Eu é In
+	DB 4,68,121,144,113,109,88,125,148,175	; Y F S Ch V Z J P T K
+	DB 94,106,118,160,163,155,96,22	 	; B D G M N L R ,
+
+;Amplitudes des transitions
+;N° courbe amplitudes = TrAmp(categ1,categ2)
+TrAmp: DB 2,40,2,2,2,18,2,2,2,2	; voy
+	DB 40,37,37,37,37,41,37,37,37,37	; Y
+	DB 1,39,0,0,0,19,0,0,0,0		; F S Ch
+	DB 2,40,0,0,0,19,0,0,13,0		; V Z J
+	DB 1,39,14,14,14,15,14,14,14,15 	; P T K
+	DB 1,39,17,17,17,42,17,17,16,16 	; B D G
+	DB 1,39,0,0,0,19,0,0,33,17		; M N
+	DB 1,39,0,0,0,19,0,0,33,17		; L
+	DB 2,40,0,0,0,19,33,33,0,0		; R
+	DB 1,39,0,0,0,19,0,0,0,0		; ,
+
+;N° de segment des transitions
+;NSegx = TraTim(Car1,Car2)
+TraTim: ; Ou
+	DB 1,25,39,18,57,58,45,59,60,62
+	DB 18,2,206,2,172,189,225,172,206,174
+	DB 164,189,0,172,206,95,49,2,'P','R'
+	DB 0,0
+	; O
+	DB 25,26,29,48,57,58,45,59,35,62
+	DB 48,30,149,137,242,149,173,243,149,171
+	DB 243,177,100,247,249,103,250,27,'O','G'
+	DB 0,0
+	; U
+	DB 39,29,31,50,63,64,45,65,46,67
+	DB 50,33,207,33,217,207,226,32,207,32
+	DB 217,32,127,217,207,92,41,33,'R','A'
+	DB 0,0
+	; I
+	DB 18,48,50,4,23,51,52,53,56,47
+	DB 4,81,186,5,81,167,5,5,186,153
+	DB 161,186,126,248,186,87,152,5,'M','M'
+	DB 0,0
+	; A
+	DB 57,57,63,23,7,6,28,57,19,20
+	DB 23,8,208,8,143,188,190,159,158,168
+	DB 143,208,168,159,66,168,169,8,'E',' '
+	DB 0,0
+	; An
+	DB 58,58,64,51,6,10,139,139,16,9
+	DB 51,11,209,11,219,156,227,197,9,9
+	DB 197,9,179,197,193,86,40,11,'M','I'
+	DB 0,0
+	; On
+	DB 45,45,45,52,28,139,13,45,45,139
+	DB 52,84,210,14,220,210,228,78,204,12
+	DB 220,12,99,12,204,83,38,14,'C','H'
+	DB 0,0
+	; Eu
+	DB 59,59,65,53,57,139,45,35,59,62
+	DB 53,85,211,36,221,211,191,192,235,34
+	DB 34,133,107,192,133,34,181,36,'E','L'
+	DB 0,0
+	; e accent aigu
+	DB 60,35,46,56,19,16,45,59,44,138
+	DB 56,85,43,42,222,185,229,43,236,196
+	DB 43,185,196,162,165,170,183,42,' ','M'
+	DB 0,0
+	; In
+	DB 62,62,67,47,20,9,139,62,138,16
+	DB 47,128,205,17,128,140,230,15,205,15
+	DB 128,205,15,198,205,82,37,17,'O','R'
+	DB 0,0
+	; Y
+	DB 18,48,50,4,23,51,52,53,56,47
+	DB 4,85,211,36,221,211,191,192,235,34
+	DB 34,133,107,192,133,34,181,53,'E','L'
+	DB 0,0
+	; F
+	DB 136,76,32,77,74,75,78,76,76,79
+	DB 77,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,22,22,'/','E'
+	DB 0,0
+	; S
+	DB 202,150,32,3,158,203,204,150,150,205
+	DB 3,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,22,22,'L','E'
+	DB 0,0
+	; Ch
+	DB 0,212,32,3,213,214,215,212,212,216
+	DB 3,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,22,22,'C','T'
+	DB 0,0
+	; V
+	DB 172,151,217,218,143,219,220,221,222,128
+	DB 218,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,68,22,'R','E'
+	DB 0,0
+	; Z
+	DB 199,180,207,167,188,193,223,180,224,140
+	DB 167,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,109,22,'L',' '
+	DB 0,0
+	; J
+	DB 225,173,226,5,190,227,228,173,229,230
+	DB 5,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,88,22,'R','E'
+	DB 0,0
+	; P
+	DB 0,151,231,77,74,232,78,151,151,128
+	DB 77,68,68,68,68,68,68,68,68,68
+	DB 68,68,68,68,68,68,68,68,'P','R'
+	DB 0,0
+	; T
+	DB 0,150,166,201,233,193,204,150,150,234
+	DB 201,109,109,109,109,109,109,109,109,109
+	DB 109,109,109,109,109,109,109,109,'O','D'
+	DB 0,0
+	; K
+	DB 237,102,238,239,240,241,187,102,102,182
+	DB 239,184,184,184,184,184,184,184,184,184
+	DB 184,184,184,184,184,184,184,184,'U','C'
+	DB 0,0
+	; B
+	DB 164,151,217,161,157,154,220,151,142,141
+	DB 161,151,151,151,151,151,151,151,151,151
+	DB 151,151,151,151,151,151,151,151,'T','I'
+	DB 0,0
+	; D
+	DB 200,177,194,167,135,108,134,177,185,195
+	DB 167,177,177,177,177,177,177,177,177,177
+	DB 177,177,177,177,177,177,177,177,'O','N'
+	DB 0,0
+	; G
+	DB 132,178,127,126,119,117,120,107,196,101
+	DB 126,178,178,178,178,178,178,178,178,178
+	DB 178,178,178,178,178,178,178,178,' ','I'
+	DB 0,0
+	; M
+	DB 164,151,244,80,159,197,78,246,162,198
+	DB 80,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,181,151,'N','T'
+	DB 0,0
+	; N
+	DB 199,180,72,167,66,61,55,180,165,54
+	DB 167,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,181,180,'E','R'
+	DB 0,0
+	; L
+	DB 95,103,92,245,168,86,83,34,170,82
+	DB 87,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,181,103,'D','I'
+	DB 0,0
+	; R
+	DB 49,181,41,152,169,40,38,181,183,37
+	DB 152,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,181,181,181,22,22,'T','E'
+	DB 0,0
+	; ,
+	DB 0,25,32,3,6,9,12,34,43,15
+	DB 3,22,22,22,22,22,22,22,22,22
+	DB 129,129,129,22,22,22,22,22
+
+;N° courbe des amplitudes des débuts de phonèmes
+;N° courbe ampl = DebAmp(categ1,categ2)
+DebAmp: DB 4,35,23,23,0,20,21,22,28,4 ; voy
+	DB 4,35,23,23,0,20,21,22,28,4	; Y
+	DB 3,35,24,24,0,20,26,44,29,4	; F S Ch
+	DB 4,35,24,24,0,20,26,43,29,4	; V Z J
+	DB 3,35,12,12,0,20,26,44,29,4	; P T K
+	DB 3,35,12,12,0,20,26,44,29,4	; B D G
+	DB 3,35,12,12,0,20,21,22,28,4	; M N
+	DB 3,35,12,12,0,20,21,22,28,4	; L
+	DB 4,35,12,12,0,20,26,44,32,4	; R
+	DB 3,35,24,24,0,20,21,22,32,11 ; ,
+
+;N° de segment du début des phonèmes
+;NSeg2 = DebTim( Car2 )
+DebTim: DB 1,26,31,4,7,10,13,35,44,16	; Ou O U I A An On Eu e' In
+	DB 4,68,121,144,113,109,88,21,21,21	; Y F S Ch V Z J P T K
+	DB 176,176,176,93,105,104,96,22 	; B D G M N L R ,
+
+;Table des amplitudes (courbes d'amplitude)
+;Amp2 = TabAmp(AdA2)
+#H	;hexa
+TabAmp: ;  0(14)		 11(6)
+	DB 4,8,0B,0D,0E,0F,0F,0F,0F,0F
+	;	 10(2)	     1(2)
+	DB 0F,0F,0F,0F,0C0,0,7,0F,8A,6
+	;	  2(5)
+	DB 3,1,40,2,4,7,0B,0F,8B,7
+	;	    3(4)
+	DB 4,2,1,40,5,9,0C,0E,0C0,0
+	;  4(5) 	      5(1)
+	DB 4,8,0B,0D,0E,0C0,0,0F,8D,0B
+	;	  6(7)
+	DB 8,4,40,0F,2F,2F,2F,0F,2E,2A
+	;	   7(6)
+	DB 085,40,0,0F,2F,2F,2F,0F,2E,0AD
+	;		      9(2)8(1)
+	DB 2B,8,24,40,0F,2F,2F,0F,0F,0AE
+	;		      24(7)
+	DB 2D,2B,8,25,23,21,40,1,23,25
+	;     12(3)		 13(4)
+	DB 28,0B,2D,2E,0C0,0,0,0,3,26
+	;		     14(2)     15(3)
+	DB 2A,2F,8A,26,23,40,0F,0F,0C0,7
+	;		  16(1)
+	DB 0A,7,84,2,1,40,6,89,7,4
+	;	  17(1)       18(7)
+	DB 2,1,40,4,85,3,1,40,2,4
+	DB 7,0B,0F,0B,7,84,3,2,2,1
+	;	      19(1)
+	DB 1,1,1,40,0,6,8A,0C,0C,0B
+	;		20(11)
+	DB 9,6,4,2,1,40,1,2,4,6
+	DB 9,0B,0D,0E,0F,0F,0F,0C0,0,0
+	;  21(11)
+	DB 4,8,0B,0D,0E,0F,0F,0F,0F,0F
+	;		      22(7)
+	DB 0F,8E,0D,0B,8,4,40,4,8,0B
+	DB 0D,0E,0F,0F,8E,0D,0B,8,4,40
+	;  23(5)	       25(6)
+	DB 4,28,2B,2D,0E,0C0,0,1,2,4
+	;		 26(9)
+	DB 7,0B,0F,088,40,1,3,5,8,0B
+	DB 0D,0E,0F,0F,8E,0D,0B,8,4,40
+	;      27(6)
+	DB 0,0,4,0B,0D,0E,0F,0F,8E,0D
+	;		 28(5)	 29(2)
+	DB 0B,8,4,40,0,0,4,28,2B,0B
+	;	      30(3)
+	DB 2F,0C0,0,0,0B,2E,2F,8C,2B,28
+	;	31(1)		 32(7)
+	DB 4,40,0F,0AC,2B,8,24,40,1,23
+	;		       33(1)
+	DB 25,8,2B,2D,0E,0C0,0,0A,86,3
+	;	  34(1)   35(4)
+	DB 1,40,0,2,0C0,0,3,6,8,0A
+	;	 36(1)		37(5)
+	DB 0C0,0,0B,8A,8,6,3,40,1,3
+	;		       38(1)
+	DB 5,7,9,87,5,3,2,1,40,0F
+	;	 39(2)		  40(5)
+	DB 0A8,40,6,0D,8A,7,4,1,40,2
+	DB 4,6,9,0D,89,6,4,2,1,40
+	;  41(7)
+	DB 1,3,5,8,0B,8,6,84,3,2
+	;		42(1)
+	DB 2,1,1,1,1,40,4,85,3,2
+	;		43(6)
+	DB 2,1,1,1,1,40,1,3,5,8
+	;			   44(3)
+	DB 0B,0D,8E,0D,0B,8,4,40,0,4
+	DB 0B,0D,8E,0D,0B,8,4,40
+#D	;décimal
+
+;Table des adresses dans TabAmp en fonction du n° de courbe (32 à 190)
+;AdA2 = AdAmp(n° courbe amplitudes)
+AdAmp: DB 0,0,16,0,23,0,34,0,40,0
+	DB 47,0,53,0,63,0,78,0,77,0
+	DB 12,0,8,0,91,0,98,0,106,0
+	DB 109,0,116,0,123,0,128,0,145,0
+	DB 156,0,170,0,187,0,200,0,87,0
+	DB 207,0,215,0,232,0,246,0,249,0
+	DB 254,0,6,1,12,1,21,1,27,1
+	DB 30,1,36,1,42,1,53,1,56,1
+	DB 63,1,74,1,90,1,100,1,113,1
+
+;Table des adresses pour milieu de mot (32 à 189)
+TabGen: DW XEsp,XPtExc
+	DW XGuilm,XDiese,XDolla,XPrCen,XEtCom
+	DW XApost,XPartO,XPartF,XEtoil,XPlus
+	DW XVirg,XTiret,XPoint,XSlash
+			
+;Trou des chiffres, 48-57
+	DB	0,0,0,0,0,0,0,0,0,0
+	DB	0,0,0,0,0,0,0,0,0,0
+ 
+	DW XDeuPt,XPtVir,XInfer,XEgal,XSuprA,XPtInt
+	DW XAat,Xa,Xb,Xc,Xd,Xe,Xf,Xg,Xh,Xi,Xj,Xk
+	DW Xl,Xm,Xn,Xo,Xp,Xq,Xr,Xs,Xt,Xu,Xv,Xw
+	DW Xx,Xy,Xz,XCroO,XCtrOb,XCroF,XCtrl,XSouli,XAposG,XAccO,XTraiV,XAccF
+	;100
+	DW XTilde,XEuro,XC129,XFCur,XDVir,XPSusp,XCroix,XDCroi,XAcCir,XPrMil
+	DW XSAcc,XGlmSO,XOECol,XC141,XZ,XC143,XC144,XDApoG,XDApoD,XPoinG
+	DW XSemiQ,XQuadr,XTM,XGlmSF,XC157,XY,XEspIn,XPtExR,XC,XLivre
+	DW XRondC,XYen,XDeuTr,XChapi,XTrema,XCopyr,XAExp,XGuilO,XTireC,XTireI
+	DW XReser,XSurli,XDegre,XPluM,XCarre,XCube,XAposD,XMu,XParaG,XMulti
+	;150
+	DW XCedi,XUnExp,XGuilF,XQuart,XDemi,XTroiQ,XPtInR,Xa,Xa,XaCirc
+	DW Xa,Xa,Xa,XE,XCCedi,XEGra,XEgu,XECirc,XEgu,Xi
+	DW Xi,XICirc,XITrem,Xd,XNTild,Xo,Xo,XOCirc,Xo,Xo
+	DW Xo,Xu,Xu,XUCirc,Xu,Xy,XBePe,XBeta,XDivi,XFois
+
+;Table des adresses pour début de mot (32 à 189)
+TabDeb: DW XEsp,XPtExc
+	DW XGuilm,XDiese,XDolla,XPrCen,XEtCom
+	DW .Apost,XPartO,XPartF,XEtoil,XPlus
+	DW XVirg,XTiret,XPoint,XSlash
+ 
+;Trou des chiffres, 48-57
+	DB	0,0,0,0,0,0,0,0,0,0
+	DB	0,0,0,0,0,0,0,0,0,0
+ 
+	DW XDeuPt,XPtVir,XInfer,XEgal,XSuprA,XPtInt
+	DW XAat,.A,.B,.C,.D,.E,.F,.G,.H,.I,.J,.K
+	DW .L,.M,.N,.O,.P,.Q,.R,.S,.T,.U,.V,.W
+	DW .X,.Y,.Z,XCroO,XCtrOb,XCroF,XCtrl,XSouli,XAposG,XAcco,XTraiV,XAccF
+	;100
+	DW XTilde,XEuro,XC129,XFCur,XDVir,XPSusp,XCroix,XDCroi,XAcCir,XPrMil
+	DW XSAcc,XGlmSO,.OECol,XC141,.ZAcc,XC143,XC144,XDApoG,XDApoD,XPoinG
+	DW XSemiQ,XQuadr,XTM,XGlmSF,XC157,.YTrem,XEspIn,XPtExR,.CBarr,XLivre
+	DW XRondC,XYen,XDeuTr,XChapi,XTrema,XCopyr,XAExp,XGuilO,XTireC,XTireI
+	DW XReser,XSurli,XDegre,XPluM,XCarre,XCube,XAposD,XMu,XParaG,XMulti
+	;150
+	DW XCedi,XUnExp,XGuilF,XQuart,XDemi,XTroiQ,XPtInR,.AGra,.Agu,.ACirc
+	DW .ATild,.ATrem,.ARond,.AECol,.CCedi,.EGra,.Egu,.ECirc,.ETrem,.IGra
+	DW .Igu,.ICirc,.ITrem,.DBarr,.NTild,.OGra,.Ogu,.OCirc,.OTild,.OTrem
+	DW .OBarr,.UGra,.Ugu,.UCirc,.UTrem,.Ygu,XBePe,.Beta,XDivi,XFois
+
+;***********************
+;	DICTIONNAIRE
+;***********************
+ 
+;Dictionnaire début de mot
+
+.Aber: DB 'ER',0,AA,BB,RB
+	DW Xer3
+.Accen: DB 'CENT',0,AA,KK,SS,RB
+	DW Xent9
+.ADAM: DB 'AM',0,AA,DD,RB
+	DW XAM1
+.A$ros: DB 'ROS',0,AA,AA,EE,RR,OO,RB
+	DW XVoy5S
+.Agend: DB 'ENDA',0,AA,JJ,In,In,DD,RB
+	DW Xa
+.Aigui: DB 'GUI',0,EE,GG,UU,RB
+	DW Xi
+.Airbu: DB 'RBU',0,EE,EE,RR,BB,RB
+	DW Xu2
+.Aix:	DB 'X',0,EE,RB
+	DW Xx
+.Alias: DB 'IA',0,AA,LL,II,RB
+	DW Xa2
+.Alsa: DB 'SA',0,AA,LL,ZZ,RB
+	DW Xa
+.Ambit: DB 'BIT',0,An,An,BB,II,RB
+	DW .Ambi1
+.AMER: DB 'ER',0,AA,MM,RB
+	DW Xer3
+.Anis: DB 'IS',0,AA,NN,II,RB	;pour animent
+	DW XVoyS2
+.ANPE: DB 'PE',0,AA,AA,EE,NN,PP,EE,EE,RB
+	DW .E
+.Antis: DB 'TIS',0,An,An,TT,II,RB
+	DW XVoy5S
+.APF:	DB 'F',0,AA,AA,PP,EE,EE,EE,RB
+	DW .F
+.Appar: DB 'PARENT',0,AA,PP,AA,RR,RB
+	DW .Sent
+.Apple: DB 'PLE',0,AA,PP,Eu,LL,RB
+	DW Xe
+.Aqua: DB 'UA',0,AA,KK,WW,RB
+	DW Xa
+.Archa: DB 'CHA',0,AA,RR,KK,RB
+	DW XA
+.Arche: DB 'CH',Egu,0,AA,RR,KK,RB
+	DW XEgu
+.ARDEN: DB 'D',0,AA,RR,RB
+	DW Xd9
+.ARGEN: DB 'GENT',0,AA,RR,JJ,RB
+	DW .Sent
+.Argus: DB 'GUS',0,AA,RR,GG,UU,RB
+	DW XVoyS2
+.ASCII: DB 'CII',0,AA,SS,KK,RB
+	DW Xi
+.ASPTT: DB 'PTT',0,AA,AA,EE,SS,PP,EE,TT,EE,RB
+	DW .T
+.Asy:	DB 'Y',0,AA,SS,RB
+	DW Xy
+.Atlas: DB 'LA',0,AA,TT,LL,RB
+	DW Xa2
+.Autoc: DB 'OCHT',0,TT,OO,KK,RB
+	DW Xt
+.AV_:	DB ' ',0,AA,VV,NN,RB
+	DW .U0
+.AVH.: DB 'H',0,AA,AA,VV,EE,EE,RB
+	DW .H
+.Balbu: DB 'LBUTI',0,AA,LL,BB,UU,SS,RB
+	DW Xi
+.Banca: DB 'NCA',0,An,An,KK,RB
+	DW XA
+.BAPT: DB 'PT',0,AA,RB
+	DW XT
+.BD_:	DB 'D ',0,RB
+	DW .BLVD
+.BD_S: DB 'D ',0,SS,RB
+	DW .BLVD
+.BD_T: DB 'D ',0,TT,RB
+	DW .BLVD
+.Beaux: DB 'AUX',0,OO,RB
+	DW XYLiaZ
+.Belle: DB 'LLE',0,EE,LL,RB
+	DW Xe1
+.BIEN: DB 'EN',0,II,RB
+	DW .RIEN1
+.BIOS: DB 'OS',0,II,OO,SS,PG
+	DW NONL
+.Bit:	DB 'T',0,II,RB
+	DW Xt
+.BJean: DB 'JEAN',0,WW,WW,RB
+	DW .Gin0
+.Blue: DB 'UE',0,LL,RB
+	DW .Blue1
+.Bluf: DB 'UF',0,LL,Eu,RB
+	DW Xf
+.Bonne: DB 'E',0,OO,NN,RB
+	DW Xe1
+.BonsA: DB Agra,' ',0,Pl,RB
+	DW .A0
+.Bon_A: DB ' ',0,On,On,RB
+	DW .A0
+.Break: DB 'EAK',0,RR,EE,RB
+	DW XK
+.Brut: DB 'UT',0,RR,UU,RB
+	DW Xt
+.But:	DB 'T',0,UU,RB
+	DW .But1
+.Cake: DB 'E',0,KK,EE,EE,KK,RB
+	DW Xe
+.Campu: DB 'PU',0,KK,An,An,PP,RB
+	DW Xu2
+.Cance: DB 'CER',0,KK,An,An,SS,RB
+	DW XER3
+.Caout: DB 'UTCHOUC',0,KK,AA,AA,WW,TT,HH,WW,RB
+	DW XVoy
+.Carte: DB 'TER',0,KK,AA,RR,TT,RB
+	DW Xer2
+.Cent: DB 'T',0,An,RB
+	DW .Cent1
+.CGE:	DB 'E',0,SS,EE,JJ,EE,EE,RB
+	DW .E
+.Chao: DB 'AO',0,KK,RB
+	DW XAO
+.Chart: DB 'ARTER',0,HH,AA,RR,TT,RB
+	DW Xer2
+.Chef_: DB 'EF-D',0,HH,EE,RB
+	DW Xd
+.Chefs: DB 'EFS-D',0,HH,EE,RB
+	DW Xd
+.CHER: DB 'ER',0,HH,EE,RB
+	DW XVoyR1
+.Chevi: DB 'EVI',0,HH,Eu,VV,RB
+	DW Xi
+.Chez1: DB 'EZ UN ',0,HH,EE,PL,ZZ,IN,PL,PG
+	DW LiaN
+.Chez2: DB 'EZ UNE ',0,HH,EE,PL,ZZ,UU,NN,PG
+	DW NonL
+.Chez3: DB 'EZ EUX',0,HH,EE,PL,ZZ,EU,PL,RB
+	DW XVoyX
+.Chez4: DB 'EZ ELLE',0,HH,EE,PL,ZZ,EE,LL,RB
+	DW Xe
+.Ch$r: DB EGra,'R',0,HH,EE,RB
+	DW XVoyR1
+.Chips: DB 'IPS',0,HH,II,PP,RB
+	DW Xs2
+.Choe: DB 'OE',0,KK,RB
+	DW XOE
+.CHOL: DB 'OL',0,KK,OO,RB
+	DW Xl
+.Chor: DB 'OR',0,KK,OO,RB
+	DW XVoyR
+.Chut: DB 'UT',0,HH,UU,RB
+	DW Xt
+.CIPH: DB 'PH',0,RB
+	DW .CIPH1
+.Clebs: DB 'EBS',0,KK,LL,EE,BB,RB
+	DW Xs2
+.CLIEN: DB 'IENT',0,KK,LL,II,YY,RB
+	DW XENT9
+.Coc:	DB 'C',0,KK,OO,RB
+	DW Xc
+.Coex: DB 'EX',0,KK,OO,EE,RB
+	DW Xx5
+.COMME: DB 'MMENT',0,KK,OO,MM,RB
+	DW .Sent
+;.COMMU: DB 'MMUNICATION ',EGU,'TABLIE',0,PG
+;	 DW GEN
+.COMPT: DB 'MPT',0,KK,ON,ON,RB
+	DW XT
+.Confi: DB 'NFID',0,KK,On,On,FF,II,RB
+	DW Xd9
+.CONTE: DB 'NTENT',0,KK,ON,ON,TT,RB
+	DW XENT9
+.Coo:	DB 'O',0,KK,OO,OO,OO,RB
+	DW Xoo
+.Corpu: DB 'RPUL',0,KK,OO,RR,PP,UU,RB
+	DW Xl9
+.Cosi: DB 'SI',0,KK,OO,SS,RB
+	DW Xi
+.Couv2: DB 'COU',0,KK,WW,RB
+	DW Xou
+.Couve: DB 'UVENT',0,KK,WW,VV,An,RB
+	DW .Couv1
+.Croc: DB 'OC',0,KK,RR,OO,RB
+	DW .Croc1
+.Croc_: DB 'E',0,KK,RB
+	DW .E
+.Crocs: DB '-E',0,KK,RB
+	DW .E
+.Cuill: DB 'LLER',0,UU,II,II,YY,RB
+	DW Xer2
+.Cutte: DB 'TER',0,Eu,TT,RB
+	DW Xer5
+;.DDCOM: DB 'BUT DE COMMUNICATION',0,PG
+;	 DW GEN
+.DDE:	DB 'E',0,EE,DD,EE,EE,RB
+	DW .E
+.Debut: DB 'UT',0,EE,BB,UU,RB
+	DW XVoy5T
+.Desh: DB 'SH',0,EE,RB
+	DW .Z
+.DEPAR: DB 'ART',0,EE,PP,AA,RB
+	DW XVOYRT
+.DESSO: DB 'OUS',0,EU,SS,WW,RB
+	DW XVOYS
+.DESSU: DB 'US',0,EU,SS,UU,RB
+	DW XVOYS
+.Deux: DB 'X',0,Eu,RB
+	DW XYLiaZ
+.D$fic: DB 'FICIENT',0,EE,FF,II,SS,II,RB
+	DW Xent9
+.D$men: DB 'MENT-',0,EE,MM,An,PG
+	DW LiaT
+.D$sil: DB 'SIL',0,EE,ZZ,II,RB
+	DW Xl
+.D$VI: DB 'VIENT',0,EE,VV,II,RB
+	DW XYent
+.D$s:	DB 'S',0,EE,RB
+	DW XVoyS1
+.Diver: DB 'ERS',0,II,VV,EE,RB
+	DW XYRS1
+.Dixie: DB Egra,0,ZZ,II,RB
+	DW XEgra
+.DR_:	DB ' ',0,DD,OO,KK,TT,EU,EU,RR,PG
+	DW NONL
+.ECG:	DB 'G',0,Eu,Eu,SS,EE,JJ,RB
+	DW XEgu
+.ECHO: DB 'HO',0,RB
+	DW .ECHO1
+.EDF:	DB 'F',0,EU,EU,DD,EE,EE,RB
+	DW .F
+.Elle: DB 'LE',0,LL,RB
+	DW Xe1
+.Eloqu: DB 'OQUENT',0,LL,OO,KK,RB
+	DW Xent9
+.EMINE: DB 'INENT',0,MM,II,NN,RB
+	DW XENT9
+.Emman: DB 'ANU',0,EE,MM,AA,NN,RB
+	DW Xu
+.Enfer: DB 'ER',0,An,An,FF,RB
+	DW XER2
+.ENNEM: DB 'EM',0,EE,NN,RB
+	DW XM
+.Envie: DB 'IENT',0,An,An,VV,II,RB
+	DW XYent
+.En_AG: DB AGra,0,An,An,RB
+	DW .AGra
+.EPS:	DB 'S',0,RB
+	DW .EPS1
+.EPSON: DB 'N',0,EE,PP,SS,OO,RB
+	DW XN
+.Estom: DB 'MAC',0,SS,TT,OO,MM,AA,RB
+	DW XVoyC
+.Est_a: DB AGra,0,TT,RB
+	DW .A
+.Etang: DB 'ANG',0,TT,An,RB
+	DW XVoy5G
+.Ether: DB 'HER',0,TT,RB
+	DW Xer3
+.Et_S: DB 'T ',0,SS,RB
+	DW Xer0
+.EVIDE: DB 'ID',0,VV,II,RB
+	DW Xd9
+.Extre: DB 'REMI',0,KK,SS,TT,RR,EE,MM,RB
+	DW Xi2
+.FAUT: DB 'UT',0,OO,OO,RB
+	DW XVOYT1
+.Faux: DB 'UX',0,OO,OO,RB
+	DW XVoyX1
+.FEMM: DB 'M',0,AA,RB
+	DW XM
+.Ferve: DB 'V',0,EE,RR,RB
+	DW Xv9
+.F$cul: DB 'CUL',0,EE,KK,UU,RB
+	DW Xl9
+.F$r:	DB 'R',0,EE,RB	;f‚rus
+	DW XVoyR
+.FIER: DB 'ER',0,II,RB
+	DW Xer3
+.FILS: DB 'LS',0,II,RB
+	DW XVoyS2
+.Fjord: DB 'ORD',0,II,OO,RR,RB
+	DW XD
+.Flipp: DB 'IPPER',0,LL,II,PP,RB
+	DW Xer5
+.Flirt: DB 'IRT',0,LL,Eu,RR,RB
+	DW Xt
+.Foch: DB 'H',0,FF,OO,RB
+	DW Xch
+.Gadge: DB 'DGET',0,GG,AA,DD,JJ,RB
+	DW Xet2
+.GARS: DB 'RS',0,GG,AA,RB
+	DW XVOYS
+.GENS: DB 'NS',0,JJ,AN,RB
+	DW XYLiaZ
+.Genti: DB 'NTIL',0,JJ,An,TT,RB
+	DW Xil1
+.Gil:	DB 'L',0,JJ,II,RB
+	DW Xl
+.Gin:	DB 'N',0,RB
+	DW .Gin1
+.Goal: DB 'AL',0,GG,OO,OO,RB
+	DW Xl
+.Grand: DB 'AND',0,GG,RR,An,An,RB
+	DW XY5D1
+.Grani: DB 'ANIT',0,GG,RR,AA,NN,RB
+	DW Xit2
+.Grati: DB 'ATI',0,GG,RR,AA,TT,RB
+	DW Xi2
+.Gros: DB 'OS',0,GG,RR,OO,RB
+	DW XVoyS1
+.Gua:	DB 'A',0,GG,WW,RB
+	DW Xa
+.Hach: DB 'H',0,Vr,AA,RB
+	DW XCH
+.Haga: DB 'A',0,Vr,AA,GG,RB
+	DW Xa
+.Hall: DB 'L',0,RB
+	DW .Hall1
+.Halte: DB 'TE',0,Vr,AA,LL,TT,RB
+	DW Xtre
+.Hamec: DB 'E',CCEDI,0,AA,MM,Eu,RB
+	DW XcCedi
+.Harm: DB 'M',0,AA,RR,RB
+	DW XM
+.HEC:	DB 'C',0,RB
+	DW .HEC1
+.HELA: DB 'LA',0,EE,LL,RB
+	DW Xa2
+.Henn: DB 'NN',0,Pl,RB
+	DW Xen0
+.Heris: DB 'RIS',0,Pl,EE,RR,II,RB
+	DW XVoyS
+.Heros: DB 'ROS',0,Pl,EE,RR,OO,RB
+	DW XVoyS
+.Heurt: DB 'URT',0,Pl,Eu,RB
+	DW XVoyRT
+.Hibou: DB 'BOU',0,Pl,II,BB,WW,RB
+	DW Xou
+.Hic:	DB 'C',0,Pl,II,RB
+	DW Xc
+.HIER: DB 'ER',0,II,II,II,RB
+	DW Xer3
+.Hiver: DB 'R',0,II,VV,RB
+	DW Xer3
+.HIV:	DB 'V',0,RB
+	DW .HIV1
+.Hold: DB 'D',0,Pl,OO,LL,RB
+	DW Xd
+.Homa: DB 'A',0,Pl,OO,MM,RB
+	DW XA
+.Hont: DB 'T',0,Vr,On,On,RB
+	DW XVoy5T
+.Hord: DB 'D',0,Vr,OO,RB
+	DW XVoyRD
+.Hors: DB 'S',0,Vr,OO,RB
+	DW XVoyRS
+.HUIT: DB 'T',0,PL,UU,II,RB
+	DW .HUITX
+.Hurlu: DB 'LU',0,UU,RR,LL,RB
+	DW Xu
+.IBM:	DB 'M',0,II,II,BB,EE,EE,RB
+	DW .M
+.Ier:	DB 'R',0,RB
+	DW .Ier1
+.Ils_: DB ' ',0,RB
+	DW Deb6
+.INCID: DB 'ID',0,IN,IN,SS,II,RB
+	DW Xd9
+.Indig: DB 'IG',0,In,In,DD,II,RB
+	DW Xg9
+.Inert: DB 'RTIE',0,II,NN,EE,RR,SS,II,RB
+	DW Xie
+.Inex: DB 'X',0,II,NN,EE,RB
+	DW Xx5
+.Influ: DB 'LUENT',0,In,In,FF,LL,UU,UU,RB
+	DW Xent9
+.Initi: DB 'TI',0,II,NN,II,SS,RB
+	DW Xi
+.Innoc: DB 'OCENT',0,II,NN,OO,SS,RB
+	DW .Sent
+.Insol: DB 'OL',0,In,In,SS,OO,RB
+	DW Xl9
+.Inter: DB 'ER',0,In,In,TT,RB
+	DW Xer3
+.Intrn: DB 'ERNET',0,In,In,TT,EE,RR,NN,EE,RB
+	DW Xt
+.Jadi: DB 'DI',0,JJ,AA,DD,RB
+	DW Xi2
+.Jazz: DB 'ZZ',0,DD,JJ,AA,AA,RB
+	DW Xz
+.Jeans: DB 'ANS',0,RB
+	DW .Jean1
+.Jee:	DB 'E',0,DD,JJ,RB
+	DW XI0
+.Jeune: DB 'NES ',0,EU,NN,PG
+	DW LiaZ
+.Joyeu: DB 'YEUX',0,JJ,WW,AA,Pl,II,Eu,RB
+	DW XYLiaZ
+.JUMEN: DB 'M',0,JJ,UU,RB
+	DW Xm9
+.Jupit: DB 'PITER',0,JJ,UU,PP,II,TT,RB
+	DW Xer3
+.Kit:	DB 'T',0,KK,RB
+	DW Xit2
+.LAID: DB 'ID',0,EE,RB
+	DW XVOYD
+.Laps: DB 'PS',0,AA,PP,RB
+	DW .Laps1
+.Laser: DB 'SER',0,AA,ZZ,RB
+	DW Xer3
+.Leade: DB 'DER',0,II,II,DD,RB
+	DW Xer5
+.Leasi: DB 'SI',0,II,II,ZZ,RB
+	DW Xi
+.Les_: DB ' ',0,EE,EE,RB
+	DW Deb8
+.Leur: DB 'R',0,Eu,RB
+	DW XVoyR1
+.Lil:	DB 'L',0,II,RB
+	DW Xl
+.Lingu: DB 'NGUI',0,In,In,GG,UU,RB
+	DW Xi
+.Locut: DB 'CUT',0,OO,KK,UU,RB
+	DW XVoyT7
+.Lot:	DB 'T',0,OO,RB
+	DW .Mot
+.MALU: DB 'U',0,AA,LL,RB
+	DW Xu2
+.Manic: DB 'ICH',0,AA,NN,II,RB
+	DW Xk
+.Marti: DB 'IEN',0,RR,SS,II,RB
+	DW Xien
+.Mazou: DB 'OUT',0,AA,ZZ,WW,RB
+	DW Xt
+.Meill: DB 'LLEUR',0,EE,EE,II,Eu,RB
+	DW XVoyR1
+.Menti: DB 'IO',0,An,An,RB
+	DW Xtio6
+.M$con: DB 'CONTENT',0,EE,KK,On,On,TT,RB
+	DW .Sent
+.M$ti: DB 'TI',0,EE,TT,RB
+	DW Xi2
+.Micro: DB 'CRO',0,II,KK,RR,RB
+	DW .Micr1
+.MIL:	DB 'L',0,II,RB
+	DW XL
+.MLLE: DB 'LE',0,MM,AA,DD,MM,WW,AA,ZZ,RB
+	DW Xel
+.MME:	DB 'E',0,MM,AA,DD,AA,RB
+	DW XM
+.MOINS: DB 'NS',0,WW,IN,IN,RB
+	DW XS1
+.Mont: DB 'T',0,On,On,RB
+	DW .Mont1
+.Montr: DB 'OUGE',0,RR,WW,JJ,RB
+	DW Xge
+.Moyen: DB 'EN ',ACIRC,0,WW,AA,AA,II,EE,NN,RB
+	DW .ACirc
+.MR_:	DB ' ',0,MM,EU,SS,II,EU,PG
+	DW LiaCir
+.MSDOS: DB '-DOS',0,EE,MM,EE,SS,DD,OO,SS,PG
+	DW NONL
+.NAME: DB 'ME',0,NN,EE,MM,Vr,PG
+	DW NonL
+.Ne_Ls: DB 'LES ',0,Eu,LL,EE,EE,RB
+	DW Deb7
+.N$gli: DB 'GLIG',0,NN,EE,GG,LL,II,RB
+	DW Xg9
+.Nid:	DB 'D',0,NN,II,RB
+	DW XVoyD
+.Nouve: DB 'VEAUX',0,WW,VV,OO,RB
+	DW XYLiaZ
+.Nouvl: DB 'VELLE',0,WW,VV,EE,LL,RB
+	DW Xe1
+.Oasi: DB 'SI',0,OO,OO,AA,ZZ,RB
+	DW Xi2
+.ORCH: DB 'CH',0,OO,RR,RB
+	DW XK
+.Ores_: DB 'ES ET',0,OO,OO,RR,ZZ,RB
+	DW .Et0
+.ORIEN: DB 'IENT',0,OO,RR,II,RB
+	DW .SENT
+.OUI:	DB 'I',0,PL,WW,RB	;PL change liaison (comme si H aspire)
+	DW XVOYI
+.OURS: DB 'RS',0,WW,RR,RB
+	DW XS2
+.Out:	DB 'T',0,RB
+	DW .Out1
+.Over: DB 'ER',0,OO,VV,RB
+	DW Xer2
+.Paren: DB 'NT',0,RR,RB
+	DW Xent9
+.Parfu: DB 'UM',0,RR,FF,RB
+	DW XUM1
+.PARSE: DB EGRA,'M',0,RR,SS,EE,RB
+	DW Xm
+.Pasti: DB 'TI',0,AA,SS,TT,RB
+	DW Xi2
+.Pavil: DB 'ILL',0,AA,VV,II,II,YY,PG
+	DW Gen
+.Perti: DB 'RTINENT',0,EE,RR,TT,II,NN,RB
+	DW Xent9
+.Petit: DB 'TIT',0,Eu,TT,II,RB
+	DW XVoyT3
+.Pin_: DB 'N-',0,II,NN,PG
+	DW NonL
+.Pire: DB 'RE',0,II,RB
+	DW XYre1
+.PL_:	DB 'L ',0,PP,LL,AA,SS,PG
+	DW NONL
+.PL_S: DB 'L ',0,SS,PP,LL,AA,SS,PG
+	DW NONL
+.PL_T: DB 'L ',0,TT,PP,LL,AA,SS,PG
+	DW NONL
+.Plusi: DB 'USIEUR',0,LL,UU,ZZ,II,Eu,RB
+	DW XVoyR1
+.PLUS: DB 'US',0,LL,UU,RB
+	DW XVOYS1
+.Polde: DB 'LDER',0,OO,LL,DD,RB
+	DW Xer3
+.Poste: DB 'STERS',0,OO,SS,TT,EE,RB
+	DW XVoyRS
+.POULS: DB 'ULS',0,WW,RB
+	DW XVoyLS
+.POUR_: DB 'UR ',0,WW,RR,PG
+	DW NONL
+.PRENO: DB 'ENOM',0,RR,EE,NN,RB
+	DW XOM
+.PR$SE: DB EGU,'SENT',0,RR,EE,ZZ,RB
+	DW .SENT
+.Pr$si: DB EGU,'SID',0,RR,EE,ZZ,II,RB
+	DW Xd9
+.Prime: DB 'IMESA',0,RR,II,MM,Eu,SS,RB
+	DW Xa
+.Puts: DB 'TS',0,WW,TT,RB
+	DW XS
+.Puz:	DB 'ZZL',0,Eu,ZZ,Eu,RB
+	DW Xl
+.Quand: DB 'ND',0,An,An,RB
+	DW XY5D1
+.Quart: DB 'RTZ',0,WW,AA,RR,TT,RB
+	DW Xz
+.Quate: DB 'TE',0,WW,AA,TT,RB
+	DW Xe
+.Quatu: DB 'TU',0,WW,AA,TT,RB
+	DW Xu
+.Quel: DB 'L',0,RB
+	DW Xel3
+.Quets: DB 'TS',0,WW,EE,RB
+	DW XVoyTS
+.Qui_: DB ' ',0,II,RB
+	DW Deb3
+.Rang: DB 'NG',0,An,RB
+	DW XVoy5g
+.RATP: DB 'TP',0,EE,RR,AA,TT,EE,RB
+	DW .P
+.Raz:	DB 'Z',0,AA,RB
+	DW XVoyZ
+.READ: DB 'AD',0,II,II,RB
+	DW XD
+.Recro: DB 'CROQUEVI',0,Eu,KK,RR,OO,KK,VV,RB
+	DW Xi
+.Res:	DB 'S',0,RB
+	DW .Res1
+.Respe: DB 'ECTI',0,EE,SS,PP,EE,KK,TT,RB
+	DW Xi
+.RESST: DB 'ENT',0,EU,SS,RB
+	DW .SENT
+.Restr: DB 'RU',0,Eu,SS,TT,RR,RB
+	DW Xu
+.Revol: DB 'VOLVER',0,EE,VV,OO,LL,VV,RB
+	DW Xer3
+.Rh$su: DB Egu,'SU',0,EE,ZZ,RB
+	DW Xu2
+.RIEN: DB 'N',0,II,RB
+	DW .RIEN1
+.RMI:	DB 'I',0,Pl,EE,EE,RR,EE,MM,RB
+	DW .I
+.RTE_: DB 'E ',0,WW,TT,PG
+	DW NONL
+.RUE_: DB ' ',0,RR,RB
+	DW .U0
+.RUE_S: DB ' ',0,SS,RR,RB
+	DW .U0
+.RUE_T: DB ' ',0,TT,RR,RB
+	DW .U0
+.Rungi: DB 'I',0,In,In,JJ,RB
+	DW Xi2
+.RUN:	DB 'N',0,RB
+	DW .Run1
+.Sang: DB 'NG',0,An,RB
+	DW .Sang1
+.SARL: DB 'RL',0,RB
+	DW .SARL1
+.Scann: DB 'ANNER',0,SS,KK,AA,NN,RB
+	DW Xer3
+.Schiz: DB 'HIZ',0,SS,KK,II,RB
+	DW XZ0
+.Scout: DB 'OUT',0,SS,KK,WW,RB
+	DW Xt
+.Scree: DB 'REEN',0,SS,KK,RR,II,II,RB
+	DW XN
+.Sculp: DB 'ULPT',0,SS,KK,UU,LL,RB
+	DW Xt
+.Serge: DB 'G',0,EE,RR,RB
+	DW Xg9
+.SERME: DB 'M',0,EE,RR,RB
+	DW Xm9
+.Sers: DB 'S',0,EE,RB
+	DW XVoyRS
+.Seul: DB 'L',0,Eu,RB
+	DW .Seul1
+.S$men: DB 'M',0,EE,RB
+	DW Xm
+.Shirt: DB 'IRT',0,HH,Eu,RR,RB
+	DW Xt
+.Short: DB 'ORT',0,HH,OO,RR,RB
+	DW Xt
+.Skipp: DB 'IPPER',0,KK,II,PP,RB
+	DW Xer5
+.Slalo: DB 'ALOM',0,LL,AA,LL,OO,RB
+	DW Xm
+.SOS:	DB 'S',0,RB
+	DW .SOS1
+.SOUVE: DB 'V',0,WW,RB
+	DW Xv9
+.SPA:	DB 'A',0,RB
+	DW .SPA1
+.SPEC: DB 'EC',0,PP,EE,RB
+	DW XC
+.Spot: DB 'OT',0,PP,OO,RB
+	DW Xt
+.Sprin: DB 'RIN',0,PP,RR,II,RB
+	DW Xn
+.Squa: DB 'UA',0,KK,WW,RB
+	DW Xa
+.Ste_: DB 'E ',0,SS,In,In,TT,PG
+	DW NonL
+.ST_:	DB ' ',0,SS,In,In,PG
+	DW LiaT
+.Stand: DB 'AND',0,TT,An,RB
+	DW XD
+.Succu: DB 'CCUL',0,UU,KK,UU,RB
+	DW Xl9
+.SUPER: DB 'PER',0,UU,PP,RB
+	DW Xer3
+.Sur_: DB 'R',0,UU,RR,RB
+	DW Xesp
+.Suspc: DB 'SPECTI',0,UU,SS,PP,EE,KK,TT,RB
+	DW Xi
+.Suspe: DB 'SPENSE',0,RB
+	DW .Susp1
+.Swea: DB 'EA',0,WW,II,RB
+	DW XI0
+.SYNTH: DB 'NTHE',0,IN,IN,TT,RB
+	DW XEGU
+.Tabac: DB 'BAC',0,AA,BB,AA,RB
+	DW XVoyC
+.Tachy: DB 'CHY',0,AA,KK,RB
+	DW Xy
+.Talen: DB 'L',0,AA,RB
+	DW Xl9
+.Tange: DB 'NG',0,An,An,RB
+	DW Xg9
+.TELE: DB 'E',0,EE,LL,RB
+	DW XEGU
+.Tenni: DB 'NI',0,EE,NN,RB
+	DW Xi2
+.TENTI: DB 'TI',0,AN,TT,RB
+	DW XI
+.THEN: DB 'EN',0,ZZ,RB
+	DW Xen0
+.TIER: DB 'ER',0,II,RB
+	DW Xer3
+.Toast: DB 'AST',0,OO,SS,RB
+	DW Xt
+.TORRE: DB 'RR',0,OO,RB
+	DW Xr9
+.Tourm: DB 'URM',0,WW,RR,RB
+	DW Xm8
+.Tout: DB 'UT',0,WW,RB
+	DW XY5T1
+.Trans: DB 'ANSAT',0,RR,An,An,ZZ,AA,RB
+	DW Xt
+.TRES: DB 'ES',0,RR,EE,RB
+	DW XVOYS1
+.TR$S: DB EGRA,'S',0,RR,EE,RB
+	DW XVOYS1
+.Trib: DB 'IB',0,RR,II,RB
+	DW Xb
+.Trois: DB 'OIS',0,RR,WW,AA,RB
+	DW XVoyS1
+.TROP: DB 'OP',0,RR,OO,RB
+	DW .TROP1
+.Tuner: DB 'NER',0,UU,NN,RB
+	DW Xer2
+.Turbu: DB 'RBUL',0,UU,RR,BB,UU,RB
+	DW Xl9
+.Tu_Ls: DB 'ES ',0,LL,EE,EE,RB
+	DW Deb7
+.Tu_L_: DB Apost,0,LL,RB
+	DW Deb4
+.Tu_:	DB ' ',0,UU,RB
+	DW .Tu_1
+.UDF:	DB 'F',0,UU,UU,DD,EE,EE,RB
+	DW .F
+.URGEN: DB 'G',0,UU,RR,RB
+	DW Xg9
+.Vaci: DB 'CI',0,AA,SS,RB
+	DW Xi
+.VENT: DB 'NT',0,RB
+	DW XENT9
+.VER:	DB 'R',0,RB
+	DW Xer3
+.Vieux: DB 'EUX',0,II,Eu,RB
+	DW XYLiaZ
+.Vince: DB 'NCENT',0,In,In,SS,RB
+	DW Xent9
+.Vingt: DB 'NGT-',0,In,In,TT,RB
+	DW XTiret
+.Vis:	DB 'S',0,II,RB
+	DW XVoyS2
+.VRAIM: DB 'AIM',0,RR,EE,EE,RB
+	DW Xm9
+.Win:	DB 'N',0,Pl,WW,II,RB
+	DW Xn
+.XAINT: DB 'NT',0,IN,IN,RB
+	DW XY5T1
+.Yacht: DB 'CHT',0,Pl,II,OO,RB
+	DW Xt
+.YAOUR: DB 'OURT',0,PL,II,AA,AA,WW,RR,RB
+	DW XT
+.Yen:	DB 'N',0,Pl,II,RB
+	DW Xen
+.YEUX: DB 'UX',0,II,EU,Pl,RB
+	DW XVoyX
+.Y_est: DB 'ST',0,EE,RB
+	DW .Est
+.Zoo:	DB 'O',0,ZZ,RB
+	DW .Zoo1
+.Zut:	DB 'T',0,ZZ,UU,RB
+	DW Xt
+
+D1Negl: DB Egu,0,NN,RB
+	DW XEgu
+D2Cape: DB 'APES',0,KK,AA,PP,RB
+	DW Xes2
+D2Ces: DB 'ES',0,SS,EE,RB
+	DW D2Ces1
+D2Jean: DB 'EAN',0,RB
+	DW D2Jea1
+D3As:	DB 'S',0,Pl,AA,RB
+	DW XVoyS
+D3Bus: DB 'U',0,BB,RB
+	DW Xu
+D3Fier: DB 'I',0,FF,RB
+	DW Xi
+D3Sens: DB 'ENS',0,SS,An,An,RB
+	DW XVoy5S
+D3Vis: DB 'IS',0,VV,II,RB
+	DW XVoyS
+D5Post: DB 'OSTER',0,PP,OO,SS,TT,RB
+	DW Xer3
+D5Repo: DB 'EPORTER',0,RR,Eu,PP,OO,RR,TT,RB
+	DW Xer2
+D7As:	DB 'S',0,ZZ,AA,RB
+	DW XVoyS
+D8USA: DB 'SA',0,ZZ,UU,UU,RB
+	DW D8USA1
+D10Abo: DB 'BONNE',0,NN,AA,BB,OO,NN,RB
+	DW X$Fin
+
+;Dictionnaire milieu de mot
+
+Xach:	DB 'H',0,RB
+	DW Xach1
+XAISEM: DB 'EM',0,EE,SS,RB
+	DW XEM
+Xalcoo: DB 'COO',0,LL,KK,RB
+	DW Xo
+XALITE: DB 'ITE',0,LL,II,TT,RB
+	DW X$Fin
+Xaker: DB 'ER',0,EE,KK,RB
+	DW Xer5
+Xammen: DB 'ENT',0,AA,AA,MM,RB
+	DW Xent9
+Xamste: DB 'TER',0,AA,MM,SS,TT,RB
+	DW Xer3
+XANCAI: DB 'I',0,SS,RB
+	DW XAI
+Xanime: DB 'ME',0,AA,NN,II,MM,RB
+	DW Xe
+XanquR: DB 'UIERS',0,An,KK,II,RB
+	DW Xers
+XANQUI: DB 'UIL',0,AN,KK,II,RB
+	DW XL
+Xantie: DB 'IEL',0,An,SS,II,RB
+	DW Xel
+XARCON: DB 'CON',0,RR,SS,RB
+	DW XON
+XARTIM: DB 'TIM',0,RR,TT,RB
+	DW XIM
+Xatiem: DB 'IEMM',0,SS,II,AA,AA,RB
+	DW Xm9
+Xatien: DB 'IEN',0,SS,II,RB
+	DW XYtie1
+Xatu:	DB 'U',0,TT,RB
+	DW Xu2
+Xault: DB 'T',0,RB
+	DW Xault1
+Xbay:	DB 'Y',0,RB
+	DW .May
+Xbres: DB 'ESA',0,RR,Eu,SS,RB
+	DW Xa
+XBSENT: DB 'NT',0,SS,RB
+	DW .Sent
+Xburge: DB 'RGER',0,Eu,RR,GG,RB
+	DW Xer5
+Xbytie: DB 'T',0,II,RB
+	DW XVoyT6
+XCAMEN: DB 'ME',0,AA,RB
+	DW Xme8
+Xcauti: DB 'UT',0,KK,OO,OO,RB
+	DW XVoyT7
+XCCEPT: DB 'PTIONS',0,SS,EE,PP,TT,II,ON,RB
+	DW XS1
+Xccide: DB 'DENT',0,SS,II,DD,RB
+	DW .SENT
+Xccroc: DB 'OC',0,RR,OO,RB
+	DW XVoyC
+Xcessu: DB 'SSU',0,SS,EE,SS,RB
+	DW Xu2
+XChfCm: DB 'M',0,RB
+	DW XChCm1
+XCHOLE: DB 'LES',0,KK,OO,LL,RB
+	DW XES
+Xcill: DB 'LL',0,SS,II,RB
+	DW Xl
+Xcinto: DB 'NTOSH',0,KK,II,NN,TT,OO,HH,PG
+	DW Gen
+XCLUB: DB 'UB',0,LL,RB
+	DW XCLUB1
+XCOMPT: DB 'T',0,ON,ON,RB
+	DW XT
+XCOM:	DB 'M',0,RB
+	DW XCOM1
+Xcrati: DB 'AT',0,RR,AA,RB
+	DW XVoyT6
+Xcurre: DB 'R',0,UU,RB
+	DW Xr9
+Xdamn: DB 'MN',0,AA,AA,RB
+	DW XN
+Xdent9: DB 'NT',0,DD,RB
+	DW Xent9
+Xditio: DB 'T',0,II,RB
+	DW XVoyT7
+XDRAP: DB 'AP',0,RR,AA,RB
+	DW XOP
+XEAKER: DB 'ER',0,II,II,KK,RB
+	DW Xer5
+Xecon: DB 'N',0,Eu,RB
+	DW Xecon1
+Xeffic: DB 'FICIENT',0,FF,II,SS,II,RB
+	DW XENT9
+Xehors: DB 'ORS',0,Eu,Pl,OO,RB
+	DW XVoyRS
+Xein_a: DB ' AIR',0,EE,NN,RB
+	DW Xer3
+Xemmen: DB 'MENT',0,AA,AA,MM,RB
+	DW Xent9
+XERMAN: DB 'ANENT',0,EE,RR,MM,AA,NN,RB
+	DW XENT9
+XERPEN: DB 'ENT',0,EE,RR,PP,RB
+	DW .Sent
+XESSIE: DB 'IEURS',0,EE,EE,SS,II,EU,RB
+	DW XVOYS1
+Xesque: DB 'UEL',0,EE,EE,KK,RB
+	DW Xel
+Xevers: DB 'S',0,Eu,VV,EE,RB
+	DW XVoyRS
+XEXEMP: DB 'EX ',0,RR,EE,GG,ZZ,AN,AN,PP,LL,PG
+	DW NONL
+X$cent: DB 'ENT',0,EE,SS,RB
+	DW Xent9
+X$cut: DB 'UT',0,KK,UU,RB
+	DW XVoyT7
+X$dent: DB 'ENT',0,DD,RB
+	DW .Sent
+X$gent: DB 'ENT',0,JJ,RB
+	DW .Sent
+X$quat: DB 'UAT',0,KK,WW,AA,RB
+	DW XVoyT7
+X$quen: DB 'UENT',0,KK,RB
+	DW .Sent
+X$quie: DB 'UIERS',0,KK,II,RB
+	DW Xers
+X$rame: DB 'AMENT',0,RR,AA,MM,RB
+	DW Xent9
+X$rus: DB 'US',0,RR,UU,RB
+	DW XVoyS2
+X$tent: DB 'NT',0,TT,RB
+	DW Xent9
+X$terg: DB 'RG',0,TT,EE,RR,RB
+	DW Xg9
+X$tie: DB 'E',0,RB
+	DW X$tie1
+X$TRIM: DB 'IME',0,TT,RR,II,RB
+	DW Xme9
+XFAIS: DB 'IS',0,RB
+	DW XFAIS1
+XFLAMM: DB 'AMM',0,LL,AA,AA,RB
+	DW Xm
+Xgent9: DB 'NT',0,JJ,RB
+	DW Xent9
+Xgnost: DB 'OST',0,GG,NN,OO,SS,RB
+	DW Xt
+XGRAMM: DB 'AMM',0,RR,AA,RB
+	DW Xm
+Xgr$s: DB EGra,'S',0,RR,EE,RB
+	DW XVoyS
+Xgster: DB 'TER',0,SS,TT,RB
+	DW Xer3
+Xibit: DB 'IT',0,BB,II,RB
+	DW XVoyT7
+Xibut: DB 'UT',0,BB,UU,RB
+	DW XVoyT7
+Xibu:	DB 'U',0,BB,RB
+	DW Xu2
+Xiceps: DB 'EPS',0,SS,EE,PP,RB
+	DW Xs2
+Xicit: DB 'IT',0,SS,RB
+	DW Xit2
+Xight: DB 'HT',0,AA,AA,RB
+	DW Xit2
+XILAME: DB 'MENT',0,LL,AA,MM,RB
+	DW Xent9
+Ximman: DB 'AN',0,In,In,MM,RB
+	DW Xan
+XIMMIN: DB 'INENT',0,II,MM,II,NN,RB
+	DW XENT9
+XIMPOT: DB 'OTENT',0,IN,IN,PP,OO,TT,RB
+	DW XENT9
+Xinuti: DB 'T',0,II,NN,UU,RB
+	DW XVoyT6
+XIOLEN: DB 'LENT',0,OO,LL,RB
+	DW .SENT
+XIPIEN: DB 'IENT',0,PP,II,RB
+	DW XENT9
+Xirus: DB 'US',0,RR,UU,RB
+	DW XVoyS2
+Xitu:	DB 'U',0,TT,RB
+	DW Xu2
+Xitut: DB 'UT',0,TT,UU,RB
+	DW XVoyT7
+Xivale: DB 'AL',0,II,VV,AA,RB
+	DW Xl9
+Xjacen: DB 'CENT',0,JJ,AA,SS,RB
+	DW Xent9
+Xjea:	DB 'A',0,JJ,RB
+	DW XA
+Xker:	DB 'R',0,KK,RB
+	DW Xer2
+Xket:	DB 'T',0,KK,RB
+	DW Xet2
+Xlenco: DB 'NCON',0,An,An,SS,RB
+	DW Xon
+Xlent9: DB 'NT',0,LL,RB
+	DW Xent9
+Xlgue: DB 'UE',0,GG,RB
+	DW Xtre
+XLLIGE: DB 'IG',0,II,RB
+	DW Xg9
+XLOAD: DB 'AD',0,OO,OO,RB
+	DW XD
+Xlong: DB 'NG',0,On,RB
+	DW Xlong1
+XLQUE: DB 'UE',0,KK,RB
+	DW XLQUE1
+Xlut:	DB 'T',0,UU,RB
+	DW XVoyT7
+Xmatie: DB 'TIE',0,AA,RB	;pas tions
+	DW XYti61
+Xment8: DB 'T',0,MM,RB
+	DW .Sent
+Xment9: DB 'T',0,MM,RB
+	DW Xent9
+XMERO: DB 'RO',0,EE,RR,RB
+	DW XO
+Xmotio: DB 'T',0,OO,RB
+	DW XVoyT7
+Xndows: DB 'OWS',0,NN,DD,OO,OO,RB
+	DW XZ0
+Xnimbu: DB 'MBU',0,NN,IN,IN,BB,RB
+	DW Xu2
+Xnitio: DB 'TIO',0,NN,II,RB
+	DW Xtio6
+Xnours: DB 'URS',0,NN,WW,RR,RB
+	DW Xs2
+Xoatie: DB 'T',0,Pl,AA,RB
+	DW XVoyT6
+Xobati: DB 'AT',0,BB,AA,RB
+	DW XVoyT6
+Xobu:	DB 'U',0,BB,RB
+	DW Xu2
+Xoch:	DB 'H',0,RB
+	DW Xoch1
+XOCUME: DB 'UM',0,KK,UU,RB
+	DW Xm8
+Xocu:	DB 'U',0,KK,RB
+	DW Xu2
+Xoetu: DB 'U',0,EE,TT,RB
+	DW Xu2
+XOLUME: DB 'UM',0,LL,UU,RB
+	DW Xm9
+XOMSON: DB 'ON',0,OO,MM,SS,OO,RB
+	DW XN
+XONSCI: DB 'CIENT',0,ON,SS,II,RB
+	DW XENT9
+XONSEN: DB 'ENT',0,ON,SS,RB
+	DW .Sent
+XONSIE: DB 'IEUR',0,EU,SS,II,EU,PG
+	DW LIACir
+XONTIN: DB 'INENT',0,ON,TT,II,NN,RB
+	DW XENT9
+XONUME: DB 'M',0,OO,NN,UU,RB
+	DW Xm9
+Xooing: DB 'NG',0,RB
+	DW Xin
+Xord_E: DB '-EST',0,Pl,RR,EE,SS,RB
+	DW Xt
+XORPS: DB 'S',0,RB
+	DW XVOYRS
+Xotien: DB 'IEN',0,SS,II,RB
+	DW XYtie1
+Xourne: DB 'EVI',0,RR,NN,Eu,VV,RB
+	DW Xi2
+XOUSCO: DB 'COUS',0,SS,KK,WW,RB
+	DW XVoyS2
+Xoutil: DB 'L',0,TT,RB
+	DW Xil1
+Xpays: DB 'YS',0,EE,EE,II,II,RB
+	DW XVoyS
+Xp$nit: DB 'NITENT',0,EE,NN,II,TT,RB
+	DW Xent9
+Xplime: DB 'IME',0,LL,II,RB
+	DW Xme8
+Xporte: DB 'RTERS',0,OO,RR,TT,EE,RB
+	DW XVoyRS
+Xposit: DB 'SIT',0,OO,ZZ,II,RB
+	DW XVoyT7
+Xpr$s: DB EGra,'S',0,RR,EE,RB
+	DW XVoyS
+XPRINT: DB 'INT ',0,RR,II,NN,TT,PG
+	DW NONL
+XPRIX: DB 'IX',0,RR,II,RB
+	DW XVoyx
+Xpropo: DB 'OPORTIO',0,RR,OO,PP,OO,RR,RB
+	DW Xtio6
+XPRUDE: DB 'UD',0,RR,UU,RB
+	DW Xd9
+Xpunct: DB 'NCT',0,On,On,KK,RB
+	DW Xt
+Xquick: DB 'CK',0,WW,II,RB
+	DW Xk
+Xquier: DB 'ERS',0,II,EE,RB
+	DW XVoyRS
+XRDIME: DB 'ME',0,RR,DD,II,RB
+	DW Xme9
+Xreade: DB 'ADER',0,II,II,DD,RB
+	DW Xer5
+Xream: DB 'AM',0,RB
+	DW Xream1
+Xrent9: DB 'NT',0,RR,RB
+	DW Xent9
+Xrgue: DB 'UE',0,GG,RB
+	DW Xtre
+XRIMEN: DB 'ME',0,II,MM,RB
+	DW Xe
+Xrmitt: DB 'ITTENT',0,MM,II,TT,RB
+	DW Xent9
+XRNESO: DB 'ESO',0,NN,EU,SS,RB
+	DW XO
+Xrom:	DB 'M',0,RB
+	DW Xrom1
+XRTAIN: DB 'IN',0,RR,TT,RB
+	DW XTAIN1
+Xrtion: DB 'NS',0,TT,II,On,RB
+	DW XvoyS1
+Xrvent: DB 'ENTIO',0,VV,An,An,RB
+	DW Xtio6
+Xrvien: DB 'IEN',0,VV,II,RB
+	DW Xien1
+Xrulen: DB 'L',0,RR,UU,RB
+	DW Xl9
+Xscroc: DB 'OC',0,SS,KK,RR,OO,RB
+	DW XVoyC
+XSENS: DB 'NS',0,AN,AN,RB
+	DW XVoy5S
+Xspare: DB 'AR',0,PP,AA,RB
+	DW Xr9
+XSQUE: DB 'UE',0,KK,RB
+	DW Xtre
+Xssers: DB 'RS',0,EE,RB
+	DW XVoyRS
+Xstame: DB 'ME',0,TT,AA,RB
+	DW Xme9
+Xsteak: DB 'AK',0,TT,EE,RB
+	DW Xk
+Xstinc: DB 'NCT',0,TT,In,RB
+	DW Xstin1
+Xstrum: DB 'UM',0,TT,RR,UU,RB
+	DW Xm8
+Xtball: DB 'ALL',0,BB,OO,RB
+	DW XL
+Xtenti: DB 'NTIO',0,TT,An,An,RB
+	DW Xtio6
+Xtien: DB 'EN',0,TT,II,RB
+	DW Xien1
+XTirCe: DB 'E',0,SS,RB
+	DW .Ce0
+XTirEn: DB 'N',0,RB
+	DW .En0
+XTirEs: DB 'ST',0,EE,SS,RB
+	DW Xt
+XTirJe: DB 'E',0,JJ,RB
+	DW .Je0
+XTirOn: DB 'N',0,RB
+	DW .On0
+XTRADO: DB 'DO',0,AA,DD,RB
+	DW Xo2
+Xtrans: DB 'ANS',0,RR,An,An,RB
+	DW XTran1
+Xtreme: DB 'EMER',0,RR,Eu,MM,RB
+	DW Xer3
+Xtren: DB 'T',0,RB
+	DW Xtrent
+Xtresn: DB 'ESENS',0,RR,Eu,SS,An,Pl,RB
+	DW Xs2
+Xtrese: DB 'ESE',0,RR,Eu,SS,RB
+	DW Xe
+Xtresi: DB 'ESI',0,RR,Eu,SS,RB
+	DW Xi
+Xtreso: DB 'ESO',0,RR,Eu,SS,RB
+	DW Xo
+XTREVE: DB 'EV',0,RR,EU,RB
+	DW Xv9
+Xtr_en: DB 'EN',0,RB
+	DW Xtr_e1
+Xtr_et: DB 'T ',0,RB
+	DW Xer0
+Xtr_y: DB 'Y',0,RB
+	DW Xtr_y1
+XTTirE: DB 'LLES ',0,TT,EE,LL,PG
+	DW NonL
+XTTirI: DB 'LS ',0,TT,II,LL,PG
+	DW NonL
+XTTirO: DB 'N',0,TT,RB
+	DW .On0
+Xulu:	DB 'U',0,UU,LL,RB
+	DW Xu2
+Xunch: DB 'H',0,Eu,NN,RB
+	DW Xch
+XUSIL: DB 'IL',0,UU,ZZ,RB
+	DW Xil1
+Xvent9: DB 'NT',0,VV,RB
+	DW Xent9
+Xventi: DB 'NTIO',0,An,An,RB
+	DW Xtio6
+XVERS: DB 'RS',0,EE,RB
+	DW XVOYRS
+Xv$nie: DB 'NIENT',0,EE,NN,II,RB
+	DW Xent9
+XVIEN: DB 'EN',0,II,RB
+	DW Xien1
+Xvil:	DB 'L',0,II,RB
+	DW Xl
+Xvingt: DB 'NGT',0,In,In,RB
+	DW XVoyT3
+Xwee:	DB 'E',0,WW,II,RB
+	DW XI0
+Xxcell: DB 'LL',0,EE,RB
+	DW Xl9
+Xychis: DB 'HIS',0,II,HH,II,RB
+	DW XVoyS
+Xychiq: DB 'HIQ',0,II,HH,II,RB
+	DW Xq
+Xych:	DB 'H',0,II,RB
+	DW XK
+Xyeste: DB 'STER',0,II,II,EE,SS,TT,RB
+	DW Xer3
+Xyru:	DB 'U',0,II,RR,RB
+	DW Xu2
+XYemen: DB 'ENT',0,Pl,MM,RB
+	DW Xent9
+XYrdum: DB 'M',0,RR,DD,UU,RB
+	DW Xm9
+XYrent: DB 'T',0,RB
+	DW XYren1
+XYrTOn: DB 'ON',0,Pl,RR,TT,RB
+	DW .On0
+XYrZEn: DB 'EN',0,Pl,RR,ZZ,RB
+	DW .En0
+XYrZY: DB 'Y',0,Pl,RR,ZZ,RB
+	DW .Y0
+XYsex: DB 'X',0,SS,EE,RB
+	DW Xx
+XYTEn: DB 'EN',0,RB
+	DW .En0
+XYtie6: DB 'E',0,RB
+	DW XYti61
+XYtio7: DB 'O',0,RB
+	DW Xtio6
+XYtion: DB 'NS',0,TT,II,On,RB
+	DW XVoyS1
+XYTiJe: DB 'JE',0,Pl,JJ,RB
+	DW .Je0
+XYTOn: DB 'ON',0,TT,RB
+	DW .On0
+XYTY:	DB 'Y',0,RB
+	DW .Y0
+Xxamen: DB 'MEN',0,GG,ZZ,AA,MM,RB
+	DW XAIN
+Xzavis: DB Agra,'-VIS',0,ZZ,AA,VV,II,RB
+	DW XVoyS
+Xzer:	DB 'R',0,ZZ,RB
+	DW Xer5
+XZEN:	DB 'EN',0,ZZ,RB
+	DW .En0
+XZY:	DB 'Y',0,ZZ,RB
+	DW .Y0
+
+;Arbre début de mot
+
+.A:	DB 'B',DC
+	DW .Aber
+	DB 'C',DC
+	DW .Accen
+	DB 'D',DC
+	DW .ADAM
+	DB Egu,DC
+	DW .A$ros
+	DB 'G',DC
+	DW .Agend
+	DB 'G',AA,RB
+	DW Xg9
+	DB 'I',DC
+	DW .Aigui
+	DB 'I',DC
+	DW .Airbu
+	DB 'I',DC
+	DW .Aix
+	DB 'L',DC
+	DW .Alias
+	DB 'L',DC
+	DW .Alsa
+	DB 'M',DC
+	DW .Ambit
+	DB 'M',DC
+	DW .AMER
+	DB 'N',DC
+	DW .Anis
+	DB 'N',DC
+	DW .ANPE
+	DB 'N',DC
+	DW .Antis
+	DB 'P',DC
+	DW .APF
+	DB 'P',DC
+	DW .Appar
+	DB 'P',DC
+	DW .Apple
+	DB 'Q',DC
+	DW .Aqua
+	DB 'R',DC
+	DW .Archa
+	DB 'R',DC
+	DW .Arche
+	DB 'R',DC
+	DW .ARDEN
+	DB 'R',DC
+	DW .ARGEN
+	DB 'R',DC
+	DW .Argus	;! argue,argument
+	DB 'S',DC
+	DW .ASCII
+	DB 'S',DC
+	DW .ASPTT
+	DB 'S',DC
+	DW .Asy
+	DB 'S',AA,RB
+	DW .As1
+	DB 'T',DC
+	DW .Atlas
+	DB 'U',OO,OO,RB
+	DW .Au
+	DB NAbr,RB
+	DW .A1
+	DB 'V',DC
+	DW .AV_
+.A1:	DB 'V',DC
+	DW .AVH.
+	DB '>',AA,RB
+	DW .A0
+	DB LET,RB
+	DW XA
+.A0:	DB TTT,AA,PG
+	DW LiaCir
+
+.ACirc: DB LET,RB
+	DW XACirc
+	DB TTT,AA,RB
+	DW XCIRCO
+
+.AECOL: DB LET,RB
+	DW XAE
+	DB TTT,AA,RB
+	DW XECole
+
+.AGRA: DB ' ',RB
+	DW .A0
+	DB '-',RB
+	DW .A0
+	DB LET,RB
+	DW .A
+	DB TTT,AA,RB
+	DW XACCGR
+
+.AGU:	DB LET,RB
+	DW .A
+	DB TTT,AA,RB
+	DW XAccAi
+	
+.Ambi1: DB 'I',DC
+	DW XYtie6
+	DB 'I',DC
+	DW XYtio7
+	DB TTT,RB
+	DW XVoyt
+
+.APOST: DB TTT,VR,KK,OO,TT,RB
+	DW XVIRNL
+
+.ARond: DB LET,RB
+	DW .A
+	DB TTT,AA,RR,ON,ON,PG
+	DW LIACir
+	
+.As1:	DB '-',RB
+	DW XYLiaZ
+	DB TTT,RB
+	DW XVoyS2
+
+.ATild: DB LET,RB
+	DW .a
+	DB TTT,AA,RB
+	DW XTilde
+
+.ATrem: DB LET,RB
+	DW .a
+	DB TTT,AA,RB
+	DW XTrema
+	
+.Au:	DB 'T',DC
+	DW .Autoc
+	DB 'V',RB
+	DW Xv9
+	DB 'X',RB
+	DW .Aux
+	DB TTT,RB
+	DW Xau
+	
+.Aux:	DB 'Q',RB
+	DW Xq
+	DB ' ',RB
+	DW Deb8
+	DB TTT,RB
+	DW XVoyX1
+
+;Cons-cons peut aller au dico, avec au moins une voyelle en test.
+;Dans les autres cas, il faut pr‚voir les sigles possibles.
+;Pour un sigle, la cons suivante est consideree comme ponc, d'ou pro-
+;nonciation en TTT.
+.B:	DB TTT,BB,RB
+	DW .B00
+.B00:	DB 'A',DC
+	DW .Balbu
+	DB 'A',DC
+	DW .Banca
+	DB 'A',DC
+	DW .Bapt
+	DB 'E',DC
+	DW .Beaux
+	DB 'E',DC
+	DW .Belle
+	DB 'I',DC
+	DW .BIEN
+	DB 'I',DC
+	DW .BIOS
+	DB 'I',DC
+	DW .Bit
+	DB 'I',RB
+	DW Xi2
+	DB 'L',DC
+	DW .Blue
+	DB 'L',DC
+	DW .Bluf
+	DB 'O',RB
+	DW .BO
+	DB 'R',DC
+	DW .Break
+	DB 'R',DC
+	DW .Brut
+	DB 'U',DC
+	DW .But
+	DB 'U',RB
+	DW Xu2
+	DB LET,RB
+	DW Xb00
+	DB TTT,RB
+	DW Xer0
+
+.Beta: DB TTT,BB,EE,TT,AA,PG
+	DW LiaCir
+	
+.Blue1: DB 'S',WW,WW,RB
+	DW XZ0
+	DB '-',DC
+	DW .BJean
+	DB Let,UU,UU,RB
+	DW .E
+	DB TTT,WW,WW,PG
+	DW LiaCir
+
+.BLVD: DB TTT,BB,WW,LL,VV,AA,AA,RR,PG
+	DW NONL
+
+.BO:	DB 'N',RB
+	DW .BON
+	DB 'Y',RB
+	DW .Boy
+	DB TTT,RB
+	DW XO
+
+.BON:	DB 'N',DC
+	DW .Bonne
+	DB 'S',ON,ON,RB
+	DW .BONS
+	DB ' ',RB
+	DW .BON_
+	DB TTT,RB
+	DW XON
+
+.BON_: DB AGRA,DC
+	DW .BON_A
+	DB VOY,OO,NN,PG
+	DW NONL
+	DB LET,ON,ON,PG
+	DW NONL
+	DB TTT,ON,PG
+	DW NONL
+
+.BONS: DB 'H',RB      ;BONSHOMMES
+	DW XZ0
+	DB ' ',DC
+	DW .BonsA
+	DB TTT,RB
+	DW XS1
+
+.Boy:	DB 'C',OO,II,RB
+	DW Xc
+	DB 'S',RB
+	DW .Boys
+	DB Let,RB
+	DW Xoy
+	DB TTT,OO,RB
+	DW Xi
+	
+.Boys: DB Let,WW,AA,RB
+	DW XVoyS
+	DB TTT,OO,RB
+	DW Xi
+	
+.But1: DB 'S',RB
+	DW XVoyTS
+	DB TTT,RB
+	DW Xt
+
+.C:	DB 'A',DC	;et Xc
+	DW Xcauti
+	DB 'A',RB
+	DW .CA
+	DB 'E',SS,RB
+	DW .Ce
+	DB 'G',DC
+	DW .CGE
+	DB 'H',DC	;pas .ch: pb sigles
+	DW .Chao
+	DB 'H',DC
+	DW .Chart
+	DB 'H',DC
+	DW .Chef_
+	DB 'H',DC
+	DW .Chefs
+	DB 'H',DC
+	DW .CHER
+	DB 'H',DC
+	DW .Chevi
+	DB 'H',DC
+	DW .Chez1
+	DB 'H',DC
+	DW .Chez2
+	DB 'H',DC
+	DW .Chez3
+	DB 'H',DC
+	DW .Chez4
+	DB 'H',DC
+	DW .Ch$r
+	DB 'H',DC
+	DW .Chips
+	DB 'H',DC
+	DW .Choe
+	DB 'H',DC
+	DW .CHOL
+	DB 'H',DC
+	DW .Chor
+	DB 'H',DC
+	DW .Chut
+	DB 'I',DC
+	DW .CIPH
+	DB 'L',DC
+	DW .Clebs
+	DB 'L',DC
+	DW .CLIEN
+	DB 'O',DC
+	DW .Coc
+	DB 'O',DC
+	DW .Coex
+	DB 'O',DC
+	DW .COMME
+	;DB 'O',DC
+	;DW .COMMU
+	DB 'O',DC
+	DW .COMPT
+	DB 'O',DC
+	DW .Confi
+	DB 'O',DC
+	DW .CONTE
+	DB 'O',DC
+	DW .Coo
+	DB 'O',DC
+	DW .Corpu
+	DB 'O',DC
+	DW .Cosi
+	DB 'O',DC
+	DW .Couve
+	DB 'R',DC
+	DW .Croc
+	DB 'U',KK,RB
+	DW .CU
+	DB LET,RB
+	DW XC
+	DB TTT,SS,RB
+	DW Xer0
+	
+.CA:	DB 'K',DC
+	DW .Cake
+	DB 'M',DC
+	DW .Campu
+	DB 'N',DC
+	DW .Cance
+	DB 'O',DC
+	DW .Caout
+	DB 'R',DC
+	DW .Carte
+	DB LET,KK,RB
+	DW XA
+	DB TTT,SS,RB
+	DW .A0
+
+.CBarr: DB LET,RB
+	DW XS
+	DB TTT,SS,EE,BB,AA,AA,RR,EE,PG
+	DW LiaCir
+	
+.Ce:	DB 'N',DC
+	DW .CENT
+	DB TTT,RB
+	DW .Ne
+	
+.Ce0:	DB Let,RB
+	DW .Ce
+	DB TTT,PG
+	DW NonL
+
+.CCEDI: DB LET,RB
+	DW XS
+	DB TTT,SS,EE,SS,EE,DD,II,YY,PG
+	DW NONL
+	
+.Cent1: DB 'S',RB
+	DW XVoyS1
+	DB Let,RB
+	DW Xt
+	DB TTT,PG
+	DW LiaT
+
+.CIPH1: DB Let,SS,II,RB
+	DW XF
+	DB TTT,SS,EE,EE,II,PP,EE,RB
+	DW .H
+	
+.Couv1: DB ' ',DC
+	DW .Couv2
+	DB TTT,RB
+	DW XVoy5t
+	
+.Croc1: DB 'S',DC
+	DW .Crocs
+	DB 'U',KK,RB
+	DW Xu2
+	DB '-',DC
+	DW .Croc_
+	DB TTT,RB
+	DW XVoyC
+
+.CU:	DB 'E',RB
+	DW XCUE
+	DB 'I',DC
+	DW .Cuill
+	DB 'L',UU,RB
+	DW XVoyL
+	DB 'T',DC
+	DW .Cutte
+	DB TTT,RB
+	DW XU
+	
+.d:	DB NAbr,RB
+	DW .D1
+	DB 'R',DC
+	DW .DR_
+.D1:	DB TTT,DD,RB
+	DW .d00
+.d00:	DB 'A',DC
+	DW Xdamn
+	DB 'A',RB
+	DW .XA
+	DB 'D',DC
+	DW .DDE
+	DB 'E',DC	;Egu aussi
+	DW .Desh
+	DB 'E',RB
+	DW .DE
+	DB Egu,DC
+	DW .D$fic
+	DB Egu,DC
+	DW .D$men
+	DB Egu,DC
+	DW .Desh
+	DB Egu,DC
+	DW .D$sil
+	DB EGU,DC
+	DW .D$VI
+	DB Egra,DC
+	DW .D$s
+	DB 'I',RB
+	DW .DI
+	DB 'O',RB
+	DW .DO
+	DB 'R',DC
+	DW XDRAP
+	DB LET,RB
+	DW Xd00
+	DB TTT,RB
+	DW Xer0
+
+.DBarr: DB LET,RB
+	DW .D
+	DB TTT,DD,EE,BB,AA,RR,EE,PG
+	DW LiaCir
+
+.DE:	;DB 'B',DC
+	;DW .DDCOM
+	DB 'B',DC
+	DW .Debut
+	DB 'N',RB
+	DW .DEN
+	DB 'P',DC
+	DW .DEPAR
+	DB 'S',RB
+	DW .Des
+	DB 'U',DC
+	DW .Deux
+	DB TTT,RB
+	DW .XE
+
+.DEN:	DB 'T',RB
+	DW .Sent
+	DB TTT,RB
+	DW XEN
+	
+.Des:	DB 'S',DC
+	DW .DESSO
+	DB 'S',DC
+	DW .DESSU
+	DB ' ',EE,EE,RB
+	DW Deb8
+	DB TTT,RB
+	DW .Xes
+	
+.Di:				;et .Si:
+	DB 'V',DC
+	DW .Diver
+	DB 'X',II,RB
+	DW .DIX
+	DB TTT,RB
+	DW XI
+	
+.Dix:	DB ' ',RB
+	DW .Dix_
+	DB 'I',DC
+	DW .Dixie
+	DB Let,RB
+	DW Xx
+	DB TTT,RB
+	DW XS20
+
+.Dix1:		     ;et .Six1:
+	DB NAbr,RB
+	DW .Dix3
+.Dix2: DB 'C',DC
+	DW XChfCm
+	DB 'M',RB
+	DW XCHIFM
+	DB 'F',RB
+	DW XCHIFF
+	DB 'G',RB
+	DW XChifG
+	DB 'H',ZZ,RB
+	DW XChifH
+	DB 'S',RB
+	DW XCHIFS
+.Dix3: DB 'E',DC
+	DW .Et_S
+	DB ' ',RB
+	DW .DIX_
+	DB LET,PG
+	DW LIAZ
+	DB TTT,RB
+	DW XS2
+
+.DIX_:			;et .Six_:
+	DB NAbr,RB
+	DW .Dix3
+	DB 'B',DC
+	DW .BD_S
+	DB 'P',DC
+	DW .PL_S
+	DB 'R',DC
+	DW .RUE_S
+	DB TTT,RB
+	DW .Dix2
+
+.DO:	DB 'I',RB
+	DW .SOI
+	DB 'N',RB
+	DW .DON
+	DB 'S',OO,RB
+	DW XVoyS
+	DB 'T',OO,RB
+	DW Xt
+	DB 'U',WW,RB
+	DW .DOU
+	DB TTT,RB
+	DW .XO
+
+.DON:	DB 'C',ON,ON,RB
+	DW XC
+	DB Let,RB
+	DW .Xon
+	DB TTT,RB
+	DW Xon
+
+.DOU:	DB 'X',Pl,RB
+	DW XVoyX
+	DB TTT,RB
+	DW XOU
+	
+.E:	DB 'A',RB
+	DW XEA
+	DB 'C',DC
+	DW .ECG
+	DB 'D',DC
+	DW .EDF
+	DB 'I',RB
+	DW XEI
+	DB 'M',RB
+	DW .EM
+	DB 'N',RB
+	DW .EN
+	DB 'P',DC
+	DW .EPS
+	DB 'T',RB
+	DW .ET
+	DB 'U',RB
+	DW .EU
+	DB UCIRC,RB
+	DW .Eu
+	DB Let,EE,RB
+	DW .E00
+	DB TTT,EU,EU,PG
+	DW LIACIR
+.E00:	DB 'C',DC
+	DW .ECHO
+	DB 'L',DC
+	DW .Elle
+	DB 'S',RB
+	DW .ES
+	DB 'X',RB
+	DW .EX
+	DB 'Y',RB
+	DW XVOYY
+	DB VOY,Pl,PG
+	DW GEN
+	DB TTT,RB
+	DW .Egu00
+
+.ECHO1: DB 'G',KK,OO,RB
+	DW XG
+	DB 'L',KK,OO,RB
+	DW XL
+	DB 'S',KK,OO,RB
+	DW XVOYS
+	DB 'T',KK,OO,RB
+	DW XVoy5T
+	DB LET,HH,RB
+	DW XO
+	DB TTT,KK,RB
+	DW XO
+
+.ECirc: DB LET,RB
+	DW XECirc
+	DB TTT,EE,RB
+	DW XCirco
+
+.EGRA: DB LET,RB
+	DW XEGra
+	DB TTT,EE,RB
+	DW XACCGR
+	
+.Egu:	DB TTT,EE,RB
+	DW .Egu00
+.Egu00: DB 'C',DC
+	DW .ECHO
+	DB 'L',DC
+	DW .Eloqu
+	DB 'M',DC
+	DW .EMINE
+	DB 'S',RB
+	DW XVOYS2
+	DB 'T',DC
+	DW .Etang
+	DB 'T',DC
+	DW .Ether
+	DB 'T',RB
+	DW Xt
+	DB 'V',DC
+	DW .EVIDE
+	DB LET,RB
+	DW XEgu00
+	DB TTT,RB
+	DW XAccAi
+
+.EM:	DB 'M',DC
+	DW .Emman
+	DB 'M',AN,AN,RB
+	DW XM
+	DB VOY,RB
+	DW Xem0
+	DB TTT,RB
+	DW XEM
+
+.EN:	DB 'D',RB
+	DW .End
+	DB 'F',DC
+	DW .Enfer
+	DB 'N',DC
+	DW .ENNEM
+	DB 'N',AN,AN,RB
+	DW XN
+	DB 'V',DC
+	DW .Envie
+	DB ' ',DC
+	DW .En_AG
+	DB VOY,RB
+	DW Xen0
+	DB LET,RB
+	DW XEN
+	DB TTT,AN,AN,PG
+	DW LIAN
+	
+.En0:	DB Let,RB
+	DW .En
+	DB TTT,An,PG
+	DW LiaCir
+
+.End:	DB Let,An,An,RB
+	DW XD
+	DB TTT,EE,NN,RB
+	DW XD
+	
+.EPS1: DB 'O',DC
+	DW .Epson
+	DB Let,EE,PP,RB
+	DW XS
+	DB TTT,EU,EU,PP,EE,EE,RB
+	DW .S
+
+.ES:	DB 'T',RB
+	DW .EST
+	DB VOY,RB
+	DW XVOYS
+	DB TTT,RB
+	DW XVOYS1
+
+.EST:	DB 'O',DC
+	DW .Estom
+	DB '-',DC
+	DW .Est_a
+	DB LET,SS,TT,RB
+	DW Xtr
+.EST0: DB TTT,EE,PG
+	DW LIAT
+
+.ET:	DB NAbr,RB
+	DW .Et0
+	DB 'C',EE,TT,SS,EE,TT,EE,RR,RB
+	DW .A0
+.Et0:	DB Let,EE,RB
+	DW XT
+	DB TTT,Pl,RB
+	DW Xer0
+
+.ETrem: DB LET,EE,RB
+	DW XVoy
+	DB TTT,EE,RB
+	DW XTrema
+
+.EU:	DB 'E',UU,RB
+	DW XVOYE
+	DB 'M',UU,UU,RB
+	DW XM
+	DB 'R',RB
+	DW .EUR
+	DB 'S',RB
+	DW .EUS
+	DB 'T',RB
+	DW .EUT
+	DB LET,EU,RB
+	DW XEU
+	DB TTT,RB
+	DW XU
+
+.EUR:	DB 'E',RB
+	DW .EURE
+	DB TTT,RB
+	DW Xer5
+
+.EURE: DB 'N',UU,UU,RR,RB
+	DW XEN
+	DB TTT,EU,RB
+	DW XVOYRE
+
+.EUS:	DB 'S',UU,UU,RB
+	DW XS
+	DB LET,EU,RB
+	DW XVOYS
+	DB TTT,RB
+	DW .U0
+
+.EUT:	DB 'E',UU,UU,TT,RB
+	DW XE
+	DB LET,EU,RB
+	DW XT
+	DB TTT,UU,UU,PG
+	DW LIAT
+
+.EX:	DB 'A',DC
+	DW Xxamen
+	DB 'H',GG,RB
+	DW XZ0
+	DB 'T',DC
+	DW .Extre
+	DB VOY,GG,RB
+	DW XZ0
+	DB TTT,RB
+	DW XX
+	
+.F:	DB 'O',RB
+	DW .FO
+	DB Let,FF,RB
+	DW .F00
+	DB TTT,EE,FF,PG
+	DW NONL
+.F00:	DB 'A',DC
+	DW .FAUT
+	DB 'A',DC
+	DW .Faux
+	DB 'E',RB
+	DW .FE
+	DB Egu,DC
+	DW .F$cul
+	DB Egu,DC
+	DW .F$r
+	DB 'I',DC
+	DW .FIER
+	DB 'I',DC
+	DW .FILS
+	DB 'J',DC
+	DW .Fjord
+	DB 'L',DC
+	DW .Flipp
+	DB 'L',DC
+	DW .Flirt
+	DB TTT,RB
+	DW Xf00
+
+.FE:	DB 'M',DC
+	DW .FEMM
+	DB 'R',DC
+	DW .Ferve
+	DB 'R',RB
+	DW XER2
+	DB TTT,RB
+	DW XE
+
+.FO:	DB 'C',DC
+	DW .Foch
+	DB 'U',FF,WW,RB
+	DW Xou
+	DB LET,FF,RB
+	DW .XO
+	DB TTT,EE,FF,OO,RB
+	DW XO
+
+.G:	DB 'A',DC
+	DW .Gadge
+	DB 'A',DC
+	DW .GARS
+	DB 'E',DC
+	DW .GENS
+	DB 'E',DC
+	DW .Genti
+	DB 'E',DC
+	DW Xgent9
+	DB 'I',DC
+	DW .Gil
+	DB 'I',DC
+	DW .Gin
+	DB 'O',DC
+	DW .Goal
+	DB 'R',DC
+	DW .Grand
+	DB 'R',DC
+	DW .Grani
+	DB 'R',DC
+	DW .Grati
+	DB 'R',DC
+	DW .Gros
+	DB 'U',DC
+	DW .Gua
+	DB LET,RB
+	DW XG
+	DB TTT,JJ,RB
+	DW Xer0
+	
+.Gin1: DB Let,JJ,RB
+	DW Xin
+.Gin0: DB TTT,DD,JJ,II,RB
+	DW Xn
+
+.H:	DB 'A',RB
+	DW .Ha
+	DB ACIRC,Pl,RB
+	DW XACirc
+	DB 'E',DC
+	DW .HEC
+	DB 'E',DC
+	DW .Henn
+	DB 'E',DC
+	DW .Heurt
+	DB 'E',RB
+	DW .E
+	DB EGU,DC
+	DW .HELA
+	DB Egu,DC
+	DW .Heris
+	DB Egu,DC
+	DW .Heros
+	DB 'I',DC
+	DW .Hibou
+	DB 'I',DC
+	DW .Hic
+	DB 'I',DC
+	DW .HIER
+	DB 'I',DC
+	DW .HIV
+	DB 'O',RB
+	DW .Ho
+	DB 'U',RB
+	DW .Hu
+	DB VOY,PG
+	DW GEN
+	DB TTT,AA,HH,PG
+	DW NONL
+	
+.Ha:	DB 'C',DC
+	DW .Hach
+	DB 'G',DC
+	DW .Haga
+	DB 'I',Vr,RB
+	DW Xai
+	DB ITREM,Pl,AA,AA,RB
+	DW XItrem
+	DB 'L',DC
+	DW .Hall
+	DB 'L',DC
+	DW .Halte
+	DB 'M',DC
+	DW .Hamec
+	DB 'M',Pl,RB
+	DW Xam
+	DB 'N',Pl,RB
+	DW Xan
+	DB 'R',DC
+	DW .Harm
+	DB 'R',Pl,AA,RB
+	DW XVoyR
+	DB 'S',Pl,AA,RB
+	DW XVoyS
+	DB 'U',Pl,OO,OO,RB
+	DW Xau
+	DB 'V',Pl,AA,RB
+	DW Xv
+	DB TTT,RB
+	DW Xa
+	
+.Hall1: DB 'E',Vr,AA,LL,RB
+	DW Xe
+	DB 'S',Vr,OO,OO,LL,RB
+	DW Xs
+	DB Let,AA,RB
+	DW Xl
+	DB TTT,Vr,OO,OO,RB
+	DW Xl
+	
+.HEC1: DB Let,EE,RB
+	DW Xc
+	DB TTT,Pl,AA,HH,Eu,Eu,RB
+	DW .C
+	
+.HIV1: DB 'E',DC
+	DW .Hiver
+	DB Let,II,RB
+	DW Xv
+	DB TTT,Pl,AA,HH,II,RB
+	DW .V
+	
+.Ho:	DB 'C',Pl,OO,RB
+	DW XC
+	DB 'L',DC
+	DW .Hold
+	DB 'M',DC
+	DW .Homa
+	DB 'N',DC
+	DW .Hont
+	DB 'Q',Pl,OO,RB
+	DW Xq
+	DB 'R',DC
+	DW .Hord
+	DB 'R',DC
+	DW .Hors
+	DB 'T',Vr,OO,RB
+	DW Xt
+	DB 'U',Vr,WW,RB
+	DW XOu
+	DB TTT,RB
+	DW .XO
+
+.Hu:	DB 'I',DC
+	DW .HUIT
+	DB 'I',UU,RB
+	DW Xi
+	DB ICirc,UU,RB
+	DW Xi
+	DB 'M',RB
+	DW .Hum
+	DB 'R',DC
+	DW .Hurlu
+	DB TTT,Vr,RB
+	DW Xu
+
+.HuitX: DB ' ',RB
+	DW .Huit_
+	DB TTT,RB
+	DW XT
+
+.Huit1: DB NAbr,RB
+	DW .Huit3
+.Huit2: DB 'C',DC
+	DW XChfCm
+	DB 'M',RB
+	DW XCHIFM
+	DB 'F',RB
+	DW XCHIFF
+	DB 'G',RB
+	DW XChifG
+	DB 'H',TT,RB
+	DW XChifH
+	DB 'S',RB
+	DW XCHIFS
+.Huit3: DB 'E',TT,RB	;8 et
+	DW .E
+	DB ' ',RB
+	DW .Huit_
+	DB LET,PG
+	DW LIAT
+	DB TTT,RB
+	DW XT
+
+.Huit_: DB NAbr,RB
+	DW .Huit3
+	DB 'B',DC
+	DW .BD_T
+	DB 'P',DC
+	DW .PL_T
+	DB 'R',DC
+	DW .RUE_T
+	DB TTT,RB
+	DW .Huit2
+	
+.Hum:	DB 'U',UU,MM,RB
+	DW Xu2
+	DB Let,RB
+	DW Xum
+	DB TTT,Vr,Eu,RB
+	DW Xm
+
+.I:	DB 'B',DC
+	DW .IBM
+	DB 'E',DC
+	DW .Ier
+	DB 'L',II,LL,RB
+	DW .IL
+	DB 'N',RB
+	DW .In
+	DB LET,RB
+	DW XI
+	DB TTT,II,II,PG
+	DW LIACIR
+
+.ICirc: DB LET,RB
+	DW XICirc
+	DB TTT,II,RB
+	DW XCirco
+	
+.Ier1: DB Let,II,EE,RB
+	DW XVoyR
+	DB TTT,PP,RR,Eu,MM,II,RB
+	DW Xer
+
+.IGra: DB LET,RB
+	DW .I
+	DB TTT,II,RB
+	DW XAccGr
+
+.Igu:	DB LET,RB
+	DW .I
+	DB TTT,II,RB
+	DW XAccAi
+
+.IL:	DB 'S',DC
+	DW .Ils_
+	DB TTT,PG
+	DW GEN
+	
+.In:	DB 'C',DC
+	DW .Incid
+	DB 'D',DC
+	DW .Indig
+	DB 'E',DC
+	DW .Inert
+	DB 'E',DC
+	DW .Inex
+	DB 'F',DC
+	DW .Influ
+	DB 'I',DC
+	DW .Initi
+	DB 'N',DC
+	DW .Innoc
+	DB 'S',DC
+	DW .Insol
+	DB 'T',DC
+	DW .Intrn
+	DB 'T',DC
+	DW .Inter
+	DB Let,RB
+	DW Xin
+	DB TTT,II,RB
+	DW Xn
+
+.ITrem: DB LET,RB
+	DW XI0
+	DB TTT,II,RB
+	DW XTREMA
+
+.J:	DB 'A',DC
+	DW .Jadi
+	DB 'A',DC
+	DW .Jazz
+	DB 'E',DC
+	DW .Jeans
+	DB 'E',DC
+	DW .Jee
+	DB 'E',JJ,RB
+	DW .JE
+	DB 'O',DC
+	DW .Joyeu
+	DB 'U',DC
+	DW .JUMEN
+	DB 'U',DC
+	DW .Jupit
+	DB LET,RB
+	DW XJ
+	DB TTT,JJ,II,PG
+	DW LIACIR
+
+.JE:	DB 'A',RB
+	DW Xa
+	DB 'U',DC
+	DW .Jeune
+	DB ' ',Eu,RB
+	DW Deb3
+	DB TTT,RB
+	DW .XE
+	
+.Je0:	DB Let,RB
+	DW .Je
+	DB TTT,PG
+	DW NonL
+	
+.Jean1: DB Let,JJ,An,An,RB
+	DW Xs
+	DB TTT,RB
+	DW .Gin0
+
+.K:	DB 'I',DC
+	DW .Kit
+	DB NAbr,RB
+	DW .K1
+	DB 'G',RB
+	DW .KG
+	DB 'M',RB
+	DW .KM
+.K1:	DB 'O',KK,RB
+	DW .KO
+	DB LET,RB
+	DW XK
+	DB TTT,KK,AA,RB
+	DW .A0
+
+.KG:	DB Voy,KK,RB
+	DW XG
+	DB Let,KK,AA,AA,JJ,RB
+	DW Xer0
+	DB TTT,KK,II,LL,RB
+	DW Xo
+
+.KM:	DB Voy,KK,RB
+	DW XM
+	DB Let,KK,AA,AA,EE,MM,PG
+	DW NonL
+	DB TTT,KK,II,LL,OO,MM,EE,TT,RR,RB
+	DW XTre0
+
+.KO:	DB LET,RB
+	DW XO
+	DB TTT,RB
+	DW XAO0
+	
+.L:	DB Let,LL,RB
+	DW .L00
+	DB TTT,EE,LL,PG
+	DW NONL
+.L00:	DB 'A',DC
+	DW .LAID
+	DB 'A',DC
+	DW .Laps
+	DB 'A',DC
+	DW .Laser
+	DB 'E',RB
+	DW .LE
+	DB 'I',DC
+	DW .Lil
+	DB 'I',DC
+	DW .Lingu
+	DB 'O',DC
+	DW .Locut
+	DB 'O',DC
+	DW .Lot
+	DB TTT,RB
+	DW Xl00
+	
+.Laps1: DB 'U',SS,RB
+	DW Xu2
+	DB TTT,RB
+	DW Xs2
+
+.LE:	DB 'A',DC
+	DW .Leade
+	DB 'A',DC
+	DW .Leasi
+	DB 'N',RB
+	DW .LEN
+	DB 'S',DC
+	DW .Les_
+	DB 'U',DC
+	DW .Leur
+	DB ' ',Eu,RB
+	DW Deb2
+	DB TTT,RB
+	DW .XE
+
+.LEN:	DB 'T',RB
+	DW .Sent
+	DB TTT,RB
+	DW XEN
+	
+.M:	DB NAbr,RB
+	DW .M1
+	DB 'L',DC
+	DW .MLLE
+	DB 'M',DC
+	DW .MME
+	DB 'R',DC
+	DW .MR_
+	DB '.',DC
+	DW .MR_
+.M1:	DB 'S',DC
+	DW .MSDOS
+	DB Let,MM,RB
+	DW .M00
+	DB TTT,EE,MM,PG
+	DW NONL
+.M00:	DB 'A',RB
+	DW .MA
+	DB 'E',RB
+	DW .ME
+	DB Egu,DC
+	DW .M$con
+	DB Egu,DC
+	DW .M$ti
+	DB 'I',DC
+	DW .Micro
+	DB 'I',DC
+	DW .MIL
+	DB 'O',RB
+	DW .MO
+	DB Apost,RB
+	DW Deb4
+	DB TTT,RB
+	DW Xm00
+
+.MA:	DB 'L',DC
+	DW .MALU
+	DB 'N',DC
+	DW .Manic
+	DB 'R',AA,RB
+	DW .MAR
+	DB 'Y',RB
+	DW .May
+	DB 'Z',DC
+	DW .Mazou
+	DB TTT,RB
+	DW .XA
+
+.MAR:	DB 'S',RR,RB
+	DW Xs2
+	DB 'T',DC
+	DW .Marti
+	DB TTT,RB
+	DW XVoyR
+	
+.May:	DB Voy,AA,AA,RB 	;et Xbay
+	DW XY
+	DB TTT,RB
+	DW X$tout
+
+.ME:	DB 'I',DC
+	DW .Meill
+	DB 'N',RB
+	DW .MEN
+	DB 'S',RB
+	DW .MES
+	DB ' ',Eu,RB
+	DW Deb3
+	DB TTT,RB
+	DW .XE
+
+.MEN:	DB 'S',AN,AN,RB
+	DW XS1
+	DB 'T',DC
+	DW .Menti
+	DB 'T',An,RB
+	DW XVoy5t
+	DB TTT,RB
+	DW XEN
+
+.MES:	DB 'D',EE,EE,RB
+	DW XD
+	DB TTT,RB
+	DW .XES
+	
+.Micr1: DB Voy,OO,RB
+	DW Xvoy
+	DB TTT,RB
+	DW Xo
+
+.MO:	DB 'I',DC
+	DW .MOINS
+	DB 'M',RB
+	DW XOM
+	DB 'N',DC
+	DW .Mont
+	DB 'T',OO,RB
+	DW .MOT
+	DB 'U',WW,RB
+	DW Xou
+	DB 'Y',DC
+	DW .Moyen
+	DB TTT,RB
+	DW .XO
+	
+.Mont1: DB Voy,RB
+	DW Xt
+	DB 'R',DC
+	DW .Montr
+	DB 'R',TT,RR,RB
+	DW Xtr
+	DB Let,PG
+	DW Gen
+	DB TTT,RB
+	DW XVoy5T
+	
+.Mot:	DB 'U',TT,RB	   ;.Lot, .Mot
+	DW Xu2
+	DB TTT,RB
+	DW XVoyT7
+	
+.N:	DB 'A',DC
+	DW .NAME
+	DB 'E',NN,RB
+	DW .NE
+	DB Egu,DC
+	DW .N$gli
+	DB 'I',DC
+	DW .Nid
+	DB 'O',NN,RB
+	DW .NO
+	DB DEGRE,NN,UU,MM,EE,RR,OO,PG
+	DW LIACir
+	DB Apost,NN,RB
+	DW Deb4
+	DB LET,RB
+	DW XN
+	DB TTT,EE,NN,PG
+	DW NONL
+
+.NE:	DB 'R',RB	;+ .Ce
+	DW .NER
+	DB 'T',RB
+	DW Xet2
+	DB ' ',DC
+	DW .Ne_Ls
+	DB ' ',Eu,RB
+	DW Deb3
+	DB TTT,RB
+	DW .XE
+
+.NER:	DB 'F',EE,RB	;+Cer
+	DW .Nerf
+	DB TTT,RB
+	DW XER
+	
+.Nerf: DB 'S',RB
+	DW XVoyRS
+	DB Let,RR,RB
+	DW XF
+	DB TTT,RB
+	DW XVoyR0
+
+.NO:	DB 'N',RB
+	DW XON
+	DB 'T',OO,RB
+	DW XVoyT7
+	DB 'U',DC
+	DW .Nouve
+	DB 'U',DC
+	DW .Nouvl
+	DB TTT,RB
+	DW .XO
+
+.NTild: DB LET,RB
+	DW XNTild
+	DB TTT,EE,NN,TT,II,LL,DD,PG
+	DW LiaE
+
+.O:	DB 'A',DC
+	DW .Oasi
+	DB 'B',OO,RB	;obus
+	DW Xb
+	DB 'E',RB
+	DW .OECol
+	DB 'I',RB
+	DW .OI
+	DB NAbr,RB
+	DW .O1
+	DB 'K',OO,RB
+	DW .OK
+.O1:	DB 'N',RB
+	DW .On
+	DB 'R',DC
+	DW .Orch
+	DB 'R',DC
+	DW .Ores_
+	DB 'R',DC
+	DW .ORIEN
+	DB 'U',DC
+	DW .OUI
+	DB 'U',DC
+	DW .OURS
+	DB 'U',DC
+	DW .Out
+	DB 'V',DC
+	DW .Over
+	DB LET,RB
+	DW Xo2
+	DB TTT,OO,OO,PG
+	DW LIACIR
+
+.OBarr: DB LET,RB
+	DW .O
+	DB TTT,OO,BB,AA,RR,EE,PG
+	DW LiaCir
+
+.OCirc: DB LET,RB
+	DW XOCirc
+	DB TTT,OO,RB
+	DW XCirco
+	
+.OECol: DB Voy,RB
+	DW Xoe
+	DB LET,RB
+	DW .Egu
+	DB TTT,OO,RB
+	DW XECOLE
+
+.OGra: DB LET,RB
+	DW .O
+	DB TTT,OO,RB
+	DW XAccGr
+
+.OGu:	DB LET,RB
+	DW .O
+	DB TTT,OO,RB
+	DW XAccAi
+
+.OI:	DB 'G',OO,RB
+	DW XG
+	DB TTT,RB
+	DW XOI
+
+.OK:	DB LET,RB
+	DW XK
+	DB TTT,KK,RB
+	DW XEgu
+	
+.On:	DB 'G',RB
+	DW .ONG1
+	DB TTT,RB
+	DW .XON
+	
+.On0:	DB Let,RB
+	DW .On
+	DB TTT,On,PG
+	DW LiaCir
+	
+.ONG1: DB Let,On,On,RB
+	DW Xg
+	DB TTT,OO,OO,EE,NN,RB
+	DW .G
+
+.OTild: DB LET,RB
+	DW .O
+	DB TTT,OO,RB
+	DW XTilde
+
+.OTrem: DB LET,OO,PG
+	DW GEN
+	DB TTT,OO,RB
+	DW XTrema
+	
+.Out1: DB Let,WW,RB
+	DW Xout
+	DB TTT,AA,WW,RB
+	DW Xt
+	
+.P:	DB Let,RB
+	DW .PLet
+	DB TTT,PP,RB
+	DW Xer0
+.PLet: DB 'H',FF,PG
+	DW Gen
+	DB TTT,PP,RB
+	DW .P00
+.P00:	DB 'A',DC
+	DW Xpays
+	DB 'A',RB
+	DW .PA
+	DB 'E',DC
+	DW .Perti
+	DB 'E',DC
+	DW .Petit
+	DB 'I',DC
+	DW .Pin_
+	DB 'I',DC
+	DW .Pire
+	DB 'L',DC
+	DW .Plusi
+	DB 'L',DC
+	DW .PLUS
+	DB 'O',DC
+	DW .Polde
+	DB 'O',DC
+	DW Xposit
+	DB 'O',DC
+	DW .Poste
+	DB 'O',DC
+	DW .POULS
+	DB 'O',DC
+	DW .POUR_
+	DB 'O',RB
+	DW .Po
+	DB 'R',DC
+	DW .PRENO
+	DB 'R',DC
+	DW .PR$SE
+	DB 'R',DC
+	DW .Pr$si
+	DB 'R',DC
+	DW .Prime
+	DB 'R',DC
+	DW XPRIX
+	DB 'U',DC
+	DW .Puts
+	DB 'U',DC
+	DW .Puz
+	DB TTT,RB
+	DW Xp00
+
+.PA:	DB 'R',AA,RB
+	DW .PAR
+	DB 'S',DC
+	DW .Pasti
+	DB 'S',AA,RB
+	DW XVOYS1
+	DB 'V',DC
+	DW .Pavil
+	DB TTT,RB
+	DW XA
+
+.PAR:	DB 'A',RR,RB
+	DW .Para
+	DB 'E',DC
+	DW .Paren
+	DB 'F',DC
+	DW .Parfu
+	DB 'S',DC
+	DW .PARSE
+	DB ' ',DC
+	DW XEXEMP
+	DB LET,RB
+	DW XVOYR
+	DB TTT,RB
+	DW XR
+	
+.Para: DB 'S',AA,RB
+	DW .Paras
+	DB 'V',AA,RB
+	DW .V
+	DB TTT,RB
+	DW Xa
+	
+.Paras: DB 'O',SS,RB
+	DW Xo
+	DB TTT,RB
+	DW XVoyS
+	
+.Po:	DB 'N',RB
+	DW Xon
+	DB TTT,RB
+	DW .Xo
+
+.Q:	DB 'I',KK,RB
+	DW .QI
+	DB 'U',KK,RB
+	DW .QU
+	DB LET,RB
+	DW XQ
+	DB TTT,KK,RB
+	DW .U0
+	
+.QI:	DB Let,RB
+	DW Xi
+	DB TTT,UU,UU,RB
+	DW .I
+
+.QU:	DB 'A',DC
+	DW .Quand
+	DB 'A',DC
+	DW .Quart
+	DB 'A',DC
+	DW .Quate
+	DB 'A',DC
+	DW .Quatu
+	DB 'A',RB
+	DW .XA
+	DB 'E',DC
+	DW .Quel
+	DB 'E',DC
+	DW .Quets
+	DB 'E',RB
+	DW .XE
+	DB 'I',DC
+	DW Xquick
+	DB 'I',DC
+	DW .Qui_
+	DB TTT,PG
+	DW GEN
+	
+.R:	DB 'A',DC
+	DW .RATP
+	DB 'M',DC
+	DW .RMI
+	DB Let,RR,RB
+	DW .R00
+	DB TTT,EE,EE,EE,RR,PG
+	DW NONL
+.R00:	DB 'A',DC
+	DW .Rang
+	DB 'A',DC
+	DW .Raz
+	DB 'E',DC
+	DW .READ
+	DB 'E',DC
+	DW .Recro
+	DB 'E',DC
+	DW .Res
+	DB 'E',DC
+	DW .Revol
+	DB 'E',RB
+	DW .XE
+	DB 'H',DC
+	DW .Rh$su
+	DB 'I',DC
+	DW Xrimen
+	DB 'I',RB
+	DW .RI
+	DB NAbr,RB
+	DW .R1
+	DB 'T',DC
+	DW .RTE_
+.R1:	DB 'U',DC
+	DW .RUN
+	DB TTT,RB
+	DW Xr00
+	
+.Res1: DB 'P',DC
+	DW .Respe
+	DB 'S',DC
+	DW .Resst
+	DB 'S',Eu,SS,RB
+	DW Xss
+	DB 'T',DC
+	DW .Restr
+	DB Voy,Eu,RB
+	DW Xs
+	DB TTT,RB
+	DW Xes
+
+.RI:	DB 'E',DC
+	DW .RIEN
+	DB 'Z',II,RB
+	DW .Riz
+	DB TTT,RB
+	DW XI
+
+.RIEN1: DB 'S',IN,IN,RB
+	DW XVOY5S
+	DB 'N',RB
+	DW XEN0
+	DB 'T',RB
+	DW .RIENT
+	DB TTT,IN,PG
+	DW LIAN
+
+.RIENT: DB LET,IN,RB
+	DW XT
+	DB TTT,RB
+	DW XYENT
+	
+.Riz:	DB Let,RB
+	DW Xz
+	DB TTT,PG
+	DW LiaCir
+	
+.Run1: DB 'G',DC
+	DW .Rungi
+	DB Let,RB
+	DW Xun
+	DB TTT,Eu,RB
+	DW Xn
+	
+.S:	DB NAbr,RB
+	DW .S1
+	DB 'T',DC
+	DW .Ste_
+	DB 'T',DC
+	DW .ST_
+.S1:	DB Let,RB
+	DW .SLet
+	DB TTT,EE,SS,PG
+	DW NonL
+.SLet: DB 'A',DC
+	DW .SARL
+	DB 'C',DC
+	DW .Scann
+	DB 'C',DC
+	DW .Schiz
+	DB 'C',DC
+	DW .Scout
+	DB 'C',DC
+	DW .Scree
+	DB 'C',DC
+	DW .Sculp
+	DB 'C',RB
+	DW Xsc
+	DB 'H',DC
+	DW .Shirt
+	DB 'H',DC
+	DW .Short
+	DB 'H',HH,PG
+	DW Gen
+	DB 'O',DC
+	DW .SOS
+	DB 'P',DC
+	DW .SPA
+	DB TTT,SS,RB
+	DW .S00
+.S00:	DB 'A',DC
+	DW .Sang
+	DB 'A',RB
+	DW .XA
+	DB 'E',RB
+	DW .SE
+	DB EGRA,DC
+	DW .S$men
+	DB 'I',RB
+	DW .DI
+	DB 'K',DC
+	DW .Skipp
+	DB 'L',DC
+	DW .Slalo
+	DB 'O',RB
+	DW .SO
+	DB 'P',DC
+	DW .SPEC
+	DB 'P',DC
+	DW .Spot
+	DB 'P',DC
+	DW .Sprin
+	DB 'Q',DC
+	DW .Squa
+	DB 'T',DC
+	DW .Stand
+	DB 'U',DC
+	DW .Succu
+	DB 'U',DC
+	DW .SUPER
+	DB 'U',DC
+	DW .Sur_
+	DB 'U',DC
+	DW .Suspc
+	DB 'U',DC
+	DW .Suspe
+	DB 'W',DC
+	DW .Swea
+	DB 'Y',DC
+	DW .SYNTH
+	DB TTT,RB
+	DW Xs00
+	
+.Sang1: DB 'S',Pl,RB
+	DW XVoy5S
+	DB TTT,RB
+	DW XVoy5G
+	
+.SARL1: DB Let,SS,AA,RR,RB
+	DW XL
+	DB TTT,EE,SS,AA,AA,EE,EE,RR,RB
+	DW .L
+
+.SE:	DB 'N',RB
+	DW .SEN
+	DB 'P',EE,RB
+	DW .SEP
+	DB 'R',DC
+	DW .Serge
+	DB 'R',DC
+	DW .SERME
+	DB 'R',DC
+	DW .Sers
+	DB 'T',RB
+	DW Xet2
+	DB 'U',DC
+	DW .Seul
+	DB ' ',Eu,RB
+	DW Deb3
+	DB TTT,RB
+	DW .XE
+
+.SEN:	DB 'S',AN,AN,RB
+	DW XS2
+	DB 'T',RB
+	DW .SENT
+	DB TTT,RB
+	DW XEN
+
+.SENT: DB TTT,An,RB
+	DW XVoy5t
+
+.SEP:	DB 'T',RB
+	DW .SEPT
+	DB TTT,RB
+	DW XP
+
+.SEPT: DB LET,PP,RB
+	DW XT
+	DB TTT,RB
+	DW XT
+	
+.Seul1: DB 'E',LL,RB
+	DW Xe1
+	DB 'S',LL,RB
+	DW Xs1
+	DB TTT,RB
+	DW Xl
+
+.SO:	DB 'I',RB
+	DW .SOI
+	DB 'N',RB
+	DW .XON
+	DB 'U',DC
+	DW .SOUVE
+	DB 'U',WW,RB
+	DW .XOU
+	DB TTT,RB
+	DW XO
+
+.SOI:	DB 'T',WW,AA,RB
+	DW XVOYT1
+	DB 'X',WW,AA,RB
+	DW XS
+	DB TTT,RB
+	DW XOI
+	
+.SOS1: DB Let,SS,OO,RB
+	DW XVoyS
+	DB TTT,Pl,EE,SS,OO,OO,RB
+	DW .S
+	
+.SPA1: DB Let,SS,PP,RB
+	DW Xa
+	DB TTT,Pl,EE,SS,PP,EE,EE,RB
+	DW .A
+	
+.Susp1: DB Let,UU,SS,PP,An,An,SS,RB
+	DW Xe
+	DB TTT,Eu,SS,PP,EE,NN,RB
+	DW XS20
+	
+.T:	DB 'H',DC
+	DW .THEN
+	DB 'I',DC
+	DW Xtien
+	DB '-',DC
+	DW XYTOn
+	DB TTT,TT,RB
+	DW .T00
+.T00:	DB 'A',DC
+	DW .Tabac
+	DB 'A',DC
+	DW .Tachy
+	DB 'A',DC
+	DW .Talen
+	DB 'A',DC
+	DW .Tange
+	DB 'A',RB
+	DW .XA
+	DB 'E',RB
+	DW .Te
+	DB 'I',DC
+	DW .TIER
+	DB 'O',DC
+	DW .Toast
+	DB 'O',DC
+	DW .TORRE
+	DB 'O',DC
+	DW .Tourm
+	DB 'O',DC
+	DW .Tout
+	DB 'O',RB
+	DW .XO
+	DB 'R',DC
+	DW .Trans
+	DB 'R',DC
+	DW .TRES
+	DB 'R',DC
+	DW .TR$S
+	DB 'R',DC
+	DW .Trib
+	DB 'R',DC
+	DW .Trois
+	DB 'R',DC
+	DW .TROP
+	DB 'U',DC
+	DW .Tuner
+	DB 'U',DC
+	DW .Turbu
+	DB 'U',DC
+	DW .Tu_
+	DB 'V',EE,VV,RB
+	DW Xer0
+	DB Apost,RB
+	DW Deb4
+	DB '-',DC
+	DW XYTEn
+	DB '-',DC
+	DW XYTY
+	DB LET,RB
+	DW Xt00
+	DB TTT,RB
+	DW Xer0
+	
+.Te:	DB 'E',II,RB
+	DW XI0
+	DB 'L',DC
+	DW .TELE
+	DB 'L',RB
+	DW Xel3
+	DB 'N',DC
+	DW .Tenni
+	DB 'N',DC
+	DW .TENTI
+	DB ' ',Eu,RB
+	DW Deb3
+	DB TTT,RB
+	DW .Xe
+
+.TROP1: DB LET,RB
+	DW XOP
+	DB TTT,PG
+	DW LIAP
+	
+.Tu_1: DB 'L',DC
+	DW .Tu_Ls
+	DB 'L',DC
+	DW .Tu_L_
+	DB TTT,RB
+	DW Deb3
+
+.U:	DB 'D',DC
+	DW .UDF
+	DB 'N',RB
+	DW .UN
+	DB 'P',RB
+	DW .Up1
+	DB 'R',DC
+	DW .URGEN
+	DB 'T',UU,RB
+	DW Xt
+	DB 'V',UU,RB
+	DW .UV
+	DB LET,RB
+	DW XU
+.U0:	DB TTT,UU,UU,PG
+	DW LiaCir
+
+.UCirc: DB LET,RB
+	DW XUCirc
+	DB TTT,UU,RB
+	DW XCirco
+
+.UGra: DB LET,RB
+	DW .U
+	DB TTT,UU,RB
+	DW XAccGr
+
+.Ugu:	DB LET,RB
+	DW .U
+	DB TTT,UU,RB
+	DW XAccAi
+
+.UN:	DB ' ',In,In,RB
+	DW Deb10
+	DB LET,RB
+	DW XUN
+	DB TTT,IN,IN,PG
+	DW LIAN
+	
+.Up1:	DB 'S',RB
+	DW .Ups
+	DB Let,UU,RB
+	DW Xp
+	DB TTT,Eu,RB
+	DW Xp
+	
+.Ups:	DB Let,UU,PP,RB
+	DW Xs
+	DB TTT,Eu,RB
+	DW Xp
+
+.UTrem: DB LET,UU,PG
+	DW GEN
+	DB TTT,UU,RB
+	DW XTrema
+	
+.UV:	DB 'A',RB
+	DW .UVA
+	DB 'B',Pl,VV,EE,RB
+	DW .B
+	DB Let,RB
+	DW Xv
+	DB TTT,Pl,RB
+	DW .V
+	
+.UVA:	DB Let,VV,RB
+	DW Xa
+	DB TTT,Pl,VV,EE,EE,RB
+	DW .A
+	
+.V:	DB TTT,VV,RB
+	DW .V00
+.V00:	DB 'A',DC
+	DW .Vaci
+	DB 'E',DC
+	DW .VENT
+	DB 'E',DC
+	DW .VER
+	DB 'I',DC
+	DW XVIEN
+	DB 'I',DC
+	DW .Vieux
+	DB 'I',DC
+	DW .Vince
+	DB 'I',DC
+	DW .Vingt
+	DB 'I',DC
+	DW .Vis
+	DB 'O',RB
+	DW .XO
+	DB 'R',DC
+	DW .VRAIM
+	DB LET,RB
+	DW Xv00
+	DB TTT,RB
+	DW Xer0
+
+.W:	DB 'A',RB
+	DW .WA
+	DB 'I',DC
+	DW .Win
+	DB LET,Pl,RB
+	DW XW
+	DB TTT,DD,WW,BB,LL,EU,VV,RB
+	DW Xer0
+
+.WA:	DB 'G',VV,AA,RB
+	DW XG
+	DB TTT,Pl,WW,RB
+	DW XA
+
+.X:	DB LET,GG,RB
+	DW XZ0
+	DB TTT,II,KK,SS,PG
+	DW NONL
+
+.XA:	DB 'I',DC
+	DW .XAINT
+	DB 'N',RB
+	DW .XAN
+	DB TTT,RB
+	DW XA
+
+.XAN:	DB 'S',An,An,RB
+	DW Xs1
+	DB 'T',AN,AN,RB
+	DW XY5T1
+	DB TTT,RB
+	DW XAN
+
+.XE:	DB 'R',RB
+	DW XER2
+	DB 'S',RB
+	DW .XES
+	DB LET,RB
+	DW XE
+	DB TTT,EU,PG	;ce,de,je,le,me,ne,que,re,se,te
+	DW GEN
+
+.XES:	DB LET,RB
+	DW XES
+	DB TTT,EE,RB	;ces,des,les,mes,nes,ses,tes
+	DW XVOYS1
+
+.XO:	DB 'N',RB	;Do,Fo,Ho,Mo,No,Po,To,Vo
+	DW .XON
+	DB 'P',OO,RB
+	DW XP
+	DB 'S',OO,RB
+	DW XVOYS1
+	DB 'U',WW,RB
+	DW .XOU
+	DB TTT,RB
+	DW XO
+
+.XON:	DB 'T',ON,ON,RB   ;Don,Fon,Hon,Mon,Son,Ton,Von,On
+	DW XY5T1	  ;Dont,Font,Sont,Tont,Vont,Ont
+	DB 'U',DC
+	DW XONUME
+	DB ' ',On,On,RB
+	DW Deb10
+	DB LET,RB
+	DW XON
+	DB TTT,ON,ON,PG
+	DW LIAN
+
+.XOU:	DB 'S',RB
+	DW XVOYS1
+	DB TTT,RB
+	DW XOU
+
+.Y:	DB 'A',DC
+	DW .Yacht
+	DB 'A',DC	;yaourT
+	DW .YAOUR
+	DB 'E',DC
+	DW .Yen
+	DB 'E',DC
+	DW .YEUX
+	DB ' ',II,II,RB
+	DW .Y_
+	DB LET,PL,RB	;PL  change liaison -> Y comme H aspire (sauf yeux)
+	DW XY
+	DB TTT,II,II,RB
+	DW .Y1
+	
+.Y_:	DB ' ',RB
+	DW .Y_
+	DB 'E',DC
+	DW .Y_est
+	DB Let,RB
+	DW Deb3
+.Y1:	DB TTT,GG,RR,EE,KK,PG
+	DW NonL
+
+.Ygu:	DB LET,RB
+	DW .Y
+	DB TTT,II,GG,RR,EE,KK,EE,GG,UU,PG
+	DW LiaCir
+	
+.Y0:	DB ' ',II,II,RB
+	DW .Y0_
+	DB Let,RB
+	DW .Y
+	DB TTT,RB
+	DW XY
+	
+.Y0_:	DB ' ',RB
+	DW .Y0_
+	DB Let,RB
+	DW Deb3
+	DB TTT,RB
+	DW XEsp
+
+.YTrem: DB LET,RB
+	DW .Y
+	DB TTT,II,II,GG,RR,EE,KK,RB
+	DW XTREMA
+
+.Z:	DB 'O',DC
+	DW .Zoo
+	DB 'U',DC
+	DW .Zut
+	DB Apost,DC
+	DW XZEn
+	DB '-',DC
+	DW XZEn
+	DB '-',DC
+	DW XZY
+	DB LET,RB
+	DW XZ
+	DB TTT,ZZ,EE,DD,PG
+	DW NONL
+
+.ZAcc: DB LET,RB
+	DW Xz
+	DB TTT,ZZ,EE,DD,AA,KK,SS,AN,TT,UU,EE,PG
+	DW LiaCir
+
+.Zoo1: DB 'M',WW,RB
+	DW Xm
+	DB TTT,OO,OO,RB
+	DW Xo
+	
+Deb3:	DB 'A',DC
+	DW D3As
+	DB 'B',DC
+	DW D3Bus
+	DB 'F',DC
+	DW D3Fier
+	DB 'S',DC
+	DW D3Sens
+	DB 'V',DC
+	DW D3Vis
+	DB 'N',DC
+	DW D1Negl
+	DB TTT,PG
+	DW LiaCir
+	
+Deb4:	DB 'A',DC
+	DW D3As
+	DB 'Y',RB
+	DW .Y0
+Deb2:	DB 'C',DC
+	DW D2Cape
+	DB 'C',DC
+	DW D2Ces
+	DB 'J',DC
+	DW D2Jean
+	DB TTT,PG
+	DW LiaCir
+	
+Deb6:	DB 'N',DC
+	DW D1Negl
+	DB TTT,PG
+	DW LiaZ
+	
+Deb7:	DB 'A',DC
+	DW D7As
+	DB TTT,PG
+	DW LiaZ
+	
+Deb8:	DB 'U',DC
+	DW D8Usa
+	DB TTT,PG
+	DW LiaZ
+	
+Deb10: DB 'A',DC
+	DW D10Abo
+	DB 'C',DC
+	DW D2Cape
+	DB 'C',DC
+	DW D2Ces
+	DB 'J',DC
+	DW D2Jean
+	DB 'P',DC
+	DW D5Post
+	DB 'R',DC
+	DW D5Repo
+	DB TTT,PG
+	DW LiaN
+	
+D2Ces1: DB Let,RB
+	DW XVoyS
+	DB TTT,Pl,Eu,Pl,Pl,EE,RB
+	DW XS20
+	
+D2Jea1: DB Let,JJ,RB
+	DW Xan
+	DB TTT,RB
+	DW .Gin0
+	
+D8USA1: DB Let,ZZ,RB
+	DW Xa
+	DB TTT,Pl,EE,SS,RB
+	DW .A
+	
+;Arbre milieu de mot
+
+Xa2:	DB 'S',AA,RB
+	DW XVoyS2
+XA:	DB 'E',RB
+	DW XAE
+	DB 'I',RB
+	DW XAI
+	DB ICIRC,EE,RB
+	DW XAI
+	DB 'K',DC
+	DW Xaker
+	DB 'M',RB
+	DW XAM
+	DB 'N',RB
+	DW XAN
+	DB 'O',RB
+	DW XAO
+	DB 'U',OO,OO,RB
+	DW XAU
+	DB 'Y',EE,RB
+	DW XAY
+	DB TTT,AA,RB
+	DW Xa00
+Xa00:	DB 'C',DC
+	DW Xach
+	DB 'L',DC
+	DW Xalcoo
+	DB 'L',DC
+	DW XALITE
+	DB 'R',DC
+	DW XARCON
+	DB 'R',DC
+	DW XARTIM
+	DB 'T',DC
+	DW Xatiem
+	DB 'T',DC
+	DW Xatien
+	DB 'T',DC
+	DW Xatu
+	DB 'T',RB
+	DW XVoyT7
+	DB TTT,RB
+	DW XVOY
+
+XAAT:	DB TTT,AA,TT,PG
+	DW NONL
+
+XACCF: DB TTT,FF,EE,RR,MM,EE,EE,AA,KK,OO,LL,AA,DD,PG
+	DW NONL
+
+XACCGR: DB TTT,PL,GG,RR,AA,VV,PG
+	DW NONL
+
+XAcCir: DB TTT,AA,KK,SS,AN,RB
+	DW XCirco
+
+XACCO: DB TTT,WW,VV,RR,EE,EE,AA,KK,OO,LL,AA,DD,PG
+	DW NONL
+
+XAccAi: DB TTT,PL,EE,GG,UU,PG
+	DW LiaCir
+	
+Xach1: DB 'S',KK,RB
+	DW Xs
+	DB Let,RB
+	DW Xch
+	DB TTT,RB
+	DW Xk
+
+XACirc: DB 'T',AA,AA,RB
+	DW XVoy5T
+	DB TTT,AA,RB
+	DW XA
+
+XAE:	DB 'L',AA,AA,RB
+	DW Xel
+	DB 'R',AA,AA,RB
+	DW Xer3
+	DB 'N',RB
+	DW XAN
+	DB TTT,RB
+	DW X$tout
+
+XAExp: DB TTT,AA,PL,EE,KK,SS,PP,OO,ZZ,AN,PG
+	DW LiaCir
+
+XAI:	DB 'E',RB
+	DW XAIE
+	DB 'L',RB
+	DW XAIL
+	DB 'M',RB
+	DW XAIM
+	DB 'N',RB
+	DW XAIN
+	DB 'S',DC
+	DW XAISEM
+	DB 'S',EE,RB
+	DW XVOYS1
+	DB 'X',EE,RB
+	DW XAIX
+	DB VOY,RB
+	DW XAIL0
+	DB TTT,RB
+	DW X$tout
+
+XAIE:	DB 'U',AA,II,RB
+	DW XEU
+	DB 'N',RB
+	DW XAIEN
+	DB TTT,EE,RB
+	DW XVOYE
+
+XAIEN: DB 'T',RB
+	DW .EST0
+	DB TTT,AA,II,RB
+	DW XEN
+
+XAIL:	DB 'L',AA,AA,YY,PG
+	DW Gen
+	DB 'S',AA,AA,II,RB
+	DW XS
+	DB LET,RB
+	DW XEL0
+XAIL0: DB TTT,AA,AA,RB
+	DW XI
+
+XAIM:	DB 'M',RB
+	DW XEM0
+	DB VOY,RB
+	DW XEM0
+	DB TTT,RB
+	DW XAIN0
+
+XAIN:	DB 'N',RB	;+ ein
+	DW XEN0
+	DB VOY,RB
+	DW XEN0
+XAIN0: DB TTT,IN,RB
+	DW XVOY5
+
+XAIX:	DB LET,RB
+	DW XX
+	DB TTT,RB
+	DW Xer0
+
+XAM:	DB 'M',DC
+	DW XAMMEN
+	DB 'M',RB
+	DW XAM0
+	DB 'N',AA,MM,RB
+	DW XN
+	DB 'P',AN,RB
+	DW XOP
+	DB 'S',DC
+	DW Xamste
+	DB 'S',AA,MM,RB
+	DW Xs
+	DB 'W',AA,MM,RB
+	DW XW
+	DB VOY,RB
+	DW XAM0
+	DB LET,RB
+	DW XENLET
+XAM0:	DB TTT,AA,RB
+	DW XM
+
+XAM1:	DB LET,RB
+	DW XAM
+	DB TTT,An,RB
+	DW XVoy5
+
+XAN:	DB 'H',RB
+	DW XAN
+	DB 'I',DC
+	DW Xanime
+	DB 'N',AA,RB
+	DW XN
+	DB VOY,AA,RB
+	DW XN
+	DB TTT,An,RB
+	DW Xan00
+Xan00: DB 'C',AN,RB
+	DW XANC
+	DB 'D',AN,RB
+	DW XVoyD
+	DB 'Q',DC
+	DW XanquR
+	DB 'Q',DC
+	DW XANQUI
+	DB 'T',DC
+	DW Xantie
+	DB 'T',AN,RB
+	DW XVoy5T
+	DB TTT,RB
+	DW XVOY5
+
+XANC:	DB 'A',DC
+	DW XANCAI	    ;+ onc
+	DB 'O',RB
+	DW Xanco
+	DB 'S',RB
+	DW XYCS1
+	DB LET,RB
+	DW XC
+	DB TTT,PG
+	DW LIACir
+	
+Xanco: DB 'I',SS,RB
+	DW Xoi
+	DB 'N',SS,RB
+	DW Xon
+	DB TTT,KK,RB
+	DW Xo
+
+XAO:	DB 'N',RB
+	DW XAON
+XAO0:	DB TTT,AA,AA,RB
+	DW XO
+
+XAON:	DB 'S',AN,AN,RB
+	DW XVoy5S
+	DB LET,AA,AA,RB
+	DW XON
+	DB TTT,AN,PG
+	DW LIACir
+
+XAPOST: DB AGra,RB
+	DW .A
+	DB 'Y',RB
+	DW .Y0
+	DB LET,PG
+	DW NONL
+	DB TTT,VR,KK,OO,TT,RB
+	DW XVIRNL
+
+XAposD: DB BVRD,AA,PP,OO,SS,TT,RR,OO,FF,DD,RR,WW,AA,TT,PG
+	DW LiaCir
+	DB TTT,RB
+	DW XVir2
+
+XAposG: DB BVRD,AA,PP,OO,SS,TT,RR,OO,FF,GG,OO,PL,HH,PG
+	DW LiaCir
+	DB TTT,RB
+	DW XVir2
+
+XAU:	DB 'D',RB
+	DW XVOYD
+	DB 'L',DC
+	DW Xault
+	DB 'R',RB
+	DW Xr9
+	DB 'X',RB
+	DW XVoyX
+	DB TTT,RB
+	DW XVOY
+	
+Xault1: DB Let,LL,RB
+	DW Xt
+	DB TTT,PG
+	DW LiaCir
+
+XAY:	DB 'E',Pl,YY,RB
+	DW XE
+	DB TTT,RB
+	DW XVOYY
+	
+XB:	DB TTT,BB,RB
+	DW Xb00
+Xb00:	DB 'A',DC
+	DW Xbay
+	DB 'B',RB
+	DW Xb00
+	DB 'L',LL,RB
+	DW Xbl
+	DB 'R',DC
+	DW Xbres
+	DB 'R',RR,RB
+	DW XTR
+	DB 'S',RB
+	DW XBS
+	DB 'U',DC
+	DW Xburge
+	DB 'Y',DC
+	DW Xbytie
+	DB TTT,PG
+	DW GEN
+
+XBePe: DB TTT,BB,EE,PP,EE,PG
+	DW LiaCir
+
+XBeta: DB LET,RB
+	DW Xs2
+	DB TTT,BB,EE,TT,RB
+	DW .A0
+	
+Xbl:	DB 'O',DC
+	DW Xlong
+	DB 'U',DC
+	DW Xlut
+	DB TTT,RB
+	DW Xtr
+	
+XBS:	DB 'E',DC
+	DW XBSENT
+	DB 'I',ZZ,RB
+	DW XI
+	DB TTT,RB
+	DW XS
+
+XC:	DB 'A',DC
+	DW Xcauti
+	DB 'E',DC
+	DW Xcessu
+	DB EGra,SS,EE,RB
+	DW XVoy
+	DB 'H',RB
+	DW XCH
+	DB 'I',DC
+	DW Xcill
+	DB 'I',DC
+	DW Xcinto
+	DB 'K',RB
+	DW XK
+	DB 'Q',RB
+	DW Xq
+	DB VOYM,RB
+	DW XS20
+	DB TTT,KK,RB
+	DW XC00
+Xc00:	DB 'A',DC	
+	DW XCAMEN
+	DB 'C',RB
+	DW XCC
+	DB 'L',DC
+	DW XCLUB
+	DB 'L',LL,RB
+	DW XTR
+	DB 'O',DC
+	DW Xcom
+	DB 'R',DC
+	DW Xcrati
+	DB 'R',RR,RB
+	DW XTR
+	DB 'T',RB
+	DW XCT
+	DB 'U',RB
+	DW XCU
+	DB TTT,PG
+	DW GEN
+
+XC129: DB TTT,KK,OO,DD,SS,AN,VV,IN,TT,NN,EU,FF,PG
+	DW NonL
+
+XC141: DB TTT,KK,OO,DD,SS,AN,KK,AA,RR,AN,TT,EE,PL,IN,PG
+	DW LiaCir
+
+XC143: DB TTT,KK,OO,DD,SS,AN,KK,AA,RR,AN,TT,TT,RR,OU,AA,PL,PG
+	DW LiaCir
+
+XC144: DB TTT,KK,OO,DD,SS,AN,KK,AA,RR,AN,TT,KK,AA,TT,RR,PG
+	DW NonL
+
+XC157: DB TTT,KK,OO,DD,SS,AN,SS,IN,KK,AN,TT,SS,EE,TT,PG
+	DW NonL
+
+XCARRE: DB TTT,OO,OO,KK,AA,RR,RB
+	DW Xer0
+
+XCC:	DB 'E',DC
+	DW XCCEPT
+	DB 'I',DC
+	DW Xccide
+	DB 'R',DC
+	DW Xccroc
+	DB 'U',RB
+	DW XCU
+	DB VOYM,RB
+	DW XC
+	DB TTT,PG
+	DW GEN
+
+XcCedi: DB TTT,RB
+	DW XS
+
+XCedi: DB TTT,SS,EE,DD,II,YY,PG
+	DW NonL
+	
+XCH:	DB 'L',KK,RB
+	DW XL
+	DB 'N',KK,RB
+	DW XN
+	DB 'O',DC
+	DW Xchole
+	DB 'R',KK,RB
+	DW XR
+	DB TTT,HH,PG
+	DW GEN
+
+XChapi: DB TTT,HH,AA,PP,II,TT,RR,PG
+	DW LiaE
+
+XCHIF: DB NAbr,RB
+	DW XChif3
+XChif2: DB 'C',DC
+	DW XChfCm
+	DB 'M',RB
+	DW XCHIFM
+	DB 'F',RB
+	DW XCHIFF
+	DB 'G',RB
+	DW XChifG
+	DB 'H',RB
+	DW XChifH
+	DB 'S',RB
+	DW XCHIFS
+XChif3: DB ' ',RB
+	DW XCHIF_
+	DB TTT,PG
+	DW NONL
+
+XChif_: DB NAbr,RB
+	DW XChif3
+	DB 'B',DC
+	DW .BD_
+	DB 'P',DC
+	DW .PL_
+	DB 'R',DC
+	DW .RUE_
+	DB TTT,RB
+	DW XChif2
+
+XChCm1: DB Voy,KK,RB
+	DW XM
+	DB Let,SS,EE,Pl,Pl,EE,MM,PG
+	DW NonL
+	DB TTT,SS,AN,AN,TT,II,MM,EE,TT,RR,RB
+	DW XTre0
+
+XCHIFF: DB LET,RB
+	DW .F
+	DB TTT,FF,RR,AN,RB
+	DW XVOYS
+	
+XChifG: DB Let,RB
+	DW .G
+	DB TTT,GG,RR,AA,RB
+	DW Xm
+
+XChifH: DB Voy,RB
+	DW .H
+	DB Let,AA,HH,PG
+	DW NonL
+	DB TTT,RB
+	DW Xer5
+
+XChifM: DB 'M',RB
+	DW XChfMM
+	DB 'N',RB
+	DW XChfMN
+	DB Voy,RB
+	DW .M
+	DB Let,EE,MM,PG
+	DW NonL
+	DB Ponc,MM,EE,TT,RR,RB
+	DW XTre0
+	DB TTT,RB
+	DW .M
+
+XChfMM: DB Let,EE,MM,EE,MM,PG
+	DW NonL
+	DB TTT,MM,II,LL,II,MM,EE,TT,RR,RB
+	DW XTre0
+
+XCHFMN: DB Voy,MM,RB
+	DW XN
+	DB LET,EE,MM,EE,NN,PG
+	DW NonL
+	DB TTT,MM,II,NN,UU,RB
+	DW XT
+
+XCHIFS: DB LET,RB
+	DW .S
+	DB TTT,SS,EU,GG,ON,ON,RB
+	DW XD
+
+XCirco: DB TTT,PL,SS,II,RR,KK,ON,FF,LL,EE,KK,SS,PG
+	DW NONL
+
+XCLUB1: DB 'S',EU,BB,RB
+	DW XS
+	DB LET,UU,RB
+	DW XB
+	DB TTT,EU,RB
+	DW XB
+	
+Xcom1: DB 'P',DC
+	DW Xcompt
+	DB LET,RB
+	DW XOM
+	DB TTT,OO,RB
+	DW XM
+
+XCopyr: DB TTT,KK,OO,PP,II,RR,AA,YY,TT,PG
+	DW NonL
+
+XCROF: DB BVRD,VR,FF,EE,RR,MM,EE,KK,RR,OO,HH,EE,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XCroix: DB TTT,KK,RR,WW,AA,PG
+	DW LiaCir
+
+XCroO: DB BVRD,VR,WW,VV,RR,EE,KK,RR,OO,HH,EE,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XCT:	DB 'E',TT,RB
+	DW Xtre
+	DB 'I',RB
+	DW Xcti
+	DB 'U',TT,RB
+	DW Xu2
+	DB TTT,RB
+	DW XT
+	
+Xcti:	DB 'A',RB
+	DW Xtia6
+	DB 'E',SS,II,RB
+	DW Xie
+	DB 'O',RB
+	DW Xtio6
+	DB TTT,TT,RB
+	DW Xi
+
+XCtrl: DB TTT,KK,ON,ON,TT,RR,OO,LL,PG
+	DW NONL
+
+XCtrOb: DB KK,ON,PL,TT,RR,OO,BB,LL,II,KK,PG
+	DW NONL
+	
+XCU:	DB 'E',RB
+	DW XCUE
+	DB 'R',DC
+	DW Xcurre
+	DB TTT,RB
+	DW XU
+
+XCube: DB TTT,OO,KK,UU,BB,PG
+	DW NonL
+
+XCUE:	DB 'I',RB
+	DW XCUEI
+	DB TTT,UU,RB
+	DW XVOYE
+
+XCUEI: DB 'L',EU,Eu,RB
+	DW XVOYIL
+	DB TTT,UU,RB
+	DW XEI
+
+Xd9:	DB 'E',DC
+	DW Xdent9
+Xd:	DB TTT,DD,RB
+	DW Xd00
+Xd00:	DB 'A',DC
+	DW Xdamn
+	DB 'D',RB
+	DW Xd00
+	DB 'I',DC
+	DW Xditio
+	DB 'R',DC
+	DW XDRAP
+	DB 'R',RR,RB
+	DW XTR
+	DB TTT,PG
+	DW GEN
+
+XDApoD: DB TTT,DD,OU,BB,LL,AA,PP,OO,SS,TT,RR,OO,FF,DD,RR,WW,AA,TT,PG
+	DW NonL
+
+XDApoG: DB TTT,DD,OU,BB,LL,AA,PP,OO,SS,TT,RR,OO,FF,GG,OO,PL,HH,PG
+	DW NonL
+
+XDCroi: DB TTT,DD,OU,BB,LL,EU,RB
+	DW XCroix
+
+XDEGRE: DB TTT,DD,EU,GG,RR,RB
+	DW Xer0
+
+XDEMI: DB TTT,IN,IN,DD,EU,MM,II,PG
+	DW LIACir
+
+XDEUPT: DB BVRD,VR,DD,EU,EU,PP,WW,IN,IN,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XDEUTR: DB TTT,DD,EU,EU,TT,RR,EE,RB
+	DW Xer0
+
+XDIESE: DB TTT,DD,II,EE,EE,ZZ,PG
+	DW NONL
+
+XDIVI: DB TTT,DD,II,VV,II,ZZ,EE,PP,AA,RR,PG
+	DW NONL
+
+XDOLLA: DB TTT,DD,OO,LL,AA,AA,RR,PG
+	DW NONL
+
+XDVir: DB TTT,DD,OU,BB,LL,EU,VV,II,RR,GG,UU,LL,PG
+	DW NonL
+
+Xe1:	DB 'S',RB
+	DW Xes1
+XE:	DB 'A',RB
+	DW XEA
+	DB 'B',RB
+	DW XEB
+	DB 'C',RB
+	DW XEC
+	DB CCEDI,EU,RB
+	DW XS
+	DB 'D',RB
+	DW XED
+	DB 'E',EE,EE,RB
+	DW XEE
+	DB 'F',RB
+	DW XEF
+	DB 'G',RB
+	DW XEG
+	DB 'H',DC
+	DW Xehors
+	DB 'H',EE,EE,PG
+	DW GEN
+	DB 'I',RB
+	DW XEI
+	DB ICIRC,EE,RB
+	DW XEI
+	DB 'J',RB
+	DW XEJ
+	DB 'L',RB
+	DW XEL
+	DB 'M',DC	;et Xie
+	DW Xemmen
+	DB 'M',RB
+	DW XEM
+	DB 'N',RB
+	DW XEN
+	DB 'O',RB
+	DW XEO
+	DB 'P',RB
+	DW XEP
+	DB 'Q',RB
+	DW XEQ
+	DB 'R',RB
+	DW XER
+	DB 'S',RB
+	DW XES
+	DB 'T',RB
+	DW XET
+	DB 'U',EU,RB
+	DW XEU
+	DB UCIRC,RB
+	DW XeuCir
+	DB 'V',RB
+	DW XEV
+	DB 'X',EE,RB
+	DW XX
+	DB 'Y',EE,RB
+	DW XVOYY
+	DB 'Z',RB
+	DW Xez
+	DB VOY,EE,EE,PG
+	DW GEN
+	DB LET,Eu,PG
+	DW GEN
+	DB TTT,PG
+	DW GEN
+	
+XEA:	DB 'K',DC
+	DW XEAKER
+	DB 'K',II,II,RB
+	DW XK
+	DB 'U',OO,OO,RB
+	DW XAU
+	DB TTT,EE,EE,RB
+	DW XA
+
+XEB:	DB 'E',RB
+	DW XEBE
+	DB 'L',EU,BB,RB
+	DW XL
+	DB 'R',RB
+	DW XEBR
+	DB VOY,EU,RB
+	DW XB
+XEB0:	DB TTT,EE,RB
+	DW XB
+
+XEBE:	DB 'S',RB
+	DW Xebes
+	DB LET,EU,BB,RB
+	DW XE
+	DB TTT,RB
+	DW XEB0
+	
+Xebes: DB Let,Eu,BB,RB
+	DW Xes
+	DB TTT,RB
+	DW Xeb0
+
+XEBR:	DB 'E',RB
+	DW XEBRE
+	DB TTT,EU,BB,RB
+	DW XR
+
+XEBRE: DB 'S',RB
+	DW Xebres
+	DB LET,EU,BB,RR,RB
+	DW XE
+	DB TTT,EE,BB,RR,RB
+	DW Xtre0
+	
+Xebres: DB Let,Eu,BB,RR,RB
+	DW Xes
+	DB TTT,EE,BB,RR,RB
+	DW Xtre0
+
+XEC:	DB 'E',RB
+	DW XECE
+	DB 'H',RB
+	DW XECH
+	DB 'L',Eu,KK,LL,RB
+	DW Xtr
+	DB 'O',DC
+	DW Xecon
+	DB 'R',EU,KK,RB
+	DW XR
+	DB VOY,EU,RB
+	DW XC
+	DB TTT,EE,RB
+	DW XC
+
+XECE:	DB 'S',RB
+	DW Xeces
+	DB LET,EU,SS,RB
+	DW XE
+Xece0: DB TTT,EE,RB
+	DW XS20
+	
+Xeces: DB Let,Eu,SS,RB
+	DW Xes
+	DB TTT,RB
+	DW Xece0
+
+XECH:	DB 'E',RB
+	DW XECHE
+	DB 'S',EE,KK,RB
+	DW Xs
+	DB Voy,Eu,RB
+	DW Xch
+	DB Let,EE,RB
+	DW XCH
+	DB TTT,EE,RB
+	DW Xk
+
+XECHE: DB 'S',RB
+	DW Xeches
+	DB LET,EU,HH,RB
+	DW XE
+Xeche0: DB TTT,EE,HH,PG
+	DW GEN
+	
+Xeches: DB Let,Eu,HH,RB
+	DW Xes
+	DB TTT,RB
+	DW Xeche0
+
+XECirc: DB TTT,EE,EE,RB
+	DW XVoy
+
+XECOLE: DB TTT,PL,EU,EU,KK,OO,LL,RB
+	DW Xer0
+
+Xecon1: DB 'S',RB
+	DW XECONS
+	DB LET,KK,RB
+	DW XON
+	DB TTT,SS,RB
+	DW XON
+
+XECONS: DB LET,KK,On,Pl,RB
+	DW XVoy5S
+	DB TTT,SS,On,Pl,RB
+	DW XVoy5S
+
+XED:	DB 'E',RB
+	DW XEDE
+	DB 'R',EU,DD,RB
+	DW XR
+	DB VOY,EU,RB
+	DW XD
+XED0:	DB TTT,EE,RB
+	DW XD
+
+XEDE:	DB 'S',RB
+	DW XEDES
+	DB LET,EU,DD,RB
+	DW XE
+	DB TTT,RB
+	DW XED0
+
+XEDES: DB LET,EU,DD,RB
+	DW XES
+	DB TTT,RB
+	DW XED0
+
+XEE:	DB 'N',RB
+	DW XEEN
+	DB 'R',EE,RB
+	DW Xer
+	DB 'S',EE,RB
+	DW XEES
+	DB LET,EE,RB
+	DW .E
+	DB TTT,PG
+	DW LIACir
+
+XEEN:	DB 'S',RB
+	DW XEENS
+	DB LET,RB
+	DW XEN
+	DB TTT,RB
+	DW XIEN0
+
+XEENS: DB LET,RB
+	DW XENS
+	DB TTT,In,RB
+	DW Xien0
+
+XEES:	DB LET,RB
+	DW XES
+	DB TTT,PG
+	DW LIACir
+
+XEF:	DB 'L',RB
+	DW XEFL
+	DB 'R',EU,FF,RB
+	DW XR
+	DB VOY,EU,RB
+	DW XF
+	DB TTT,EE,RB
+	DW XF
+
+XEFL:	DB 'E',RB
+	DW XEFLE
+	DB TTT,EU,FF,RB
+	DW XL
+
+XEFLE: DB 'S',RB
+	DW Xefles
+	DB LET,EU,FF,LL,RB
+	DW XE
+	DB TTT,EE,FF,LL,RB
+	DW Xtre0
+	
+Xefles: DB Let,Eu,FF,LL,RB
+	DW Xes
+	DB TTT,EE,FF,LL,RB
+	DW Xtre0
+
+XEG:	DB 'E',RB
+	DW Xege
+	DB 'L',RB
+	DW Xegl
+	DB 'R',RB
+	DW XEGR
+	DB VOY,EU,RB
+	DW XG
+	DB TTT,EE,RB
+	DW XG
+	
+Xege:	DB 'S',RB
+	DW Xeges
+	DB Let,Eu,JJ,RB
+	DW Xe
+Xege0: DB TTT,EE,RB
+	DW Xj
+	
+Xeges: DB Let,Eu,JJ,RB
+	DW Xes
+	DB TTT,RB
+	DW Xege0
+	
+Xegl:	DB 'E',RB
+	DW Xegle
+	DB TTT,Eu,GG,RB
+	DW Xl
+	
+Xegle: DB 'S',RB
+	DW Xegles
+	DB Let,Eu,GG,LL,RB
+	DW Xe
+Xegle0: DB TTT,EE,GG,LL,RB
+	DW Xtre0
+	
+Xegles: DB Let,Eu,GG,LL,RB
+	DW Xes
+	DB TTT,RB
+	DW Xegle0
+
+XEGAL: DB TTT,EE,GG,AA,LL,PG
+	DW NONL
+
+XEGR:	DB 'E',RB
+	DW XEGRE
+	DB TTT,EU,GG,RB
+	DW XR
+
+XEGra: DB 'S',EE,RB
+	DW XVoyS2
+X$tout: DB TTT,EE,RB
+	DW XVOY
+
+XEGRE: DB 'S',RB
+	DW Xegres
+	DB LET,EU,GG,RR,RB
+	DW XE
+Xegre0: DB TTT,EE,GG,RR,RB
+	DW Xtre0
+	
+Xegres: DB Let,Eu,GG,RR,RB
+	DW Xes
+	DB TTT,RB
+	DW Xegre0
+
+XEI:	DB 'L',EE,RB
+	DW XEIL
+	DB 'N',DC
+	DW Xein_a
+	DB 'N',RB
+	DW XAIN
+	DB VOY,EE,EE,RB
+	DW XI
+	DB TTT,RB
+	DW XAI
+
+XEIL:	DB 'L',Pl,YY,PG
+	DW Gen
+	DB 'S',II,RB
+	DW XS
+	DB LET,RB
+	DW XL
+	DB TTT,RB
+	DW XI
+
+XEJ:	DB VOY,EU,RB
+	DW XJ
+	DB TTT,EE,RB
+	DW XJ
+
+Xel3:	DB 'L',EE,LL,RB
+	DW Xell3
+	DB 'S',EE,LL,RB
+	DW Xs1
+XEL:	DB 'E',RB
+	DW XELE
+	DB VOY,EU,RB
+	DW XL
+XEL0:	DB TTT,EE,RB
+	DW XL
+	
+Xell3: DB 'E',RB
+	DW Xe1
+	DB TTT,RB
+	DW Xl
+
+XELE:	DB 'S',RB
+	DW Xeles
+	DB LET,EU,LL,RB
+	DW XE
+	DB TTT,RB
+	DW XEL0
+	
+Xeles: DB Let,Eu,LL,RB
+	DW Xes
+	DB TTT,RB
+	DW Xel0
+
+XEM:	DB 'E',RB
+	DW XEME
+	DB 'M',RB
+	DW XEM0
+	DB 'N',EE,MM,RB
+	DW Xn
+	DB 'P',AN,RB
+	DW XOP
+	DB 'S',EE,MM,RB
+	DW Xs
+	DB VOY,EU,RB
+	DW XM
+	DB LET,RB
+	DW XENLET
+XEM0:	DB TTT,EE,RB
+	DW XM
+
+XEME:	DB 'N',EU,MM,RB
+	DW XEMEN
+	DB 'S',RB
+	DW Xemes
+	DB LET,EU,MM,RB
+	DW XE
+	DB TTT,RB
+	DW XEM0
+	
+Xemes: DB Let,Eu,MM,RB
+	DW Xes
+	DB TTT,RB
+	DW Xem0
+
+XEMEN: DB 'T',RB
+	DW XENT9
+XEN:	DB 'D',AN,RB
+	DW XEND
+	DB 'E',RB
+	DW XENE
+	DB 'G',AN,RB
+	DW XVoy5G
+	DB 'H',RB
+	DW XENLET
+	DB 'N',RB
+	DW Xen0
+	DB 'S',RB
+	DW XENS
+	DB 'T',RB
+	DW XENT
+	DB VOY,EU,RB
+	DW XN
+	DB LET,RB
+	DW XENLET
+XEN0:	DB TTT,EE,RB
+	DW XN
+
+XEND:	DB VOY,PL,RB
+	DW XD
+	DB TTT,RB
+	DW XVoyD
+
+XENE:	DB 'S',RB
+	DW Xenes
+	DB LET,EU,NN,RB
+	DW XE
+	DB TTT,RB
+	DW XEN0
+	
+Xenes: DB Let,Eu,NN,RB
+	DW Xes
+	DB TTT,RB
+	DW Xen0
+
+XENLET: DB 'S',An,An,RB
+	DW XVoy5S
+	DB TTT,AN,AN,PG
+	DW GEN
+
+XENS:	DB LET,AN,AN,RB
+	DW XS
+	DB TTT,RB
+	DW XEN0
+
+XENT:	DB 'I',AN,AN,RB
+	DW XENTI
+	DB 'S',An,An,RB
+	DW XVoy5S
+	DB '-',RB
+	DW XTTir
+	DB LET,AN,RB
+	DW XT
+	DB TTT,PG
+	DW GEN
+	
+XENT9: DB LET,RB
+	DW XENT
+	DB TTT,AN,PG
+	DW LiaCir
+
+XENTI: DB 'E',RB
+	DW XENTIE
+	DB TTT,RB
+	DW XVoyti
+
+XENTIE: DB 'L',SS,II,RB
+	DW XEL
+	DB 'U',SS,II,Eu,RB
+	DW Xeu
+	DB TTT,TT,II,RB
+	DW XVOYE
+
+XEO:	DB 'I',RB
+	DW XOI
+	DB TTT,EE,EE,RB
+	DW XO
+
+XEP:	DB 'E',RB
+	DW XEPE
+	DB 'L',EU,PP,RB
+	DW XL
+	DB 'R',EU,PP,RB
+	DW XR
+	DB VOY,EU,RB
+	DW XP
+Xep0:	DB TTT,EE,RB
+	DW XP
+
+XEPE:	DB 'S',RB
+	DW Xepes
+	DB LET,EU,PP,RB
+	DW XE
+	DB TTT,RB
+	DW Xep0
+	
+Xepes: DB Let,Eu,PP,RB
+	DW Xes
+	DB TTT,RB
+	DW Xep0
+
+XEQ:	DB 'U',RB
+	DW XEQU
+	DB TTT,EE,RB
+	DW XQ
+
+XEQU:	DB 'E',RB
+	DW XEQUE
+	DB TTT,EU,KK,RB
+	DW Xqu
+
+XEQUE: DB 'S',RB
+	DW Xeques
+	DB LET,EU,KK,RB
+	DW XE
+Xek0:	DB TTT,EE,RB
+	DW XK
+	
+Xeques: DB Let,Eu,KK,RB
+	DW Xes
+	DB TTT,RB
+	DW Xek0
+
+XER:	DB 'C',EE,RB
+	DW XERC
+	DB 'D',EE,RB
+	DW XVoyRD
+	DB 'E',RB
+	DW XERE
+	DB 'M',DC
+	DW XERMAN
+	DB 'P',DC
+	DW XERPEN
+	DB 'R',RB    ;terrible,serre
+	DW Xer3
+	DB 'S',RB
+	DW XERS
+	DB 'T',EE,RB
+	DW XVOYRT
+	DB VOY,Eu,RB
+	DW Xr
+	DB LET,EE,RB
+	DW Xr
+Xer0:	DB TTT,EE,PG
+	DW LiaCir
+
+Xer3:	DB Voy,EE,RB
+	DW XVoyR
+Xer2:	DB 'S',EE,RB
+	DW XVoyRS
+	DB Let,RB
+	DW Xer
+	DB TTT,EE,RB
+	DW XVoyR
+
+Xer5:	DB 'S',RB
+	DW Xer5s
+	DB Let,RB
+	DW Xer
+	DB TTT,Eu,RB
+	DW XVoyR
+	
+Xer5s: DB Let,RB
+	DW Xers
+	DB TTT,Eu,RB
+	DW XVoyRS
+
+XERC:	DB 'E',RR,SS,RB
+	DW XE
+	DB 'S',RB
+	DW XVOYRS
+	DB LET,RR,RB
+	DW XC
+	DB TTT,RB
+	DW XVOYR
+
+XERE:	DB 'S',RB
+	DW Xeres
+	DB LET,EU,RR,RB
+	DW XE
+	DB TTT,RB
+	DW Xer3
+	
+Xeres: DB Let,Eu,RR,RB
+	DW Xes
+	DB TTT,RB
+	DW Xer3
+
+XERS:	DB LET,EE,RR,RB
+	DW XS
+	DB TTT,EE,RB
+	DW XVOYS
+
+XES:	DB 'C',DC
+	DW X$cent
+	DB 'C',EE,SS,RB
+	DW XESC
+	DB 'S',DC
+	DW XESSIE
+	DB 'Q',DC
+	DW Xesque
+	DB '-',DC
+	DW XZEn
+	DB '-',DC
+	DW XZY
+	DB VOY,EU,RB	;mesure,besoin,...
+	DW XZ0
+	DB LET,EE,RB
+	DW XS
+	DB TTT,PG
+	DW GEN
+
+Xes1:	DB ' ',RB
+	DW Deb6
+	DB Let,RB
+	DW Xes
+	DB TTT,PG
+	DW LiaZ
+	
+Xes2:	DB Let,RB
+	DW Xes
+	DB TTT,EE,RB
+	DW XVoyS2
+
+XESC:	DB 'H',RB
+	DW XK
+	DB VOYM,PG
+	DW GEN
+	DB TTT,RB
+	DW XC
+
+XESP:	DB ' ',RB
+	DW XESP
+	DB AGra,RB
+	DW .A
+	DB TTT,PG
+	DW NONL
+
+XEspIn: DB LET,RB
+	DW XEsp
+	DB TTT,EE,SS,PP,AA,SS,IN,SS,EE,KK,AA,BB,LL,PG
+	DW NonL
+
+XET:	DB 'E',RB
+	DW XETE
+	DB 'R',RB
+	DW XETR
+	DB VOY,EU,RB
+	DW XT
+	DB TTT,EE,RB
+	DW XVOYT
+
+XETCOM: DB BVRD,EE,KK,OO,MM,EE,RR,SS,II,AA,LL,PG
+	DW NONL
+	DB TTT,RB
+	DW Xer0
+
+XETE:	DB 'S',RB
+	DW Xetes
+	DB LET,EU,TT,RB
+	DW XE
+Xet2:	DB TTT,EE,RB
+	DW XT
+	
+Xetes: DB Let,Eu,TT,RB
+	DW Xes
+	DB TTT,RB
+	DW Xet2
+
+XETOIL: DB TTT,EE,TT,WW,AA,LL,PG
+	DW NONL
+
+XETR:	DB 'E',RB
+	DW Xetre
+	DB TTT,EU,TT,RB
+	DW XR
+	
+Xetre: DB 'S',RB
+	DW Xetres
+	DB Let,Eu,TT,RR,RB
+	DW Xe
+Xetre0: DB TTT,EE,TT,RR,RB
+	DW Xtre0
+	
+Xetres: DB Let,Eu,TT,RR,RB
+	DW Xes
+	DB TTT,RB
+	DW Xetre0
+
+XEU:	DB 'T',RB
+	DW XVOYT1
+	DB 'X',PL,RB
+	DW XVoyX
+	DB TTT,RB
+	DW XVOY
+
+XeuCir: DB 'N',RB
+	DW Xeun
+	DB TTT,Eu,Eu,RB
+	DW Xeu
+	
+Xeun:	DB Let,Eu,Eu,RB
+	DW Xn
+	DB TTT,RB
+	DW Xin
+
+Xeuro: DB TTT,EU,RR,OO,PG
+	DW LiaCir
+
+XEV:	DB 'A',EU,VV,RB
+	DW .XA
+	DB 'E',RB
+	DW XEVE
+	DB 'R',RB
+	DW XEVR
+	DB VOY,EU,RB
+	DW XV
+Xev0:	DB TTT,EE,RB
+	DW XV
+
+XEVE:	DB 'S',RB
+	DW Xeves
+	DB 'R',DC
+	DW Xevers
+	DB LET,EU,VV,RB
+	DW XE
+	DB TTT,RB
+	DW Xev0
+	
+Xeves: DB Let,Eu,VV,RB
+	DW Xes
+	DB TTT,RB
+	DW Xev0
+
+XEVR:	DB 'E',RB
+	DW XEVRE
+	DB TTT,EU,VV,RB
+	DW XR
+
+XEVRE: DB 'S',RB
+	DW Xevres
+	DB LET,EU,VV,RR,RB
+	DW XE
+Xevre0: DB TTT,EE,VV,RR,RB
+	DW Xtre0
+	
+Xevres: DB Let,Eu,VV,RR,RB
+	DW Xes
+	DB TTT,RB
+	DW Xevre0
+
+XPtExR: DB TTT,EE,SS,KK,LL,AA,MM,AA,SS,II,ON,RR,AN,VV,EE,RR,SS,RB
+	DW Xer0
+	
+Xez:	DB Voy,Eu,RB
+	DW Xz
+	DB Let,EE,RB
+	DW Xz
+	DB TTT,EE,RB
+	DW XVoyS	;pour -
+	
+XEGU:	DB 'C',DC
+	DW X$cent
+	DB TTT,EE,RB
+	DW XEgu00
+XEgu00: DB 'C',DC
+	DW X$cut
+	DB 'D',DC
+	DW X$dent
+	DB 'E',EE,RB
+	DW XEE
+	DB 'F',DC
+	DW Xeffic
+	DB 'G',DC
+	DW X$gent
+	DB 'M',RB
+	DW Xm9
+	DB 'Q',DC
+	DW X$quat
+	DB 'Q',DC
+	DW X$quen
+	DB 'Q',DC
+	DW X$quie
+	DB 'R',DC
+	DW X$rame
+	DB 'R',DC
+	DW X$rus
+	DB 'R',RB
+	DW Xr9
+	DB 'S',RB
+	DW X$S
+	DB 'T',RB
+	DW X$T
+	DB TTT,RB
+	DW XVOY
+	
+X$Fin: DB LET,RB
+	DW XE
+	DB TTT,RB
+	DW X$Tout
+
+X$S:	DB VOY,RB
+	DW XZ0
+	DB TTT,RB
+	DW XVOYS
+
+X$T:	DB 'E',DC
+	DW Xtenti
+	DB 'E',DC
+	DW X$tent
+	DB 'E',DC
+	DW X$terg
+	DB 'I',DC
+	DW X$tie
+	DB 'R',DC
+	DW X$TRIM
+	DB TTT,RB
+	DW XVOYT1
+
+X$TIE1: DB 'S',SS,II,RB
+	DW XVOYES
+	DB 'N',TT,II,RB
+	DW Xien1	;detien...
+	DB LET,TT,II,RB
+	DW XVoyE
+	DB TTT,SS,II,RB
+	DW XVOYE
+	
+Xf:	DB TTT,FF,RB
+	DW Xf00
+Xf00:	DB 'A',DC
+	DW XFAIS
+	DB 'F',RB
+	DW Xf00
+	DB 'L',DC
+	DW XFLAMM
+	DB 'L',LL,RB
+	DW XTR
+	DB 'R',RR,RB
+	DW XTR
+	DB TTT,PG
+	DW GEN
+
+XFAIS1: DB VOY,EU,RB
+	DW XZ0
+	DB TTT,EE,RB
+	DW XVOYS
+
+XFCur: DB TTT,EE,FF,KK,UU,RR,SS,II,VV,PG
+	DW NonL
+
+XFois: DB TTT,FF,WW,AA,PL,PG
+	DW LiaCir
+
+Xg9:	DB 'E',DC
+	DW Xgent9
+XG:	DB 'E',JJ,RB
+	DW XGE
+	DB 'G',RB
+	DW Xgg
+	DB 'N',DC
+	DW Xgnost
+	DB 'N',NN,YY,RB
+	DW XTR
+	DB VOYM,RB
+	DW XJ
+	DB TTT,GG,RB
+	DW Xg00
+Xg00:	DB 'L',LL,RB
+	DW XTR
+	DB 'M',RB
+	DW Xm8
+	DB 'R',DC
+	DW XGRAMM
+	DB 'R',DC
+	DW Xgr$s
+	DB 'R',RR,RB
+	DW XTR
+	DB 'S',DC
+	DW Xgster
+	DB 'U',RB
+	DW XGU
+	DB TTT,PG
+	DW GEN
+
+XGE:	DB 'A',RB
+	DW XA
+	DB ACIRC,RB
+	DW XACirc
+	DB 'O',RB
+	DW XO
+	DB OCIRC,RB
+	DW XOCirc
+	DB TTT,RB
+	DW XE
+	
+Xgg:	DB VoyM,GG,RB
+	DW XG
+	DB TTT,RB
+	DW XG
+
+XGlmS: DB TTT,GG,II,YY,MM,EE,SS,IN,PL,PP,LL,PG
+	DW NonL
+XGlmSF: DB TTT,FF,EE,RR,MM,EE,RB
+	DW XGlmS
+XGlmSO: DB TTT,OU,VV,RR,EE,RB
+	DW XGlmS
+
+XGU:	DB ETREM,UU,RB
+	DW XVoyE
+	DB ITREM,UU,RB
+	DW Xi
+	DB 'M',UU,RB
+	DW Xm8
+	DB 'Y',RB
+	DW XGUY
+	DB VOY,PG
+	DW GEN
+	DB TTT,RB
+	DW XU
+
+XGuilF: DB BVRD,Vr,FF,EE,RR,MM,EE,GG,II,YY,MM,EE,RB
+	DW XVirNL
+	DB TTT,RB
+	DW XVir2
+
+XGUILM: DB BVRD,VR,GG,II,II,II,MM,EE,RB
+	DW XVIRNL
+	DB TTT,PG
+	DW NONL
+
+XGuilO: DB BVRD,Vr,WW,VV,RR,EE,GG,II,YY,MM,EE,RB
+	DW XVirNL
+	DB TTT,RB
+	DW XVir2
+			
+XGUY:	DB VOY,UU,II,II,RB
+	DW XY
+	DB TTT,RB
+	DW XY
+
+XH:	DB TTT,PG
+	DW Gen		;pas NonL, ign
+
+XITrem:
+Xi2:	DB 'S',II,RB
+	DW XVoyS2
+Xi:	DB 'G',DC
+	DW Xight
+	DB 'M',RB
+	DW XIM
+	DB 'N',RB
+	DW XIN
+	DB 'V',DC	;+Y
+	DW Xivale
+	DB TTT,II,RB
+	DW Xi00
+Xi00:	DB 'B',DC
+	DW Xibit
+	DB 'B',DC
+	DW Xibut
+	DB 'B',DC
+	DW Xibu
+	DB 'C',DC
+	DW Xiceps
+	DB 'C',DC
+	DW Xicit
+	DB 'E',RB
+	DW XIE
+	DB 'L',RB
+	DW XIL
+	DB 'O',DC
+	DW XIOLEN
+	DB 'P',DC
+	DW XIPIEN
+	DB 'R',DC
+	DW Xirus
+	DB 'T',DC
+	DW Xitut
+	DB 'T',DC
+	DW Xitu
+	DB 'T',RB
+	DW XVoyT6
+	DB 'U',II,RB
+	DW Xu2
+	DB TTT,RB
+	DW XVOY
+	
+XI0:	DB TTT,II,PG
+	DW Gen
+	
+XICirc: DB 'M',II,II,RB
+	DW Xm
+	DB 'N',RB
+	DW XIN
+	DB TTT,II,RB
+	DW XI
+
+XIE:	DB 'D',EE,RB
+	DW XVOYD
+	DB 'M',DC
+	DW Xemmen
+	DB 'N',RB
+	DW XIEN
+	DB TTT,RB
+	DW XVOYE
+
+Xien1: DB 'D',In,In,RB   ;Xtien, X$tien, Xoutien, Xrtien, Xvien, Xrvien
+	DW Xd
+	DB 'S',RB	
+	DW Xiens1
+	DB 'T',In,In,RB
+	DW XY5T1
+XIEN:	DB 'S',RB
+	DW XIENS
+	DB LET,RB
+	DW XVOYEN
+XIEN0: DB TTT,IN,PG
+	DW LIACir
+
+XIENS: DB LET,RB
+	DW XENS
+	DB TTT,IN,RB
+	DW XIEN0
+
+Xiens1: DB Let,RB
+	DW Xens
+	DB TTT,In,In,RB
+	DW XVoy5S
+	
+XIL:	DB 'A',DC
+	DW XILAME
+	DB 'L',II,YY,PG 	; ILLE rallonge
+	DW GEN
+	DB TTT,RB
+	DW XL
+	
+Xil1:	DB 'L',II,II,YY,PG
+	DW Gen
+	DB TTT,II,RB
+	DW XVoyL
+
+XIM:	DB 'E',II,RB
+	DW Xme8
+	DB 'M',DC
+	DW Ximman
+	DB 'M',DC
+	DW XIMMIN
+	DB 'M',II,MM,RB
+	DW Xm
+	DB 'N',II,MM,NN,RB
+	DW Xtr
+	DB 'P',DC
+	DW XIMPOT
+	DB 'S',II,MM,RB
+	DW XS
+	DB VOY,RB
+	DW XIM0
+	DB LET,IN,IN,PG
+	DW GEN
+XIM0:	DB TTT,II,RB
+	DW XM
+
+XIN:	DB 'G',RB
+	DW XING
+	DB 'H',RB
+	DW XIN
+	DB 'N',II,RB
+	DW XN
+	DB 'U',DC
+	DW Xinuti
+	DB 'U',II,NN,RB
+	DW Xu2
+	DB VOY,II,RB
+	DW XN
+	DB TTT,RB
+	DW XAIN0
+
+XINFER: DB TTT,IN,IN,FF,EE,RR,II,EU,EU,RR,RB
+	DW .A0
+
+XING:	DB 'S',II,NN,GG,RB
+	DW XS
+	DB LET,IN,IN,RB
+	DW XG
+	DB TTT,II,NN,RB
+	DW XG
+	
+XPtInR: DB TTT,IN,TT,EE,RR,OO,GG,AA,SS,II,ON,RR,AN,VV,EE,RR,SS,RB
+	DW Xer0
+	
+Xit2:	DB TTT,II,RB
+	DW Xt
+	
+XJ:	DB 'A',DC
+	DW Xjacen
+	DB 'E',DC
+	DW XJea
+	DB 'J',RB
+	DW XJ
+	DB TTT,JJ,PG
+	DW GEN
+	
+XK:	DB 'E',DC
+	DW Xker
+	DB 'E',DC
+	DW Xket
+	DB 'K',RB
+	DW XK
+	DB TTT,KK,PG
+	DW GEN
+
+Xl9:	DB 'E',DC
+	DW Xlent9
+Xl:	DB TTT,LL,RB
+	DW Xl00
+Xl00:	DB 'B',BB,RB
+	DW XTR
+	DB 'D',DD,RB
+	DW XTR
+	DB 'E',DC
+	DW Xlenco
+	DB 'G',DC
+	DW Xlgue
+	DB 'G',RB
+	DW Xg9
+	DB 'L',DC
+	DW Xllige
+	DB 'L',RB
+	DW XL00
+	DB 'M',MM,RB
+	DW XTR
+	DB 'O',DC
+	DW XLOAD
+	DB 'O',DC
+	DW Xlong
+	DB 'Q',DC
+	DW XLQUE
+	DB 'T',TT,RB
+	DW XTR
+	DB 'U',DC
+	DW Xlut
+	DB 'V',VV,RB
+	DW XTR
+	DB TTT,PG
+	DW GEN
+	
+XLIVRE: DB TTT,LL,II,VV,RR,PG
+	DW LiaE
+	
+Xlong1: DB 'T',Pl,RB
+	DW XVoy5T
+	DB TTT,RB
+	DW XVoy5G
+
+XLQUE1: DB 'S',RB
+	DW XLQUES
+	DB TTT,RB
+	DW XTRE
+
+XLQUES: DB LET,RB
+	DW XES
+	DB TTT,EU,PG
+	DW LIAZ
+
+Xm8:	DB 'E',RB
+	DW Xme8
+Xm:	DB TTT,MM,RB
+	DW Xm00
+Xm00:	DB 'A',DC
+	DW Xmatie
+	DB 'E',DC
+	DW XMERO
+	DB 'M',RB
+	DW Xm00
+	DB 'N',NN,RB
+	DW Xtr
+	DB 'O',DC
+	DW Xmotio
+	DB TTT,PG
+	DW GEN
+	
+Xme8:	DB 'N',DC
+	DW Xment8
+	DB TTT,MM,RB
+	DW Xe
+	
+Xm9:	DB 'E',RB
+	DW Xme9
+	DB TTT,RB
+	DW Xm
+	
+Xme9:	DB 'N',DC
+	DW Xment9
+	DB TTT,MM,RB
+	DW Xe
+	
+XMU:	DB TTT,MM,UU,PG
+	DW LiaCir
+
+XMulti: DB TTT,MM,UU,LL,TT,II,PP,LL,II,PL,EE,PP,AA,RR,PG
+	DW NonL
+
+XN:	DB 'D',DC
+	DW Xndows
+	DB 'I',DC
+	DW Xnimbu
+	DB 'I',DC
+	DW Xnitio
+	DB 'N',RB
+	DW XN
+	DB 'O',DC
+	DW Xnours
+	DB TTT,NN,PG
+	DW GEN
+
+XNTild: DB TTT,NN,RB
+	DW XI0
+
+Xo2:	DB 'S',OO,RB
+	DW XVoyS2
+Xo:	DB 'E',RB
+	DW XOE
+	DB 'I',RB
+	DW XOI
+	DB ICIRC,RB
+	DW XOI
+	DB 'M',RB
+	DW XOM
+	DB 'N',RB
+	DW XON
+	DB 'O',WW,RB
+	DW Xoo
+	DB 'U',WW,RB
+	DW XOU
+	DB UGRA,WW,RB
+	DW XOU
+	DB UCIRC,WW,RB
+	DW XOU
+	DB 'Y',RB
+	DW Xoy
+	DB TTT,OO,RB
+	DW Xo00
+Xo00:	DB 'A',DC
+	DW Xoatie
+	DB 'B',DC
+	DW Xobati
+	DB 'B',DC
+	DW Xobu
+	DB 'C',DC
+	DW Xoch
+	DB 'C',DC
+	DW XOCUME
+	DB 'C',DC
+	DW Xocu
+	DB 'L',DC
+	DW XOLUME
+	DB 'P',RB
+	DW XOP
+	DB 'R',RB
+	DW XOR1
+	DB 'T',DC
+	DW Xotien
+	DB TTT,RB
+	DW XVOY
+	
+Xoch1: DB 'S',KK,RB
+	DW Xs
+	DB Let,RB
+	DW Xch
+	DB TTT,RB
+	DW Xk
+
+XOCirc: DB 'M',OO,OO,RB
+	DW Xm
+	DB TTT,OO,RB
+	DW XO
+
+XoeCol:
+XOE:	DB 'I',EU,EU,RB
+	DW XVOYI
+	DB 'T',DC
+	DW Xoetu
+	DB 'U',EU,RB
+	DW XOEU
+	DB TTT,OO,OO,RB
+	DW XEgu
+
+XOEU:	DB 'F',RB
+	DW XOEUF
+	DB 'D',RB
+	DW XVoyD
+	DB TTT,RB
+	DW XEU
+
+XOEUF: DB 'S',RB
+	DW XVOYS
+	DB TTT,RB
+	DW XF
+
+XOI:	DB 'D',WW,AA,RB
+	DW XVOYD
+	DB 'E',WW,AA,RB
+	DW XVOYE
+	DB 'G',WW,AA,RB
+	DW XOIG
+	DB 'N',WW,RB
+	DW XOIN
+	DB 'X',WW,AA,RB
+	DW XOIX
+	DB VOY,OO,RB
+	DW XI
+	DB TTT,WW,AA,RB
+	DW XVOY
+
+XOIG:	DB 'T',RB
+	DW XVoy5T
+	DB TTT,RB
+	DW XG
+
+XOIN:	DB 'G',IN,RB
+	DW XOING
+	DB VOY,AA,RB
+	DW XN
+	DB TTT,RB
+	DW XAIN0
+
+XOING: DB 'S',In,RB
+	DW XVoy5S
+	DB LET,IN,RB
+	DW XG
+	DB TTT,PG
+	DW LIACir
+
+XOIX:	DB LET,RB
+	DW XX
+	DB TTT,PG
+	DW LIACir
+
+XOM:	DB 'B',ON,RB
+	DW XOMB
+	DB 'E',OO,RB
+	DW Xome
+	DB 'M',OO,RB
+	DW XM
+	DB 'N',OO,MM,RB
+	DW XN
+	DB 'P',On,On,RB
+	DW Xomp
+	DB 'S',DC
+	DW XOMSON
+	DB VOY,OO,RB
+	DW XM
+	DB TTT,ON,RB
+	DW XVOY5
+
+XOMB:	DB 'S',ON,RB
+	DW XVoy5S
+	DB LET,ON,RB
+	DW XB
+	DB TTT,PG
+	DW LIACir
+	
+Xome:	DB 'S',RB
+	DW Xomes
+	DB Let,RB
+	DW Xme8
+	DB TTT,Pl,RB
+	DW Xm
+	
+Xomes: DB let,MM,RB
+	DW Xes
+	DB TTT,PL,RB
+	DW Xm
+
+Xomp:	DB 'S',RB
+	DW XVoy5S
+	DB 'T',RB
+	DW Xompt
+	DB TTT,RB
+	DW Xp
+	
+Xompt: DB 'S',RB
+	DW XVoy5S
+	DB Let,PP,RB
+	DW Xpt
+	DB TTT,RB
+	DW XVoy5T
+	
+Xon:	DB 'H',RB
+	DW Xon
+	DB 'N',OO,RB
+	DW XN
+	DB 'S',DC
+	DW XONSIE	    ;monsieur
+	DB 'U',OO,NN,RB
+	DW Xu2
+	DB VOY,OO,RB
+	DW XN
+	DB TTT,On,RB
+	DW Xon00
+Xon00: DB 'C',Pl,RB
+	DW XANC
+	DB 'D',Pl,RB
+	DW XVOYD
+	DB 'S',DC
+	DW XONSCI
+	DB 'S',DC
+	DW XONSEN
+	DB 'T',DC
+	DW XONTIN
+	DB 'T',Pl,RB
+	DW XVoy5T
+	DB 'Z',Pl,RB	  ;pas ...zer
+	DW XZ0
+	DB TTT,RB
+	DW XVOY5
+
+Xoo:	DB 'I',DC
+	DW Xooing
+	DB 'P',RB
+	DW Xp
+	DB 'T',RB
+	DW Xt
+	DB TTT,RB
+	DW XVoy
+
+XOP:	DB 'S',RB	    ;+ap,amp,emp,oup
+	DW XOPS
+	DB LET,RB
+	DW XP
+	DB TTT,PG
+	DW LIACir
+
+XOPS:	DB LET,PP,RB
+	DW XS
+	DB TTT,RB
+	DW XVOYS0
+
+XOR1:	DB 'C',RB
+	DW XERC
+	DB 'D',DC
+	DW Xord_E
+	DB 'P',DC
+	DW XORPS
+	DB TTT,RB
+	DW XVOYR
+	
+XOU:	DB 'P',RB
+	DW XOP
+	DB 'R',RB
+	DW XOUR
+	DB 'S',DC
+	DW XOUSCO
+	DB 'T',RB
+	DW XOUT
+	DB 'X',RB
+	DW XVOYX
+	DB TTT,RB
+	DW XVOY
+
+XOUR:	DB 'G',RB
+	DW XOURG
+	DB 'N',DC
+	DW Xourne
+	DB TTT,RB
+	DW XVOYR
+
+XOURG: DB 'S',RB
+	DW XVOYRS
+	DB LET,RR,RB
+	DW XG
+	DB TTT,RB
+	DW XVoyR0
+
+XOUT:	DB 'I',DC
+	DW Xtien
+	DB 'I',DC
+	DW Xoutil
+	DB TTT,RB
+	DW XVOYT
+	
+Xoy:	DB 'O',RB
+	DW Xoyo
+	DB TTT,WW,AA,RB
+	DW XVoyY
+	
+Xoyo:	DB 'N',WW,AA,AA,YY,RB
+	DW Xon
+	DB TTT,OO,OO,YY,RB
+	DW Xo
+	
+Xp:	DB 'H',RB
+	DW XF
+	DB TTT,PP,RB
+	DW Xp00
+Xp00:	DB 'A',DC
+	DW Xpays
+	DB 'E',RB
+	DW XPE
+	DB Egu,DC
+	DW Xp$nit
+	DB 'L',DC
+	DW Xplime
+	DB 'L',LL,RB
+	DW XTR
+	DB 'O',DC
+	DW Xporte
+	DB 'O',DC
+	DW Xposit
+	DB 'P',RB
+	DW Xp00
+	DB 'R',DC
+	DW Xpr$s
+	DB 'R',DC
+	DW XPRINT
+	DB 'R',DC
+	DW XPRIX
+	DB 'R',DC
+	DW Xpropo
+	DB 'R',DC
+	DW XPRUDE
+	DB 'R',RR,RB
+	DW XTR
+	DB 'T',RB
+	DW XPT
+	DB 'U',DC
+	DW Xpunct
+	DB TTT,PG
+	DW GEN
+
+XPARAG: DB TTT,PP,AA,RR,AA,GG,RR,AA,FF,PG
+	DW NONL
+
+XPARTF: DB BVRD,VR,FF,EE,RR,MM,EE,PP,AA,RR,AN,TT,EE,ZZ,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XPARTO: DB BVRD,VR,WW,VV,RR,EE,PP,AA,RR,AN,TT,EE,ZZ,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XPE:	DB 'C',RB
+	DW XPEC
+	DB 'N',RB
+	DW XPEN
+	DB TTT,RB
+	DW XE
+
+XPEC:	DB 'T',EE,RB
+	DW XPECT
+	DB TTT,RB
+	DW XEC
+
+XPECT: DB 'S',RB
+	DW XVOYS
+	DB LET,KK,RB
+	DW XCT
+	DB TTT,PG
+	DW LIACir
+
+XPEN:	DB 'S',AN,AN,RB
+	DW XS1
+	DB TTT,RB
+	DW XEN
+
+XPLUM: DB TTT,PP,LL,UU,ZZ,WW,MM,WW,In,RB
+	DW XYLiaZ
+
+XPLUS: DB TTT,PP,LL,UU,SS,PG
+	DW NONL
+
+XPoinG: DB TTT,PP,WW,IN,GG,RR,AA,PL,PG
+	DW LiaCir
+
+XPOINT: DB SYMB,RB
+	DW XPOIN1		;pas chiffre
+	DB TTT,PP,WW,In,RB	   ;chiffre
+	DW Xien0
+
+XPOIN1: DB BVRD,VR,PP,WW,IN,IN,RB
+	DW XPOIN2
+	DB '.',Vr,RB
+	DW XPoin1
+	DB TTT,RB
+	DW XVIR4
+
+XPOIN2: DB '.',PP,WW,IN,IN,RB
+	DW XPOIN2
+	DB TTT,RB
+	DW XVIR4
+
+XPRCEN: DB TTT,PP,WW,RR,SS,AN,PG
+	DW LIACir
+
+XPrMil: DB TTT,PP,WW,RR,MM,II,LL,PG
+	DW NonL
+
+XPSusp: DB BVRD,VR,PP,WW,IN,DD,SS,UU,SS,PP,AN,SS,YY,ON,RB
+	DW XVir4
+	DB TTT,RB
+	DW XVir4
+
+XPT:	DB 'I',RB
+	DW Xpti
+	DB TTT,RB
+	DW XT
+
+XPTEXC: DB BVRD,VR,PP,WW,IN,DD,EE,SS,KK,LL,AA,MM,AA,SS,II,ON,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR4
+	
+Xpti:	DB 'A',RB
+	DW Xtia6
+	DB 'E',SS,II,RB
+	DW Xie
+	DB 'O',RB
+	DW Xtio6
+	DB TTT,TT,RB
+	DW Xi
+
+XPTINT: DB BVRD,VR,PP,WW,IN,DD,IN,TT,EE,RR,OO,GG,AA,SS,II,ON,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR4
+
+XPTVIR: DB BVRD,VR,PP,WW,IN,IN,VV,II,RR,GG,UU,LL,RB
+	DW XVIRNL
+	DB TTT,RB
+	DW XVIR2
+
+XQ:	DB 'U',KK,RB
+	DW Xqu
+	DB TTT,KK,PG
+	DW GEN
+	
+Xqu:	DB 'I',DC
+	DW Xquick
+	DB 'I',DC
+	DW Xquier
+	DB TTT,PG
+	DW Gen
+
+XQuadr: DB BVRD,KK,AA,DD,RR,AA,TT,IN,PG
+	DW LiaCir
+	DB TTT,RB
+	DW XVir2
+
+XQUART: DB TTT,IN,IN,KK,AA,AA,RR,PG
+	DW NonL
+	
+XR:	DB TTT,RR,RB
+	DW Xr00
+Xr00:	DB 'B',BB,RB
+	DW XTR
+	DB 'D',DD,RB
+	DW Xtr
+	DB 'E',DC
+	DW Xreade
+	DB 'G',DC
+	DW Xrgue
+	DB 'I',DC	;et Xtr et .R
+	DW Xrimen
+	DB 'L',LL,RB
+	DW XTR
+	DB 'M',DC
+	DW Xrmitt
+	DB 'M',MM,RB
+	DW XTR
+	DB 'N',DC
+	DW XRNESO
+	DB 'N',NN,RB
+	DW XTR
+	DB 'O',DC
+	DW Xrom
+	DB 'P',RB
+	DW Xrp
+	DB 'Q',DC
+	DW Xsque
+	DB 'R',RB
+	DW Xr00
+	DB 'V',DC
+	DW Xrvent
+	DB 'V',DC
+	DW Xrvien
+	DB 'V',VV,RB
+	DW XTR
+	DB TTT,PG
+	DW GEN
+	
+Xr9:	DB 'E',DC
+	DW Xrent9
+	DB TTT,RB
+	DW XVoyR
+
+Xream1: DB 'S',II,II,MM,RB
+	DW Xs
+	DB Let,EE,EE,RB
+	DW Xam
+	DB TTT,II,II,RB
+	DW Xm
+
+XReser: DB TTT,RR,EE,ZZ,EE,RR,VV,EE,PG
+	DW LiaCir
+	
+Xrom1: DB 'S',OO,MM,RB
+	DW Xs
+	DB Let,RB
+	DW Xom
+	DB TTT,OO,RB
+	DW Xm
+
+XRondC: DB TTT,RR,ON,KK,RR,WW,AA,ZZ,EE,PG
+	DW LiaCir
+	
+Xrp:	DB 'T',PP,RB
+	DW Xpt
+	DB 'H',RB
+	DW Xf
+	DB TTT,PP,RB
+	DW Xtr
+
+XRTI:	DB 'A',RB
+	DW Xtia6
+	DB 'E',RB
+	DW Xrtie
+	DB 'O',DC
+	DW Xrtion
+	DB 'O',RB
+	DW Xtio6
+	DB 'T',TT,II,RB
+	DW XVoyT7
+	DB TTT,TT,RB
+	DW Xi
+	
+Xrtie: DB 'L',SS,II,RB
+	DW Xel
+	DB 'N',TT,II,RB
+	DW Xien1
+	DB TTT,TT,II,RB
+	DW XVoyE
+	
+Xs:	DB 'C',RB
+	DW XSC
+	DB 'H',HH,PG
+	DW GEN
+	DB Let,SS,RB
+	DW Xs00
+	DB TTT,PG
+	DW GEN
+Xs00:	DB 'E',DC
+	DW XSENS
+	DB 'M',MM,RB
+	DW XTR
+	DB 'P',DC
+	DW Xspare
+	DB 'Q',DC
+	DW XSQUE
+	DB 'S',RB
+	DW Xss
+	DB 'T',RB
+	DW XST
+	DB TTT,PG
+	DW Gen
+
+XS1:	DB LET,RB
+	DW XS
+	DB TTT,PG
+	DW LIAZ
+
+XS2:	DB LET,RB
+	DW XS
+XS20:	DB TTT,SS,PG
+	DW GEN
+
+XSAcc: DB TTT,EE,SS,AA,KK,SS,AN,TT,UU,EE,PG
+	DW LiaCir
+
+XSC:	DB 'H',HH,PG
+	DW GEN
+	DB 'R',DC
+	DW Xscroc
+	DB VOYM,RB
+	DW XC
+	DB TTT,SS,RB
+	DW XC
+
+XSemiQ: DB BVRD,SS,EU,MM,II,RB
+	DW XQuadr
+	DB TTT,RB
+	DW XVir2
+
+XSLASH: DB BVRD,VR,SS,LL,AA,HH,VR,PG
+	DW NONL
+	DB TTT,RB
+	DW XVIR2
+
+XSouli: DB TTT,PL,SS,WW,LL,II,NN,II,RB
+	DW Xer0
+	
+Xss:	DB 'E',DC
+	DW Xssers
+	DB TTT,RB
+	DW Xs00
+	
+XST:	DB 'A',DC
+	DW Xstame
+	DB 'E',DC
+	DW Xsteak
+	DB 'E',DC	;et Xt
+	DW Xtenti
+	DB 'I',DC
+	DW Xstinc
+	DB 'O',TT,RB
+	DW Xto
+	DB 'R',DC
+	DW Xstrum
+	DB TTT,TT,RB
+	DW XTR
+	
+Xstin1: DB 'S',Pl,RB
+	DW XVoy5S
+	DB Let,Pl,KK,RB
+	DW Xt
+	DB TTT,PG
+	DW LiaCir
+	
+XSUPRA: DB TTT,SS,UU,PP,EE,RR,II,EU,EU,RR,RB
+	DW .A0
+
+XSurli: DB TTT,SS,UU,RR,LL,NN,YY,EE,PG
+	DW LiaCir
+	
+Xt:	DB 'E',DC
+	DW Xtenti
+	DB 'I',DC
+	DW Xtien
+	DB 'T',RB
+	DW Xt
+	DB TTT,TT,RB
+	DW Xt00
+Xt00:	DB 'B',DC
+	DW Xtball
+	DB 'H',RB
+	DW Xt00
+	DB 'M',MM,RB
+	DW Xtr
+	DB 'O',RB
+	DW XTO
+	DB 'R',DC
+	DW Xtrans
+	DB 'R',DC
+	DW Xtreme
+	DB 'R',DC
+	DW Xtresn
+	DB 'R',DC
+	DW Xtrese
+	DB 'R',DC
+	DW Xtresi
+	DB 'R',DC
+	DW Xtreso
+	DB 'R',DC
+	DW XTREVE
+	DB 'R',RR,RB
+	DW XTR
+	DB 'T',RB
+	DW Xt00
+	DB TTT,PG
+	DW GEN
+
+XTAIN1: DB 'S',IN,IN,RB
+	DW XS1
+	DB LET,RB
+	DW XAIN
+	DB TTT,IN,PG
+	DW LIAN
+
+Xtia6: DB TTT,SS,II,RB
+	DW Xa
+	
+XTilde: DB TTT,TT,II,LL,DD,PG
+	DW LiaE
+	
+Xtio6: DB TTT,SS,II,RB
+	DW Xo
+
+XTIR1: DB BVRD,VR,TT,II,RR,EE,RB
+	DW XVIRNL
+	DB TTT,PG
+	DW NONL
+
+XTir_: DB Bvrd,VR,TT,II,RR,EE,RB
+	DW XVir2
+	DB TTT,RB
+	DW XVir2
+
+XTireC: DB BVRD,TT,II,RR,EE,KK,ON,DD,II,SS,YY,OO,NN,EE,LL,PG
+	DW NonL
+	DB TTT,RB
+	DW XTiret
+	
+XTireI: DB BVRD,TT,II,RR,EE,PL,IN,SS,EE,KK,AA,BB,LL,PG
+	DW NonL
+	DB TTT,RB
+	DW XTiret
+	
+XTIRET: DB 'C',DC
+	DW XTirCe
+	DB 'E',DC
+	DW XTirEn
+	DB 'E',DC
+	DW XTirEs
+	DB 'J',DC
+	DW XTirJe
+	DB 'O',DC
+	DW XTirOn
+	DB 'Y',RB
+	DW .Y0
+	DB ' ',RB
+	DW XTir_
+	DB SYMB,RB
+	DW XTIR1
+	DB TTT,MM,WW,In,RB
+	DW XYLiaZ
+
+XTM:	DB TTT,TT,RR,EE,DD,MM,AA,RR,KK,PG
+	DW NonL
+
+XTO:	DB 'M',RB
+	DW XTOM
+	DB 'P',OO,RB
+	DW XP
+	DB TTT,RB
+	DW XO
+
+XTOM:	DB 'N',OO,RB
+	DW XN
+	DB TTT,RB
+	DW XOM
+
+XTR:			;+bl,br,cl,cr,ct,dr,fl,fr,gl,gn,gr,lb,ld,lm,lqu,lt,lv,mn
+			;+pl,pr,rb,rd,rl,rm,rn,rp,rqu,rt,rv,sm,squ,st,tr,vr
+	DB 'A',DC
+	DW XTRADO
+	DB 'E',DC
+	DW Xream
+	DB 'E',RB
+	DW XTRE
+	DB 'H',RB
+	DW XTR
+	DB 'I',DC
+	DW XRIMEN
+	DB 'L',LL,RB	;pour lbl,rbl
+	DW XTR
+	DB 'R',RR,RB	;pour lbr,ldr,ltr,lvr,rbr,rdr,rtr,rvr,str
+	DW XTR
+	DB TTT,PG
+	DW GEN
+	
+XTraiV: DB TTT,TT,RR,EE,VV,EE,RR,TT,II,KK,AA,LL,PG
+	DW NonL
+
+Xtran1: DB Voy,RB
+	DW XZ0
+	DB TTT,RB
+	DW XVoyS
+
+XTRE:	DB 'N',DC	;+lgue,rgue
+	DW Xtren
+	DB 'S',RB
+	DW XTRES
+	DB LET,RB
+	DW XE
+XTRE0:	DB ' ',RB
+	DW XTRE_
+	DB '-',RB
+	DW Xtre_
+	DB Ponc,PG
+	DW Gen
+	DB TTT,PG
+	DW LiaE
+
+XTRE_: DB ' ',RB
+	DW XTRE_
+	DB 'E',DC
+	DW Xtr_et
+	DB LET,PG
+	DW LiaE
+	DB Ponc,PG
+	DW Gen
+	DB TTT,PG
+	DW LiaE
+
+XTREMA: DB TTT,PL,TT,RR,EE,MM,RB
+	DW .A0
+
+XTRENT: DB ' ',RB
+	DW XTRE_
+	DB '-',Eu,RB
+	DW XTTir
+	DB TTT,RB
+	DW XENT
+
+XTRES: DB Voy,RB
+	DW Xes
+	DB LET,RB
+	DW XES
+	DB '-',DC
+	DW Xtr_en
+	DB '-',DC
+	DW Xtr_y
+	DB TTT,RB
+	DW XTRE0
+	
+Xtr_e1: DB Let,RB
+	DW .En
+	DB TTT,Eu,ZZ,RB
+	DW .En0
+	
+Xtr_y1: DB Let,RB
+	DW .Y
+	DB TTT,Eu,ZZ,RB
+	DW Xy
+
+XTroiQ: DB TTT,TT,RR,WW,AA,KK,AA,PL,PL,RR,PG
+	DW NonL
+	
+XTTir: DB 'E',DC
+	DW XTTirE	;-elles Voy
+	DB 'I',DC
+	DW XTTirI	;-ils Voy
+	DB 'O',DC
+	DW XTTirO	;-on voy
+	DB TTT,PG
+	DW LiaT
+
+Xu2:	DB 'S',UU,RB
+	DW XVoyS2
+XU:	DB 'I',UU,RB
+	DW XUI
+	DB 'L',DC
+	DW Xulu
+	DB 'M',RB
+	DW XUM
+	DB 'N',RB
+	DW XUN
+	DB 'S',DC
+	DW XUSIL
+	DB 'Y',UU,II,RB
+	DW XVOYY
+	DB TTT,UU,RB
+	DW XVOY
+
+XUCirc: DB 'M',UU,UU,RB
+	DW Xm9
+	DB TTT,UU,RB
+	DW XU
+
+XUI:	DB 'S',II,RB
+	DW XVOYS1
+	DB TTT,RB
+	DW XI
+
+XUM:	DB 'M',UU,RB
+	DW XM
+	DB 'N',UU,MM,RB
+	DW XN
+	DB 'S',OO,MM,RB
+	DW XS
+	DB VOY,UU,RB
+	DW XM
+	DB LET,IN,IN,PG
+	DW GEN
+	DB TTT,OO,RB
+	DW XM
+	
+Xum1:	DB 'S',In,In,RB
+	DW XVoy5S
+	DB Let,RB
+	DW XUM
+	DB TTT,RB
+	DW Xin
+
+XUN:	DB 'C',DC
+	DW Xunch
+	DB 'N',UU,RB
+	DW XN
+	DB VOY,UU,RB
+	DW XN
+	DB TTT,RB
+	DW Xain0
+
+XUnExp: DB TTT,PP,UU,II,SS,AN,SS,IN,PG
+	DW LiaCir
+
+Xv9:	DB 'E',DC
+	DW Xvent9
+Xv:	DB TTT,VV,RB
+	DW Xv00
+Xv00:	DB 'E',DC
+	DW Xventi
+	DB 'E',DC
+	DW XVERS
+	DB Egu,DC
+	DW Xv$nie
+	DB 'I',DC
+	DW XVIEN
+	DB 'I',DC
+	DW Xvil
+	DB 'I',DC
+	DW Xvingt
+	DB 'R',RR,RB
+	DW XTR
+	DB TTT,PG
+	DW GEN
+	
+XVIR4: DB TTT,VR,VR,RB
+	DW XVIR2
+
+XVIRG: DB SYMB,RB
+	DW XVIRG1
+	DB TTT,VV,II,RR,GG,UU,LL,PG
+	DW NONL
+
+XVIRG1: DB BVRD,VR,VV,II,RR,GG,UU,LL,RB
+	DW XVIRNL
+XVIR2: DB TTT,VR,VR,PG
+	DW NonL
+
+XVIRNL: DB TTT,VR,PG
+	DW NONL
+
+XVOY:	DB 'E',RB
+	DW XVOYE
+	DB 'H',PL,PG
+	DW GEN
+	DB 'I',PL,RB
+	DW XVOYI
+	DB 'R',RB
+	DW XVOYR
+	DB 'S',RB
+	DW XVOYS
+	DB 'T',RB
+	DW XVOYT
+	DB 'Z',Pl,RB
+	DW Xz
+	DB VOY,PL,PG
+	DW GEN
+	DB LET,PG
+	DW GEN
+	DB TTT,PG
+	DW LIACIR
+
+XVOY5: DB 'S',PL,RB	;ain,ein,in,om,on
+	DW XVOY5S
+	DB 'T',PL,RB
+	DW XVoy5T
+	DB '-',PG
+	DW LiaN
+	DB LET,PL,PG
+	DW GEN
+	DB TTT,PG
+	DW LIACIR
+	
+XY5D1: DB 'E',DD,RB
+	DW Xe1
+	DB 'S',RB	;and (liaison)
+	DW XY5DS1
+	DB Let,RB
+	DW XD
+	DB TTT,PG
+	DW LiaT
+	
+XY5DS1: DB Let,DD,RB	;ands (liaison)
+	DW XS
+	DB TTT,PG
+	DW LiaZ
+
+XVoy5G: DB 'S',Pl,RB	;etang,rang,sang,eng,long
+	DW XY5GS
+	DB LET,Pl,RB
+	DW XG
+	DB TTT,Pl,PG
+	DW LIACir
+	
+XY5GS: DB Let,GG,RB
+	DW XS
+XVOY5S: 		;ins,ains,eins,iens,oins,ons,oms (ss liaison)
+			;ands,angs,ants,aons,ents
+	DB '-',DC
+	DW XZEN
+	DB '-',DC
+	DW XZY
+	DB '-',PG
+	DW LIAZ
+	DB LET,RB
+	DW XS
+	DB TTT,PG	;pour liaison, voir XS1
+	DW LiaCir
+	
+XY5T1: DB '-',RB
+	DW XTTir
+	DB Let,RB
+	DW XVoy5T
+	DB TTT,PG
+	DW LiaT
+
+XVoyC: DB 'S',RB
+	DW XYCS1
+	DB Let,RB
+	DW Xc
+	DB TTT,PG
+	DW LiaCir
+	
+XYCS1: DB Let,RB
+	DW Xx
+	DB TTT,RB
+	DW XVoyS0
+
+XVOYD: DB 'S',RB	;aid,and,aud,end,oeud,oid,ond
+	DW XVoyDS
+	DB LET,RB
+	DW XD
+	DB TTT,RB
+	DW XVoy5T	;pour -
+	
+XVoyDS: DB Let,DD,RB
+	DW XS
+	DB TTT,RB
+	DW XVoyS	;pour -
+
+XVoyE: DB 'M',DC
+	DW XYemen
+	DB 'N',RB
+	DW XVOYEN
+	DB 'R',RB
+	DW XVOYER
+	DB 'S',RB
+	DW XVOYES
+	DB 'T',EE,RB
+	DW XVoyT
+	DB 'Z',EE,RB
+	DW XEZ
+	DB VOY,RB
+	DW XE
+	DB LET,RB
+	DW .E
+	DB TTT,RB
+	DW XVOYS0
+
+XVoyEN: DB 'T',RB
+	DW XYENT
+	DB 'S',AN,AN,RB
+	DW XS1
+	DB LET,RB
+	DW XEN
+	DB TTT,AN,PG
+	DW LiaCir
+
+XYENT: DB LET,RB
+	DW XENT
+	DB '-',Pl,Pl,RB
+	DW XTTir
+	DB TTT,PL,PL,PG
+	DW LiaCir
+
+XVOYER: DB 'E',RB
+	DW XYere
+	DB Voy,PL,RB
+	DW Xr
+	DB TTT,RB
+	DW XER
+	
+XYere: DB 'Z',Pl,RR,RB
+	DW Xez
+	DB TTT,RB
+	DW Xere
+
+XVOYES: DB LET,EE,RB
+	DW XVOYS
+	DB TTT,RB
+	DW XVOYS
+	
+XVOYI: DB 'L',RB
+	DW XVOYIL
+	DB TTT,RB
+	DW XI
+
+XVOYIL: DB 'L',YY,PG
+	DW Gen
+	DB 'S',YY,PG
+	DW Gen
+	DB Let,II,RB
+	DW XL
+	DB TTT,YY,PG
+	DW Gen
+	
+XVoyL: DB 'S',RB
+	DW XVOYLS
+	DB LET,RB
+	DW XL
+	DB TTT,PG
+	DW LIACir
+
+XVoyR1: DB 'E',RB
+	DW XYRE1
+	DB 'S',RB
+	DW XYRS1
+XVOYR: DB 'D',RB
+	DW XVOYRD
+	DB 'E',RB
+	DW XVOYRE
+	DB 'H',RB
+	DW XVoyR
+	DB 'R',RB
+	DW XVOYR
+	DB 'S',RB
+	DW XVOYRS
+	DB 'T',RB
+	DW XVOYRT
+	DB 'U',DC
+	DW Xrulen
+	DB LET,RB
+	DW XR
+XVoyR0: DB TTT,PL,PL,RB
+	DW XR
+	
+XYRDS: DB LET,RR,DD,RB
+	DW XS
+	DB TTT,RB
+	DW XVoyRS	;pour -
+
+XYRE1: DB 'S',RB
+	DW XYRES1
+XVOYRE: DB 'N',DC
+	DW XYrent
+	DB 'S',RB
+	DW XYRES
+	DB LET,RR,RB
+	DW XE
+	DB TTT,RB
+	DW XVoyR0
+	
+XYren1: DB Let,RR,RB
+	DW Xent
+	DB TTT,Pl,Pl,RR,RB
+	DW Xent
+
+XYRES1: DB Let,RB
+	DW XYRES
+	DB TTT,RB
+	DW XYRS10
+	
+XYRES: DB LET,RR,RB
+	DW XES
+XVOYRS: DB '-',DC
+	DW XYrZEn
+	DB '-',DC
+	DW XYrZY
+	DB '-',Pl,RR,PG
+	DW LiaZ
+	DB LET,RR,RB
+	DW XS
+	DB TTT,RB
+	DW XVoyR0
+	
+XYRS1: DB Let,RB
+	DW XVoyRS
+XYRS10: DB TTT,Pl,Pl,RR,PG
+	DW LiaZ
+
+XVOYRD: DB 'I',DC
+	DW XRDIME
+	DB 'S',RB
+	DW XYRDS
+	DB 'U',DC
+	DW XYrdum
+	DB LET,RR,DD,RB
+	DW XTR
+XVOYRT: DB 'A',DC
+	DW XRTAIN
+	DB 'I',RR,RB
+	DW Xrti
+	DB 'S',RB
+	DW XYRTS
+	DB '-',DC
+	DW XYrTOn
+	DB '-',Pl,RR,PG
+	DW LiaT
+	DB LET,RR,TT,RB
+	DW Xtr
+	DB TTT,RB
+	DW XVoyR0
+
+XYRTS: DB Let,RR,TT,RB
+	DW Xs
+	DB TTT,RB
+	DW XVoyR0
+
+XVoyLS: DB Let,LL,RB
+	DW XS
+XVOYS: DB 'E',DC
+	DW XYsex
+	DB '-',DC
+	DW XYTiJe
+	DB '-',DC
+	DW Xzavis
+	DB '-',DC
+	DW XZEN 	;pour pas liaN apres en
+	DB '-',DC
+	DW XZY
+	DB '-',RB
+	DW XYLiaZ
+	DB VOY,PL,RB
+	DW XZ0
+	DB LET,RB
+	DW XS
+XVOYS0: DB TTT,PL,PG
+	DW LIACIR
+
+XYT3S: DB Let,TT,RB
+	DW Xs
+XVOYS1: DB LET,RB
+	DW XVOYS
+XYLiaz: DB TTT,PL,PG
+	DW LIAZ
+
+XVOYS2: DB '-',DC
+	DW Xzavis
+	DB LET,RB
+	DW XVOYS
+	DB TTT,PL,RB
+	DW XS20
+	
+XYti61: DB 'R',TT,II,RB
+	DW Xer
+	DB TTT,SS,II,RB
+	DW Xie
+
+XVoyt6: DB 'I',DC
+	DW XYtie6
+XVOYT: DB 'I',RB
+	DW XVOYTI
+XVoy5T: DB 'S',RB
+	DW XVOYTS
+	DB '-',DC
+	DW XYTOn
+	DB '-',PG
+	DW LIAT
+	DB LET,RB
+	DW XT
+	DB TTT,PG
+	DW LIACIR
+
+XVOYT1: DB LET,RB
+	DW XVOYT
+	DB TTT,PG
+	DW LIAT
+	
+XVoyT3: DB 'E',TT,RB
+	DW Xe1
+	DB 'S',RB
+	DW XYT3S
+	DB Let,RB
+	DW XVoyT
+	DB TTT,PG
+	DW LiaT
+	
+XVoyT7: DB 'I',DC
+	DW XYtio7
+	DB TTT,RB
+	DW XVoyT
+	
+XVOYTI: DB 'A',RB
+	DW Xtia6
+	DB 'O',DC
+	DW XYtion
+	DB 'O',RB
+	DW Xtio6
+	DB 'T',TT,II,RB
+	DW XVoyT7
+	DB TTT,TT,RB
+	DW Xi
+
+XYtie1: DB 'T',RB
+	DW Xent9
+	DB TTT,RB
+	DW Xien
+
+XVOYTS: DB LET,TT,RB
+	DW XS
+	DB TTT,RB
+	DW XVOYS	;pour -
+
+XVoyX: DB LET,RB
+	DW XX
+	DB TTT,PG
+	DW LiaCir
+	
+XVoyX1: DB Let,RB
+	DW XX
+	DB TTT,PG
+	DW LiaZ
+
+XVOYY: DB 'S',RB
+	DW XVOYS
+	DB VOY,Pl,RB
+	DW XY
+	DB TTT,RB
+	DW XVOY
+	
+XVoyZ: DB LET,RB
+	DW XZ
+	DB TTT,Pl,RB
+	DW XVoyS	;pour -
+
+XW:	DB 'E',DC
+	DW Xwee
+	DB TTT,WW,PG
+	DW GEN
+
+XX:	DB 'C',KK,SS,RB
+	DW XXC
+	DB TTT,KK,RB
+	DW XS20
+	
+Xx5:	DB Voy,GG,RB
+	DW Xz0
+	DB TTT,KK,RB
+	DW Xs20
+
+XXC:	DB 'E',DC
+	DW Xxcell
+	DB EGra,RB
+	DW XEgu
+	DB VOYM,PG
+	DW GEN
+	DB TTT,RB
+	DW XC
+
+XY:	DB 'C',DC
+	DW Xychis
+	DB 'C',DC
+	DW Xychiq
+	DB 'C',DC
+	DW XYCH
+	DB 'E',DC
+	DW Xyeste
+	DB 'L',II,RB
+	DW XL
+	DB 'M',RB
+	DW Xym
+	DB 'R',DC
+	DW Xyru
+	DB 'V',DC
+	DW Xivale
+	DB TTT,RB
+	DW XI
+
+XYen:	DB TTT,II,EE,NN,PG
+	DW NONL
+	
+Xym:	DB Let,RB
+	DW Xim
+	DB TTT,RB
+	DW Xin
+
+Xzz:	DB Voy,DD,RB
+	DW Xz
+XZ:	DB 'E',DC
+	DW Xzer
+	DB 'Z',RB
+	DW Xzz
+XZ0:	DB TTT,ZZ,PG
+	DW GEN
+	
+;Table vers racines
+
+NonL:	DB 0
+	DW TabDeb
+LiaE:	DB EU
+	DW TabDeb
+LiaN:	DB NN
+	DW TabDeb
+LiaP:	DB PP
+	DW TabDeb
+LiaT: DB TT
+	DW TabDeb
+LiaZ: DB ZZ
+	DW TabDeb
+LiaCir: DB PL
+	DW TabDeb
+Gen:	DB 0
+	DW TabGen
+lgTab:
