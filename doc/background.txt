@@ -27,16 +27,16 @@ Lorsque la société Electrel, après avoir produit les premiers Synthé 3 à cl
 Le principe repose sur une arborescence codée symboliquement en langage machine. Tout d'abord, le code de chaque nouvelle lettre du texte permet de fabriquer un pointeur vers le cas général de la lettre, avec deux possibilités : première lettre du mot ou position quelconque. Le tableau de pointeurs contient les étiquettes correspondant aux différentes lettres, par exemple :
 TabGen:
 	Xa, Xb, Xc, …
-où le début des adresses en 'X' indique le cas général. Ensuite, Dans Xa par exemple, on trouve les lettres qui peuvent agir sur la phonétisation du 'a', par exemple :
+où le début des adresses en 'X' indique le cas général de la lettre considérée. Ensuite, on va voir dans l'arbre à l'adresse de la lettre et on passe à la lettre suivante du texte. Dans Xa par exemple, on trouve les lettres qui peuvent agir sur la phonétisation du 'a', par exemple :
 Xa:
 	'I', Xai
 	'M', Xan
-signifie que si on rencontre 'I' ou 'N' après 'A', on va respectivement en Xai ou Xan (beaucoup d'autres cas sont ignorés ici par souci de clarté). Dans Xan, on a par exemple :
+signifie que si on rencontre 'I' ou 'N' après 'A', on va respectivement en Xai ou Xan (beaucoup d'autres cas sont ignorés ici par souci de clarté). On passe à nouveau à la lettre suivante du texte pour le test de la prochaine branche. Dans Xan, on a par exemple :
 Xan:
 	VOY, AA, Xn
 	TTT, AN, Gen
-qui signifie : si on rencontre une voyelle derrière "an", 	alors le phonème 'A' et le phonème 'N' sont établis. On indique donc 'AA' (constante = code du phonème 'A') et branchement sur Xn (cas général du 'n') qui fournira toujours le phonème 'N' avant de regarder la suite. La ligne suivante dit que dans tous les cas ('TTT'), hormis ceux déjà traités, on écrit le phonème 'AN' et on va dans le cas général (donc dans le tableau TabGen pour la lettre suivante. Là encore, le raisonnement a été simplifié par souci de clarté.
-Comme on le voit, le premier caractère testé dans chaque branche d'une arborescence est une lettre, une catégorie de lettres ou le reste des cas. Derrière, on indique les phonèmes à écrire (de zéro à plusieurs phonèmes), puis la branche suivante. On peut aussi faire aller le programme vers un dictionnaire de morceaux de mots si on doit tester une suite de lettres sans branchements intermédiaires. Par exemple, sur le cas général du 'i', si on rencontre 'c', on teste plusieurs morceaux de mots, dont :
+qui signifie : si on rencontre une voyelle derrière "an", 	alors le phonème 'A' et le phonème 'N' sont établis. On indique donc 'AA' (constante = code du phonème 'A') et branchement sur Xn (cas général du 'n') qui fournira toujours le phonème 'N' avant de regarder la suite. La ligne suivante dit que dans tous les cas ('TTT'), hormis ceux déjà traités, on écrit le phonème 'AN' et on va dans le cas général (donc dans le tableau TabGen pour la lettre testée. Là encore, le raisonnement a été simplifié par souci de clarté. Dans le cas d'un test collectif (ici VOY ou TTT dans le dernier exemple), on ne passe pas à la lettre suivante du texte puisque la lettre en cours n'a été testée que partiellement (seulement sa catégorie par exemple).
+Comme on le voit, le premier caractère testé dans chaque branche d'une arborescence est une lettre, une catégorie de lettres ou le reste des cas (ou le mode de lecture, voir plus loin). Derrière, on indique les phonèmes à écrire (de zéro à plusieurs phonèmes), puis la branche suivante. On peut aussi faire aller le programme vers un dictionnaire de morceaux de mots si on doit tester une suite de lettres sans branchements intermédiaires. Par exemple, sur le cas général du 'i', si on rencontre 'c', on teste plusieurs morceaux de mots, dont :
 Xiceps: 'EPS',0,SS,EE,PP, Xs2
 qui signifie : si on rencontre la séquence "eps", soit "iceps" depuis le cas général, on enregistre les phonèmes 'SS' (code du phonème 'S'), 'EE' (code du phonème 'é' ou 'è') et 'PP' (code du phonème 'P'), et on va à l'adresse Xs2, cas général d'un 'S' toujours prononcé.
 Chaque entrée de ce dictionnaire permet de traiter plusieurs mots qui contiennent une même chaîne de caractères, par exemple ici, "biceps", "triceps", quadriceps", etc. Plusieurs centaines de formes (613 à ce jour) sont ainsi traitées. N'étant plus limités à des adresses de 16 bits, on pourrait ajouter d'autres formes ainsi qu'un véritable dictionnaire de mots, qui serait testé dès la première lettre de chaque mot.
@@ -51,7 +51,6 @@ Transcription phonétique : elle utilise des règles écrites en texte selon un
 Prosodie : absente de Synthé 3, la prosodie permet de rendre la voix plus naturelle et de repérer acoustiquement les frontières entre groupes de mots fortement liés entre eux, les liens entre ces groupes de mots, leur importance relative dans la phrase. Elle se base sur l'analyse syntaxique et pragmatique du texte à lire. Cette analyse met en œuvre des règles et des traitements informatiques complexes. La prosodie proprement dite utilise plusieurs centaines de contours naturels des groupes de mots, accessibles selon la répartition des syllabes vides ou pleines, la position du groupe dans la phrase, la ponctuation.
 
 2. Structure du fichier de parole Michel.seg
-(reprise)
 Le fichier est binaire. Il comporte dans l'ordre les données suivantes :
 short	nbSeg nombre de segments de la voix
 short	nbEch nombre d'échantillons de la voix
@@ -65,10 +64,26 @@ Ce fichier contient toutes les données autres que la voix, nécessaires à la s
 Les phonèmes sont codés de 0 à 27, le dernier étant le silence (pour les transitions entre parole et silence ou l'inverse). Le code 28 est l'allongement de voyelle (pour les accents circonflexes, certaines nasales, les féminins, pluriels et fins de mots en 'r'). Le code 254 représente l'absence de phonème dans certains tableaux de correspondance.
 3.2. Terminateurs pour arbre
 Ces trois codes sont les terminateurs possibles des chaînes phonétiques dans l'arbre de transcription et le dictionnaire de morceaux de mots (voir 1.3).
-- Le code PG indique que le symbole qui suit est une adresse dans le programme pour retourner au cas général. En C++, il n'est bien sûr pas question d'aller dans le programme, ce terminateur indique juste que l'adresse est celle d'un tableau général (première lettre ou position quelconque).
-- Le code RB indique que le symbole qui suit est l'adresse d'un nœud de l'arbre.
-- Le code DC indique que le symbole qui suit est une adresse dans le dictionnaire de morceaux de mots.
+- Le code PG (= programme) indique que le symbole qui suit est une adresse dans le programme pour retourner au cas général. En C++, il n'est bien sûr pas question d'aller dans le programme, ce terminateur indique juste que l'adresse est celle d'un tableau général (première lettre ou position quelconque).
+- Le code RB (= arbre) indique que le symbole qui suit est l'adresse d'un nœud de l'arbre.
+- Le code DC (= dico) indique que le symbole qui suit est une adresse dans le dictionnaire de morceaux de mots.
 3.3. Modes de lecture et catégories alphabétiques
+(reprise)
+Comme on l'a vu, dans chaque branche de l'arbre de transcription, le premier caractère rencontré est le code de la lettre à tester ou un code collectif (catégorie, mode de lecture ou reste des cas). Les codes collectifs sont les suivants :
+- Le code BVRD (= bavard) est le mode de lecture dans lequel la ponctuation est prononcée (virgule, point, etc.) En pratique, ce test est utilisé dans les branches qui traitent les codes de ponctuation. Si la condition est vraie, la chaîne phonétique du caractère de ponctuation en mode verbeux suit. Sinon, on passe au test suivant.
+- Le code NABR (= non abréviation) est un mode de lecture dans lequel les abréviations ne sont pas développées comme telles. Ce mode n'est guère utilisé.
+- Le code VOYM (=voyelle e, i ou y) correspond aux voyelles devant lesquelles le g se prononce comme un j et le c comme un s.
+- Le code VOY correspond à toute voyelle.
+- Le code LET correspond à toute lettre (donc à toute consonne si le test VOY précède).
+- Le code PONC correspond aux signes de ponctuation ou aux lettres (donc aux signes de ponctuation seulement si le test LET précède).
+- Le code SYMB équivaut au code PONC en incluant aussi les symboles ($, %, #, @, etc.), donc aux symboles seulement si le test PONC précède, ou aux symboles et ponctuations si c'est le test LET qui précède.
+- Le code CHIF correspond à tous les codes en incluant les chiffres (donc aux chiffres seulement si le test SYMB précède).
+- Le code TTT correspond à tous les cas non encore testés. Il équivaut à CHIF et son code est le même, mais pour des raisons de lisibilité, on utilise CHIF uniquement traiter les chiffres, et TTT dans tous les autres cas (donc à la fin de chaque branche).
+3.4. Catégories phonétiques
+- Le code VOYP correspond aux voyelles phonétiques.
+- Le code GLIP correspond aux consonnes phonétiques glissantes. Une glissante est une consonne formée à partir d'une voyelle que le locuteur fait glisser vers la voyelle suivante à la manière d'une consonne (par exemple le ou de oui, le i de mien et le u de lui).
+- Le code CNSP correspond aux consonnes phonétiques.
+Ces codes sont utilisés uniquement dans les tableaux de catégories phonétiques pour être exploités par le programme (par exemple pour la liaison et l'élision).
 (à suivre)
 (documentation en cours de création)
 
