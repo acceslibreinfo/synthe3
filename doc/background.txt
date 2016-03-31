@@ -1,100 +1,469 @@
 ﻿Les ressources du logiciel Synthé 3
 
-Synthé 3 utilise deux ressources : le fichier des segments de parole Michel.seg et le fichier des tables Synthe.tab. Afin de faciliter les développements ultérieurs de Synthé 3, ce document décrit son principe général, la structure du fichier de parole Michel.seg, la structure du fichier tables synthe.txt, et l'utilitaire CompiTab qui fabrique le fichier binaire Synthe.tab à partir de synthe.txt.
-Avec ces informations, il devrait être possible de modifier la voix, d'en créer une nouvelle, voire de modifier partiellement le principe de Synthé 3. Néanmoins, il faut savoir que Synthé 3 a été optimisé au maximum avec la voix actuelle et que le prélèvement d'une autre voix ne garantirait pas un meilleur résultat, le principe même de Synthé 3 ne pouvant aboutir à une voix naturelle.
+Synthé 3 utilise deux ressources : le fichier des segments de parole
+ Michel.seg et le fichier des tables Synthe.tab. Afin de faciliter
+ les développements ultérieurs de Synthé 3, ce document décrit
+ son principe général, la structure du fichier de parole Michel.
+seg, la structure du fichier tables synthe.txt, et l'utilitaire CompiTab
+ qui fabrique le fichier binaire Synthe.tab à partir de synthe.txt.
+
+
+Avec ces informations, il devrait être possible de modifier la voix,
+ d'en créer une nouvelle, voire de modifier partiellement le principe
+ de Synthé 3. Néanmoins, il faut savoir que Synthé 3 a été optimisé
+ au maximum avec la voix actuelle et que le prélèvement d'une autre
+ voix ne garantirait pas un meilleur résultat, le principe même
+ de Synthé 3 ne pouvant aboutir à une voix naturelle.
 
 1. Principe de Synthé 3
-Pour décrire le principe de Synthé 3, il est nécessaire de le replacer dans l'historique des synthèses vocales conçues en totalité ou en partie par Michel Morel, leurs principes dépendant grandement de l'évolution des technologies et des connaissances : Synthé 1 conçu en 1979, Synthé 2 en 1983, Synthé 3 en 1985 et enfin Kali entre 1996 et 1999 (toujours en évolution). La description de Synthé 1 est à lire avec soin car Synthé 3 résulte de son évolution en reprenant plusieurs de ses principes.
+
+Pour décrire le principe de Synthé 3, il est nécessaire de le replacer
+ dans l'historique des synthèses vocales conçues en totalité ou
+ en partie par Michel Morel, leurs principes dépendant grandement
+ de l'évolution des technologies et des connaissances : Synthé
+ 1 conçu en 1979, Synthé 2 en 1983, Synthé 3 en 1985 et enfin Kali
+ entre 1996 et 1999 (toujours en évolution). La description de Synthé
+ 1 est à lire avec soin car Synthé 3 résulte de son évolution
+ en reprenant plusieurs de ses principes.
 
 1.1. Synthé 1 et 2 : synthèse avec une période par phonème
-A l'époque de Synthé 1, il existait un seul processeur à faible consommation (CMOS), le CDP1802, et les mémoires mortes, coûteuses (400 F pièce en 1979), avaient une capacité de 2 ko. Les seules synthèses vocales existantes tournaient sur de gros ordinateurs. Pour réaliser un synthétiseur portatif d'environ 1 kg et d'un coût raisonnable (15 circuits intégrés dont 6 ko de mémoire morte), le choix d'une méthode par phonème a été fait, alors que les publications de l'époque montraient déjà que les transitions entre phonèmes sont indispensables pour un minimum de qualité et d'intelligibilité. A défaut, la transition fait entendre le mélange de deux sons différents (diaphonie) au lieu d'un son qui se transforme progressivement en un autre. Mais avec la technologie disponible, ce choix s'imposait.
-La partie centrale des phonèmes étant presque périodique pour les voyelles et certaines consonnes, chaque phonème est représenté par un segment formé d'une seule période, ce qui réduit considérablement la taille du stockage. Les consonnes fricatives et plosives, non périodiques, sont représentées par trois périodes consécutives. Un jeu de courbes d'amplitude permet d'assembler les différentes périodes, avec pour chaque phonème, des amplitudes de plus en plus grandes jusqu'au milieu du phonème, puis de plus en plus petites, avec une balise indiquant le départ du phonème suivant (avant la fin du phonème en cours, donc superposé en fondu enchainé) et une balise indiquant la fin du phonème. Ces courbes d'amplitude ont des formes différentes selon les catégories des phonèmes voisins (fricatives voisées ou non, plosives voisées ou non, nasales, liquides, voyelles, silence).
-Les segments de parole sont entrés manuellement à partir d'enregistrements restitués à vitesse réduite sur papier. L'étude des tracés permet d'élaborer les principes de base, de sélectionner la meilleure période de chaque phonème et de construire les tableaux d'amplitude. Aucune rétroaction n'est prévue : tout est basé sur l'étude des tracés, la part d'intuition étant considérable. Le résultat est cependant intéressant : 70 à 95 % d'intelligibilité, malgré une voix caverneuse et horriblement artificielle. Le premier des Synthé est né.
-Un article dans la revue Micro-Systèmes n° 16 (mars 1981), récompensé par le prix des lecteurs, décrit Synthé et propose de le réaliser entièrement, la société Electrel (Caen) fournissant les composants. Le Synthé 2 n'est que la réalisation industrielle de Synthé 1, après retouches du circuit imprimé et du programme, le principe restant le même. Synthé est alors le seul appareil de synthèse vocale léger et peu coûteux. De son côté, le CNET éprouve quelques difficultés à créer un synthétiseur de taille raisonnable conservant les qualités des synthétiseurs de laboratoire.
 
-1.2. Synthé 3 : synthèse avec une période par phonème et une par diphone
-En 1984, les progrès des circuits intégrés permettent d'envisager un système à base d'un Z80 CMOS avec 64 ko de mémoire, ce qui permettra d'ajouter des périodes, notamment les transitions entre phonèmes. Cette fois, un ordinateur est utilisé pour le développement : le Zénith Z100, concurrent du PC sorti en même temps. Une carte-son est créée pour l'occasion, avec une partie enregistrement et une partie restitution. Il est possible d'enregistrer des petites phrases de 3 secondes, d'afficher et de prélever des périodes, et de les utiliser pour fabriquer de nouvelles phrases. L'ordinateur permet alors une rétroaction : le choix de telle règle ou de telle période est jugé perceptivement par comparaison à d'autres choix.
-Grâce à ce programme de développement, des essais peuvent être effectués sur des enregistrements naturels : tout d'abord la fréquence d'échantillonnage est fixée à 10 kHz, ce qui est un peu faible (limitant la fréquence maximale à 5 kHz) mais acceptable et économique. Autre type d'essai : sur les énoncés, on ne conserve qu'une période ici ou là et on fabrique les autres par interpolation (fondu enchainé). L'utilisation d'une période par phonème permet alors de simuler le Synthé 1 sur des énoncés réels, puis d'essayer diverses façons d'ajouter des périodes. L'ajout d'une période dans la transition entre phonèmes améliore considérablement le résultat : la distance spectrale entre les périodes à combiner étant réduite, l'oreille reconstitue à peu près la transition complète. Les mémoires de l'époque ne permettant pas encore de stocker la transition (ou diphone) entièrement, le choix est fait d'une période par phonème + une par diphone.
+A l'époque de Synthé 1, il existait un seul processeur à faible
+ consommation (CMOS), le CDP1802, et les mémoires mortes, coûteuses
+ (400 F pièce en 1979), avaient une capacité de 2 ko. Les seules
+ synthèses vocales existantes tournaient sur de gros ordinateurs.
+ Pour réaliser un synthétiseur portatif d'environ 1 kg et d'un
+ coût raisonnable (15 circuits intégrés dont 6 ko de mémoire
+ morte), le choix d'une méthode par phonème a été fait, alors
+ que les publications de l'époque montraient déjà que les transitions
+ entre phonèmes sont indispensables pour un minimum de qualité et
+ d'intelligibilité. A défaut, la transition fait entendre le mélange
+ de deux sons différents (diaphonie) au lieu d'un son qui se transforme
+ progressivement en un autre. Mais avec la technologie disponible,
+ ce choix s'imposait.
+
+La partie centrale des phonèmes étant presque périodique pour les
+ voyelles et certaines consonnes, chaque phonème est représenté
+ par un segment formé d'une seule période, ce qui réduit considérablement
+ la taille du stockage. Les consonnes fricatives et plosives, non
+ périodiques, sont représentées par trois périodes consécutives.
+ Un jeu de courbes d'amplitude permet d'assembler les différentes
+ périodes, avec pour chaque phonème, des amplitudes de plus en plus
+ grandes jusqu'au milieu du phonème, puis de plus en plus petites,
+ avec une balise indiquant le départ du phonème suivant (avant la
+ fin du phonème en cours, donc superposé en fondu enchainé) et
+ une balise indiquant la fin du phonème. Ces courbes d'amplitude
+ ont des formes différentes selon les catégories des phonèmes voisins
+ (fricatives voisées ou non, plosives voisées ou non, nasales, liquides,
+ voyelles, silence).
+
+Les segments de parole sont entrés manuellement à partir d'enregistrements
+ restitués à vitesse réduite sur papier. L'étude des tracés permet
+ d'élaborer les principes de base, de sélectionner la meilleure
+ période de chaque phonème et de construire les tableaux d'amplitude.
+ Aucune rétroaction n'est prévue : tout est basé sur l'étude
+ des tracés, la part d'intuition étant considérable. Le résultat
+ est cependant intéressant : 70 à 95 % d'intelligibilité, malgré
+ une voix caverneuse et horriblement artificielle. Le premier des
+ Synthé est né.
+
+Un article dans la revue Micro-Systèmes n° 16 (mars 1981), récompensé
+ par le prix des lecteurs, décrit Synthé et propose de le réaliser
+ entièrement, la société Electrel (Caen) fournissant les composants.
+ Le Synthé 2 n'est que la réalisation industrielle de Synthé 1,
+ après retouches du circuit imprimé et du programme, le principe
+ restant le même. Synthé est alors le seul appareil de synthèse
+ vocale léger et peu coûteux. De son côté, le CNET éprouve quelques
+ difficultés à créer un synthétiseur de taille raisonnable conservant
+ les qualités des synthétiseurs de laboratoire.
+
+1.2. Synthé 3 : synthèse avec une période par phonème et une
+ par diphone
+
+En 1984, les progrès des circuits intégrés permettent d'envisager
+ un système à base d'un Z80 CMOS avec 64 ko de mémoire, ce qui
+ permettra d'ajouter des périodes, notamment les transitions entre
+ phonèmes. Cette fois, un ordinateur est utilisé pour le développement :
+ le Zénith Z100, concurrent du PC sorti en même temps. Une carte
+-son est créée pour l'occasion, avec une partie enregistrement et
+ une partie restitution. Il est possible d'enregistrer des petites
+ phrases de 3 secondes, d'afficher et de prélever des périodes, et
+ de les utiliser pour fabriquer de nouvelles phrases. L'ordinateur
+ permet alors une rétroaction : le choix de telle règle ou de telle
+ période est jugé perceptivement par comparaison à d'autres choix.
+
+
+Grâce à ce programme de développement, des essais peuvent être
+ effectués sur des enregistrements naturels : tout d'abord la fréquence
+ d'échantillonnage est fixée à 10 kHz, ce qui est un peu faible
+ (limitant la fréquence maximale à 5 kHz) mais acceptable et économique.
+ Autre type d'essai : sur les énoncés, on ne conserve qu'une période
+ ici ou là et on fabrique les autres par interpolation (fondu enchainé).
+ L'utilisation d'une période par phonème permet alors de simuler
+ le Synthé 1 sur des énoncés réels, puis d'essayer diverses façons
+ d'ajouter des périodes. L'ajout d'une période dans la transition
+ entre phonèmes améliore considérablement le résultat : la distance
+ spectrale entre les périodes à combiner étant réduite, l'oreille
+ reconstitue à peu près la transition complète. Les mémoires de
+ l'époque ne permettant pas encore de stocker la transition (ou diphone)
+ entièrement, le choix est fait d'une période par phonème + une
+ par diphone.
+
 Le jeu de phonèmes reste le même que celui de Synthé 1 :
+
 - 10 voyelles : ou, o, u, i, a, an, on, eu, é, in
-- 16 consonnes : f, s, ch (fricatives sourdes), v, z, j (fricatives voisées), p, t, k (plosives sourdes), b, d, g (plosives voisées), m, n (nasales), l, r (liquides).
-La distinction entre les versions ouvertes et fermées de o, eu, é n'est pas faite, une version moyenne est utilisée. Les consonnes glissantes (comme dans "oui", "lui", "pied") sont fabriquées à partir des voyelles ou, u, i, avec des durées plus courtes, ce qui donne un bon résultat.
-Un tableau de 27 x 27 est fabriqué (26 phonèmes + silence), dans lequel seront placées les adresses des diphones. La mémoire disponible (20 ko pour la voix) ne permet pas de stocker les 27 x 27 = 729 périodes de diphones, de 80 échantillons en moyenne. Seuls 256 peuvent être stockées. Grâce aux ressemblances entre certains phonèmes de même position de production (f, v, p, b, m, ou encore s, z, t, d, n, par exemple), certains segments peuvent être utilisés dans plusieurs diphones différents. Chaque diphone est testé avec plusieurs segments possibles, les résultats étant comparés perceptivement.
-Lorsque la fabrication de la voix arrive à son terme, des petites phrases contenant de nombreuses combinaisons possibles de phonèmes sont produites afin de procéder aux dernières retouches. L'intelligibilité avoisine les 100 % en première écoute, la voix est plus humaine (pour l'époque), plus ronde, plus agréable que celle de Synthé 1. Le Synthé 3 est produit entre 1986 et 2002 sous forme d'appareils à clavier ou de cartes internes par Electrel, puis entre 2002 et 2008 sous forme d'appareils à clavier par Aria, soit une carrière totale de 23 ans dans ses versions commerciales.
+
+- 16 consonnes : f, s, ch (fricatives sourdes), v, z, j (fricatives
+ voisées), p, t, k (plosives sourdes), b, d, g (plosives voisées),
+ m, n (nasales), l, r (liquides).
+
+La distinction entre les versions ouvertes et fermées de o, eu, é
+ n'est pas faite, une version moyenne est utilisée. Les consonnes
+ glissantes (comme dans "oui", "lui", "pied") sont fabriquées à
+ partir des voyelles ou, u, i, avec des durées plus courtes, ce qui
+ donne un bon résultat.
+
+Un tableau de 27 x 27 est fabriqué (26 phonèmes + silence), dans
+ lequel seront placées les adresses des diphones. La mémoire disponible
+ (20 ko pour la voix) ne permet pas de stocker les 27 x 27 = 729 périodes
+ de diphones, de 80 échantillons en moyenne. Seuls 256 peuvent être
+ stockées. Grâce aux ressemblances entre certains phonèmes de même
+ position de production (f, v, p, b, m, ou encore s, z, t, d, n, par
+ exemple), certains segments peuvent être utilisés dans plusieurs
+ diphones différents. Chaque diphone est testé avec plusieurs segments
+ possibles, les résultats étant comparés perceptivement.
+
+Lorsque la fabrication de la voix arrive à son terme, des petites
+ phrases contenant de nombreuses combinaisons possibles de phonèmes
+ sont produites afin de procéder aux dernières retouches. L'intelligibilité
+ avoisine les 100 % en première écoute, la voix est plus humaine
+ (pour l'époque), plus ronde, plus agréable que celle de Synthé
+ 1. Le Synthé 3 est produit entre 1986 et 2002 sous forme d'appareils
+ à clavier ou de cartes internes par Electrel, puis entre 2002 et
+ 2008 sous forme d'appareils à clavier par Aria, soit une carrière
+ totale de 23 ans dans ses versions commerciales.
 
 1.3. La transcription phonétique dans Synthé 3
-Lorsque la société Electrel, après avoir produit les premiers Synthé 3 à clavier pour le déficit de la parole, est sollicitée pour fabriquer des cartes internes Synthé 3 capables de lire du texte, notamment pour la lecture d'écran (poste de travail adapté au déficit visuel), la question se pose de la transcription des textes alphabétiques en textes phonétiques. Début 1986, un module de transcription phonétique est ajouté à Synthé 3 pour la version carte.
-Le principe repose sur une arborescence codée symboliquement en langage machine. Tout d'abord, le code de chaque nouvelle lettre du texte permet de fabriquer un pointeur vers le cas général de la lettre, avec deux possibilités : première lettre du mot ou position quelconque. Le tableau de pointeurs contient les étiquettes correspondant aux différentes lettres, par exemple :
+
+Lorsque la société Electrel, après avoir produit les premiers Synthé
+ 3 à clavier pour le déficit de la parole, est sollicitée pour
+ fabriquer des cartes internes Synthé 3 capables de lire du texte,
+ notamment pour la lecture d'écran (poste de travail adapté au déficit
+ visuel), la question se pose de la transcription des textes alphabétiques
+ en textes phonétiques. Début 1986, un module de transcription phonétique
+ est ajouté à Synthé 3 pour la version carte.
+
+Le principe repose sur une arborescence codée symboliquement en langage
+ machine. Tout d'abord, le code de chaque nouvelle lettre du texte
+ permet de fabriquer un pointeur vers le cas général de la lettre,
+ avec deux possibilités : première lettre du mot ou position quelconque.
+ Le tableau de pointeurs contient les étiquettes correspondant aux
+ différentes lettres, par exemple :
+
 TabGen:
+
 	Xa, Xb, Xc, …
-où le début des adresses en 'X' indique le cas général de la lettre considérée. Ensuite, on va voir dans l'arbre à l'adresse de la lettre et on passe à la lettre suivante du texte. Dans Xa par exemple, on trouve les lettres qui peuvent agir sur la phonétisation du 'a', par exemple :
+
+où le début des adresses en 'X' indique le cas général de la lettre
+ considérée. Ensuite, on va voir dans l'arbre à l'adresse de la
+ lettre et on passe à la lettre suivante du texte. Dans Xa par exemple,
+ on trouve les lettres qui peuvent agir sur la phonétisation du 'a',
+ par exemple :
+
 Xa:
+
 	'I', Xai
+
 	'M', Xan
-signifie que si on rencontre 'I' ou 'N' après 'A', on va respectivement en Xai ou Xan (beaucoup d'autres cas sont ignorés ici par souci de clarté). On passe à nouveau à la lettre suivante du texte pour le test de la prochaine branche. Dans Xan, on a par exemple :
+
+signifie que si on rencontre 'I' ou 'N' après 'A', on va respectivement
+ en Xai ou Xan (beaucoup d'autres cas sont ignorés ici par souci
+ de clarté). On passe à nouveau à la lettre suivante du texte pour
+ le test de la prochaine branche. Dans Xan, on a par exemple :
+
 Xan:
+
 	VOY, AA, Xn
+
 	TTT, AN, Gen
-qui signifie : si on rencontre une voyelle derrière "an", 	alors le phonème 'A' et le phonème 'N' sont établis. On indique donc 'AA' (constante = code du phonème 'A') et branchement sur Xn (cas général du 'n') qui fournira toujours le phonème 'N' avant de regarder la suite. La ligne suivante dit que dans tous les cas ('TTT'), hormis ceux déjà traités, on écrit le phonème 'AN' et on va dans le cas général (donc dans le tableau TabGen pour la lettre testée. Là encore, le raisonnement a été simplifié par souci de clarté. Dans le cas d'un test collectif (ici VOY ou TTT dans le dernier exemple), on ne passe pas à la lettre suivante du texte puisque la lettre en cours n'a été testée que partiellement (seulement sa catégorie par exemple).
-Comme on le voit, le premier caractère testé dans chaque branche d'une arborescence est une lettre, une catégorie de lettres ou le reste des cas (ou le mode de lecture, voir plus loin). Derrière, on indique les phonèmes à écrire (de zéro à plusieurs phonèmes), puis la branche suivante. On peut aussi faire aller le programme vers un dictionnaire de morceaux de mots si on doit tester une suite de lettres sans branchements intermédiaires. Par exemple, sur le cas général du 'i', si on rencontre 'c', on teste plusieurs morceaux de mots, dont :
+
+qui signifie : si on rencontre une voyelle derrière "an", 	alors
+ le phonème 'A' et le phonème 'N' sont établis. On indique donc
+ 'AA' (constante = code du phonème 'A') et branchement sur Xn (cas
+ général du 'n') qui fournira toujours le phonème 'N' avant de
+ regarder la suite. La ligne suivante dit que dans tous les cas ('TTT'),
+ hormis ceux déjà traités, on écrit le phonème 'AN' et on va
+ dans le cas général (donc dans le tableau TabGen pour la lettre
+ testée. Là encore, le raisonnement a été simplifié par souci
+ de clarté. Dans le cas d'un test collectif (ici VOY ou TTT dans
+ le dernier exemple), on ne passe pas à la lettre suivante du texte
+ puisque la lettre en cours n'a été testée que partiellement (seulement
+ sa catégorie par exemple).
+
+Comme on le voit, le premier caractère testé dans chaque branche
+ d'une arborescence est une lettre, une catégorie de lettres ou le
+ reste des cas (ou le mode de lecture, voir plus loin). Derrière,
+ on indique les phonèmes à écrire (de zéro à plusieurs phonèmes),
+ puis la branche suivante. On peut aussi faire aller le programme
+ vers un dictionnaire de morceaux de mots si on doit tester une suite
+ de lettres sans branchements intermédiaires. Par exemple, sur le
+ cas général du 'i', si on rencontre 'c', on teste plusieurs morceaux
+ de mots, dont :
+
 Xiceps: 'EPS',0,SS,EE,PP, Xs2
-qui signifie : si on rencontre la séquence "eps", soit "iceps" depuis le cas général, on enregistre les phonèmes 'SS' (code du phonème 'S'), 'EE' (code du phonème 'é' ou 'è') et 'PP' (code du phonème 'P'), et on va à l'adresse Xs2, cas général d'un 'S' toujours prononcé.
-Chaque entrée de ce dictionnaire permet de traiter plusieurs mots qui contiennent une même chaîne de caractères, par exemple ici, "biceps", "triceps", quadriceps", etc. Plusieurs centaines de formes (613 à ce jour) sont ainsi traitées. N'étant plus limités à des adresses de 16 bits, on pourrait ajouter d'autres formes ainsi qu'un véritable dictionnaire de mots, qui serait testé dès la première lettre de chaque mot.
-Le principe d'implémentation d'un arbre en langage machine, performant en 1986 car très économe en mémoire et en temps machine, reste lourd en temps de développement. Avec les moyens actuels, on s'y prendrait différemment, comme dans Kali. Mais l'arbre actuel étant fonctionnel et relativement complet, l'ajout d'un dictionnaire de mots semble l'amélioration la plus souhaitable et la plus facile à mettre en œuvre, notamment pour la prononciation des noms propres et des mots d'emprunt.
+
+qui signifie : si on rencontre la séquence "eps", soit "iceps" depuis
+ le cas général, on enregistre les phonèmes 'SS' (code du phonème
+ 'S'), 'EE' (code du phonème 'é' ou 'è') et 'PP' (code du phonème
+ 'P'), et on va à l'adresse Xs2, cas général d'un 'S' toujours
+ prononcé.
+
+Chaque entrée de ce dictionnaire permet de traiter plusieurs mots
+ qui contiennent une même chaîne de caractères, par exemple ici,
+ "biceps", "triceps", quadriceps", etc. Plusieurs centaines de formes
+ (613 à ce jour) sont ainsi traitées. N'étant plus limités à
+ des adresses de 16 bits, on pourrait ajouter d'autres formes ainsi
+ qu'un véritable dictionnaire de mots, qui serait testé dès la
+ première lettre de chaque mot.
+
+Le principe d'implémentation d'un arbre en langage machine, performant
+ en 1986 car très économe en mémoire et en temps machine, reste
+ lourd en temps de développement. Avec les moyens actuels, on s'y
+ prendrait différemment, comme dans Kali. Mais l'arbre actuel étant
+ fonctionnel et relativement complet, l'ajout d'un dictionnaire de
+ mots semble l'amélioration la plus souhaitable et la plus facile
+ à mettre en œuvre, notamment pour la prononciation des noms propres
+ et des mots d'emprunt.
 
 1.4. Kali : synthèse par diphones
-Une petite description de Kali, successeur de Synthé 3, est nécessaire pour situer la technologie de Synthé 3 et éviter de réinventer ce qui existe déjà. Une description détaillée de Kali est fournie sur le site du CRISCO :
-http://www.crisco.unicaen.fr/Description-des-differentes.html en bas de la page.
-Des évolutions importantes ont été apportées pour passer de Synthé 3 à Kali, dont les principales sont :
-Voix : Kali utilise pour la voix des diphones complets. Les diphones d'un énoncé quelconque étant nécessairement prélevés dans des contextes différents, chaque diphone doit être normalisé en hauteur, intensité, durée, timbre, de façon à ce que ses extrémités puissent se raccorder dans toutes les combinaisons possibles. Le résultat est une voix plus agréable, plus naturelle et plus intelligible, mais les traitements représentent un gros travail.
-Transcription phonétique : elle utilise des règles écrites en texte selon une structure hiérarchisée (arborescente), pratique pour la maintenance, ainsi qu'un dictionnaire de milliers de mots.
-Prosodie : absente de Synthé 3, la prosodie permet de rendre la voix plus naturelle et de repérer acoustiquement les frontières entre groupes de mots fortement liés entre eux, les liens entre ces groupes de mots, leur importance relative dans la phrase. Elle se base sur l'analyse syntaxique et pragmatique du texte à lire. Cette analyse met en œuvre des règles et des traitements informatiques complexes. La prosodie proprement dite utilise plusieurs centaines de contours naturels des groupes de mots, accessibles selon la répartition des syllabes vides ou pleines, la position du groupe dans la phrase, la ponctuation.
+
+Une petite description de Kali, successeur de Synthé 3, est nécessaire
+ pour situer la technologie de Synthé 3 et éviter de réinventer
+ ce qui existe déjà. Une description détaillée de Kali est fournie
+ sur le site du CRISCO :
+
+http://www.crisco.unicaen.fr/Description-des-differentes.html en bas
+ de la page.
+
+Des évolutions importantes ont été apportées pour passer de Synthé
+ 3 à Kali, dont les principales sont :
+
+Voix : Kali utilise pour la voix des diphones complets. Les diphones
+ d'un énoncé quelconque étant nécessairement prélevés dans des
+ contextes différents, chaque diphone doit être normalisé en hauteur,
+ intensité, durée, timbre, de façon à ce que ses extrémités
+ puissent se raccorder dans toutes les combinaisons possibles. Le
+ résultat est une voix plus agréable, plus naturelle et plus intelligible,
+ mais les traitements représentent un gros travail.
+
+Transcription phonétique : elle utilise des règles écrites en
+ texte selon une structure hiérarchisée (arborescente), pratique
+ pour la maintenance, ainsi qu'un dictionnaire de milliers de mots.
+
+
+Prosodie : absente de Synthé 3, la prosodie permet de rendre la
+ voix plus naturelle et de repérer acoustiquement les frontières
+ entre groupes de mots fortement liés entre eux, les liens entre
+ ces groupes de mots, leur importance relative dans la phrase. Elle
+ se base sur l'analyse syntaxique et pragmatique du texte à lire.
+ Cette analyse met en œuvre des règles et des traitements informatiques
+ complexes. La prosodie proprement dite utilise plusieurs centaines
+ de contours naturels des groupes de mots, accessibles selon la répartition
+ des syllabes vides ou pleines, la position du groupe dans la phrase,
+ la ponctuation.
 
 2. Structure du fichier de parole Michel.seg
+
 Le fichier est binaire. Il comporte dans l'ordre les données suivantes :
+
+
 short	nbSeg nombre de segments de la voix
+
 short	nbEch nombre d'échantillons de la voix
-short[nbSeg]	tAdr table des adresses des segments sous forme d'index (et non de pointeurs), le premier commençant à zéro.
+
+short[nbSeg]	tAdr table des adresses des segments sous forme d'index
+ (et non de pointeurs), le premier commençant à zéro.
+
 char[nbEch]	tEch échantillons 8 bits des segments, tous bout à bout
-La correspondance entre les noms des phonèmes et les numéros de segments se fait dans le fichier des tables (chapitre 3).
-La connaissance de cette structure permet de générer un fichier conforme à celle-ci si on souhaite développer d'autres voix.
+
+
+La correspondance entre les noms des phonèmes et les numéros de
+ segments se fait dans le fichier des tables (chapitre 3).
+
+La connaissance de cette structure permet de générer un fichier
+ conforme à celle-ci si on souhaite développer d'autres voix.
+
 3. Structure du fichier tables synthe.txt
-Ce fichier contient toutes les données autres que la voix, nécessaires à la synthèse. Il provient des sources de Synthé 3 en langage assembleur Z80, ce qui explique son format. Les symboles peuvent se voir attribuer des valeurs (si suivis du signe '='), sinon, ils ont la valeur de leur adresse (chaque valeur ayant une taille donnée en octets, on peut en déduire les adresses). Le point-virgule débute un commentaire. Les différents champs sont expliqués ci-dessous par ordre d'apparition.
-3.1. Phonèmes et marqueurs phonétiques
-Les phonèmes sont codés de 0 à 27, le dernier étant le silence (pour les transitions entre parole et silence ou l'inverse). Le code 28 est l'allongement de voyelle (pour les accents circonflexes, certaines nasales, les féminins, pluriels et fins de mots en 'r'). Le code 254 représente l'absence de phonème dans certains tableaux de correspondance.
-3.2. Terminateurs pour arbre
-Ces trois codes sont les terminateurs possibles des chaînes phonétiques dans l'arbre de transcription et le dictionnaire de morceaux de mots (voir 1.3).
-- Le code PG (= programme) indique que le symbole qui suit est une adresse dans le programme pour retourner au cas général. En C++, il n'est bien sûr pas question d'aller dans le programme, ce terminateur indique juste que l'adresse est celle d'un tableau général (première lettre ou position quelconque).
-- Le code RB (= arbre) indique que le symbole qui suit est l'adresse d'un nœud de l'arbre.
-- Le code DC (= dico) indique que le symbole qui suit est une adresse dans le dictionnaire de morceaux de mots.
-3.3. Modes de lecture et catégories alphabétiques
-(reprise)
-Comme on l'a vu, dans chaque branche de l'arbre de transcription, le premier caractère rencontré est le code de la lettre à tester ou un code collectif (catégorie, mode de lecture ou reste des cas). Les codes collectifs sont les suivants :
-- Le code BVRD (= bavard) est le mode de lecture dans lequel la ponctuation est prononcée (virgule, point, etc.) En pratique, ce test est utilisé dans les branches qui traitent les codes de ponctuation. Si la condition est vraie, la chaîne phonétique du caractère de ponctuation en mode verbeux suit. Sinon, on passe au test suivant.
-- Le code NABR (= non abréviation) est un mode de lecture dans lequel les abréviations ne sont pas développées comme telles. Ce mode n'est guère utilisé.
-- Le code VOYM (=voyelle e, i ou y) correspond aux voyelles devant lesquelles le g se prononce comme un j et le c comme un s.
+
+Ce fichier contient toutes les données autres que la voix, nécessaires
+ à la synthèse. Il provient des sources de Synthé 3 en langage
+ assembleur Z80, ce qui explique son format. Les symboles peuvent
+ se voir attribuer des valeurs (si suivis du signe '='), sinon, ils
+ ont la valeur de leur adresse (chaque valeur ayant une taille donnée
+ en octets, on peut en déduire les adresses). Le point-virgule débute
+ un commentaire. Les différents champs sont expliqués ci-dessous
+ par ordre d'apparition.
+
+3.1. Constantes
+
+Ce sont des symboles auxquels une valeur est attribuée à l'aide
+ du signe '='.
+
+3.2. Phonèmes et marqueurs phonétiques
+
+Les phonèmes sont codés de 0 à 27, le dernier étant le silence
+ (pour les transitions entre parole et silence ou l'inverse). Le code
+ 28 est l'allongement de voyelle (pour les accents circonflexes, certaines
+ nasales, les féminins, pluriels et fins de mots en 'r'). Le code
+ 254 représente l'absence de phonème dans certains tableaux de correspondance.
+
+
+3.3. Terminateurs pour arbre
+
+Ces trois codes sont les terminateurs possibles des chaînes phonétiques
+ dans l'arbre de transcription et le dictionnaire de morceaux de mots
+ (voir 1.3).
+
+- Le code PG (= programme) indique que le symbole qui suit est une
+ adresse dans le programme pour retourner au cas général. En C++, il
+ n'est bien sûr pas question d'aller dans le programme, ce terminateur
+ indique juste que l'adresse est celle d'un tableau général (première
+ lettre ou position quelconque).
+
+- Le code RB (= arbre) indique que le symbole qui suit est l'adresse
+ d'un nœud de l'arbre.
+
+- Le code DC (= dico) indique que le symbole qui suit est une adresse
+ dans le dictionnaire de morceaux de mots.
+
+3.4. Modes de lecture et catégories alphabétiques
+
+Comme on l'a vu, dans chaque branche de l'arbre de transcription, le
+ premier caractère rencontré est le code de la lettre à tester
+ ou un code collectif (catégorie, mode de lecture ou reste des cas).
+ Les codes collectifs sont les suivants :
+
+- Le code BVRD (= bavard) est le mode de lecture dans lequel la ponctuation
+ est prononcée (virgule, point, etc.) En pratique, ce test est utilisé
+ dans les branches qui traitent les codes de ponctuation. Si la condition
+ est vraie, la chaîne phonétique du caractère de ponctuation en
+ mode verbeux suit. Sinon, on passe au test suivant.
+
+- Le code NABR (= non abréviation) est un mode de lecture dans lequel
+ les abréviations ne sont pas développées comme telles. Ce mode
+ n'est guère utilisé.
+
+- Le code VOYM (=voyelle e, i ou y) correspond aux voyelles devant
+ lesquelles le g se prononce comme un j et le c comme un s.
+
 - Le code VOY correspond à toute voyelle.
-- Le code LET correspond à toute lettre (donc à toute consonne si le test VOY précède).
-- Le code PONC correspond aux signes de ponctuation ou aux lettres (donc aux signes de ponctuation seulement si le test LET précède).
-- Le code SYMB équivaut au code PONC en incluant aussi les symboles ($, %, #, @, etc.), donc aux symboles seulement si le test PONC précède, ou aux symboles et ponctuations si c'est le test LET qui précède.
-- Le code CHIF correspond à tous les codes en incluant les chiffres (donc aux chiffres seulement si le test SYMB précède).
-- Le code TTT correspond à tous les cas non encore testés. Il équivaut à CHIF et son code est le même, mais pour des raisons de lisibilité, on utilise CHIF uniquement traiter les chiffres, et TTT dans tous les autres cas (donc à la fin de chaque branche).
-3.4. Catégories phonétiques
+
+- Le code LET correspond à toute lettre (donc à toute consonne
+ si le test VOY précède).
+
+- Le code PONC correspond aux signes de ponctuation ou aux lettres
+ (donc aux signes de ponctuation seulement si le test LET précède).
+
+
+- Le code SYMB équivaut au code PONC en incluant aussi les symboles
+ ($, %, #, @, etc.), donc aux symboles seulement si le test PONC précède,
+ ou aux symboles et ponctuations si c'est le test LET qui précède.
+
+
+- Le code CHIF correspond à tous les codes en incluant les chiffres
+ (donc aux chiffres seulement si le test SYMB précède).
+
+- Le code TTT correspond à tous les cas non encore testés. Il équivaut
+ à CHIF et son code est le même, mais pour des raisons de lisibilité,
+ on utilise CHIF uniquement traiter les chiffres, et TTT dans tous
+ les autres cas (donc à la fin de chaque branche).
+
+3.5. Catégories phonétiques
+
 - Le code VOYP correspond aux voyelles phonétiques.
-- Le code GLIP correspond aux consonnes phonétiques glissantes. Une glissante est une consonne formée à partir d'une voyelle que le locuteur fait glisser vers la voyelle suivante à la manière d'une consonne (par exemple le ou de oui, le i de mien et le u de lui).
+
+- Le code GLIP correspond aux consonnes phonétiques glissantes. Une
+ glissante est une consonne formée à partir d'une voyelle que le
+ locuteur fait glisser vers la voyelle suivante à la manière d'une
+ consonne (par exemple le ou de oui, le i de mien et le u de lui).
+
 - Le code CNSP correspond aux consonnes phonétiques.
-Ces codes sont utilisés uniquement dans les tableaux de catégories phonétiques pour être exploités par le programme (par exemple pour la liaison et l'élision).
+
+Ces codes sont utilisés uniquement dans les tableaux de catégories
+ phonétiques pour être exploités par le programme (par exemple
+ pour la liaison et l'élision).
+
+3.6. Caractères alpha code commun
+
+(reprise)
+
+Avant le passage en phonétique, le texte alphabétique est normalisé
+ de façon à simplifier les traitements : tous les codes des caractères
+ sont sur un seul octet non signé et se suivent. La base étant les
+ chiffres (48 à 57), en dessous, on descend jusqu'à l'espace (32),
+ et au dessus, on va jusqu'à 96 (apostrophe renversée), puis on
+ saute les minuscules (qui renvoient sur les majuscules par programme),
+ et on fait suivre les autres caractères, qui se succèdent de façon
+ discontinue de différentes façons selon le codage utilisé. Ici,
+ ils sont nommés explicitement par un symbole.
+
+Le symbole NulA est utilisé dans les tableaux de correspondance quand
+ aucun caractère ne correspond au code. Le symbole APOST est celui
+ de l'apostrophe, celle-ci étant utilisée dans la syntaxe de la
+ source. L'apostrophe renversée est notée APOSG, puis les autres
+ symboles sont illustrés par leur code en latin-1 et leur affichage.
+ Quand ils se suivent, aucune valeur ne suit le signe '=', c'est l'
+assembleur qui incrémente automatiquement la valeur.
+
+3.7. Début du flux de données
+
+Après la liste des constantes, on reprend à l'adresse 0 (commentaire
+ "Début") puis les données symboliques se suivent en occupant une
+ taille dépendant de leur format : le symbole DB signifie data byte,
+ soit 1 octet. Le symbole DW signifie data word, soit 2 octets. Aucun
+ autre format n'est utilisé ici. Un symbole en début de ligne, suivi
+ de ':' prend pour valeur l'adresse correspondante. Tous les symboles
+ des tableaux sont définis, soit par le signe '=' (constantes), soit
+ par ':' (adresses).
+
+3.8. Adresses des tables
+
 (à suivre)
+
 (documentation en cours de création)
 
 4. Utilitaire CompiTab fournissant synthe.tab
+
 (documentation en cours de création)
 
+
+
 5. Améliorations possibles de Synthé 3
+
 (documentation en cours de création)
+
 Quelques idées à développer :
-Garder le principe d'une période par diphone (logiciel très léger). Au-delà, on retombe sur la problématique de la synthèse par diphones (cf. Kali), avec des fichiers 50 fois plus gros et des traitements évolués pour raccorder la hauteur, l'intensité, le timbre.
-Voix : choisir une voix souple, agréable, enregistrer les 27 périodes de phonèmes (+ des périodes excédentaires pour les fricatives et les plosives) et les 729 périodes des diphones (compter environ 60 ko pour la voix, contre 20 ko pour la version actuelle). Les variables nbEch et tAdr passeraient en 32 bits. On peut aussi améliorer sensiblement la qualité en passant de 8 bits à 16 bits pour le signal (taille 120 ko pour la voix). J'envisage (un jour lointain) de faire générer par Kali les voix au format Synthé 3 pour lui donner 3 voix en français et 2 voix en anglais.
-Tables : supprimer l'étape CompiTab, partir du format texte (synthe.txt) et faire charger directement les tables par Synthé 3 en réutilisant les méthodes de CompiTab.
+
+Garder le principe d'une période par diphone (logiciel très léger).
+ Au-delà, on retombe sur la problématique de la synthèse par diphones
+ (cf. Kali), avec des fichiers 50 fois plus gros et des traitements
+ évolués pour raccorder la hauteur, l'intensité, le timbre.
+
+Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
+ de phonèmes (+ des périodes excédentaires pour les fricatives
+ et les plosives) et les 729 périodes des diphones (compter environ
+ 60 ko pour la voix, contre 20 ko pour la version actuelle). Les variables
+ nbEch et tAdr passeraient en 32 bits. On peut aussi améliorer sensiblement
+ la qualité en passant de 8 bits à 16 bits pour le signal (taille
+ 120 ko pour la voix). J'envisage (un jour lointain) de faire générer
+ par Kali les voix au format Synthé 3 pour lui donner 3 voix en français
+ et 2 voix en anglais.
+
+Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
+txt) et faire charger directement les tables par Synthé 3 en réutilisant
+ les méthodes de CompiTab.
+
+6. 
+
 
 
