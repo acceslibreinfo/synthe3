@@ -297,12 +297,16 @@ La connaissance de cette structure permet de générer un fichier
 
 Ce fichier contient toutes les données autres que la voix, nécessaires
  à la synthèse. Il provient des sources de Synthé 3 en langage
- assembleur Z80, ce qui explique son format. Les symboles peuvent
+ assembleur Z80, ce qui explique son format. Certaines données utilisées
+ par le programme d'origine ne le sont pas ici. Les symboles peuvent
  se voir attribuer des valeurs (si suivis du signe '='), sinon, ils
  ont la valeur de leur adresse (chaque valeur ayant une taille donnée
- en octets, on peut en déduire les adresses). Le point-virgule débute
- un commentaire. Les différents champs sont expliqués ci-dessous
- par ordre d'apparition.
+ en octets, on peut en déduire les adresses). La casse n'est pas
+ toujours harmonisée (même si elle a été en partie corrigée pour
+ la lisibilité), ce qui est sans effet sur le programme, celui-ci
+ effectuant une conversion pour rester insensible à la casse de ces
+ ressources. Le point-virgule débute un commentaire. Les différents
+ champs sont expliqués ci-dessous par ordre d'apparition.
 
 3.1. Constantes
 
@@ -315,8 +319,8 @@ Les phonèmes sont codés de 0 à 27, le dernier étant le silence
  (pour les transitions entre parole et silence ou l'inverse). Le code
  28 est l'allongement de voyelle (pour les accents circonflexes, certaines
  nasales, les féminins, pluriels et fins de mots en 'r'). Le code
- 254 représente l'absence de phonème dans certains tableaux de correspondance.
-
+ 254 (NULP) représente l'absence de phonème dans certains tableaux
+ de correspondance.
 
 3.3. Terminateurs pour arbre
 
@@ -395,25 +399,24 @@ Ces codes sont utilisés uniquement dans les tableaux de catégories
 
 3.6. Caractères alpha code commun
 
-(reprise)
-
 Avant le passage en phonétique, le texte alphabétique est normalisé
  de façon à simplifier les traitements : tous les codes des caractères
  sont sur un seul octet non signé et se suivent. La base étant les
  chiffres (48 à 57), en dessous, on descend jusqu'à l'espace (32),
  et au dessus, on va jusqu'à 96 (apostrophe renversée), puis on
  saute les minuscules (qui renvoient sur les majuscules par programme),
- et on fait suivre les autres caractères, qui se succèdent de façon
- discontinue de différentes façons selon le codage utilisé. Ici,
- ils sont nommés explicitement par un symbole.
+ et on fait suivre à la place les autres caractères, nommés explicitement
+ par un symbole, leurs codes étant différents selon le système
+ de codage utilisé. Le code latin1 est indiqué en commentaire et
+ le symbole correspondant est affiché.
 
 Le symbole NulA est utilisé dans les tableaux de correspondance quand
- aucun caractère ne correspond au code. Le symbole APOST est celui
- de l'apostrophe, celle-ci étant utilisée dans la syntaxe de la
- source. L'apostrophe renversée est notée APOSG, puis les autres
- symboles sont illustrés par leur code en latin-1 et leur affichage.
- Quand ils se suivent, aucune valeur ne suit le signe '=', c'est l'
-assembleur qui incrémente automatiquement la valeur.
+ aucun caractère ne correspond au code origine. Le symbole APOST
+ est celui de l'apostrophe, celle-ci étant utilisée dans la syntaxe
+ de la source. L'apostrophe renversée est notée APOSG, puis les
+ autres symboles sont illustrés par leur code en latin-1 et leur
+ affichage. Quand ils se suivent, aucune valeur ne suit le signe '=', c'
+est l'assembleur qui incrémente automatiquement la valeur.
 
 3.7. Début du flux de données
 
@@ -428,7 +431,154 @@ Après la liste des constantes, on reprend à l'adresse 0 (commentaire
 
 3.8. Adresses des tables
 
-(à suivre)
+(reprise)
+
+Comme les données occupent moins de 64 ko, les adresses sont codées
+ sur 2 octets (DW). Cette liste d'adresses est utilisée pour fabriquer
+ la structure des tables. Le symbole "FOIS" est lui aussi intégré
+ à cette structure car destiné au programme.
+
+3.9. Copyright
+
+Le copyright rend hommage à la société Electrel qui a commercialisé
+ les Synthé de 1981 à 2002. Celle-ci a fermé en 2002 et Michel
+ MOREL est resté seul propriétaire des sources.
+
+3.10. Table des codes 850
+
+Il s'agit des anciens codes du DOS pour la France. Utilisés par les
+ cartes PC, ils sont laissés ici pour mémoire mais en commentaires.
+
+
+3.11. Table des codes Windows
+
+Il s'agit en fait des codes latin1, utilisés par le programme. Les
+ caractères 123 à 255 sont convertis en code commun grâce à cette
+ table. Lorsque le texte est transmis en UTF-8, il est d'abord converti
+ en latin1 par un premier module avant d'attaquer les autres modules.
+ Il n'y a donc pas de tables UTF-8 dans ce fichier.
+
+3.12. Code commun -> catégorie
+
+Cette table permet de répartir les caractères par catégories alphabétiques
+ (voir 3.4). On part cette fois du code commun, ce qui permet d'obtenir
+ la catégorie directement dans un même tableau.
+
+3.13. Code commun -> code phonétique
+
+On peut paramétrer Synthé en mode phonétique. Dans ce cas, le texte
+ est directement interprété comme étant phonétique. La plupart
+ des phonèmes sont représentés en entrée par les lettres qui leur
+ correspondent. Les autres sont représentés par des lettres accentuées.
+ Les codes sont les suivants :
+
+a = a
+
+b = b
+
+d = d
+
+e = e ou eu (le, heureux)
+
+f = f
+
+g = g (gala)
+
+h = ch (chat)
+
+i = i
+
+j = j (joli, gite)
+
+k = k
+
+l = l
+
+m = m
+
+n = n
+
+o = o
+
+p = p
+
+r = r
+
+s = s (son)
+
+t = t
+
+u = u
+
+v = v
+
+w = w (oui, kiwi)
+
+y = y (viens, yak)
+
+z = z
+
+â = an (ange, jean, vent)
+
+é = é ou è ou ê (élève, être)
+
+î = in ou ain ou un (pin, main, un)
+
+ô = on
+
+ù = ou
+
+µ = glissante u (lui)
+
+: = allongement voyelle
+
+, = silence
+
+Le tableau tPhon1 traite les 26 lettres non accentuées. Certaines
+ (comme x) ne représentent aucun phonème (NULP). Le tableau tPhon2
+ traite la zone des voyelles accentuées. Les caractères ',' ':' 'µ',
+ non contigus à ces tableaux, sont traités individuellement par
+ le programme.
+
+Texte provisoire avant correction des sources : les commentaires
+ accompagnant ces tableaux, probablement vrais en 1986, sont maintenant
+ erronés. Le tableau tPhon1 ne traite plus la zone 97 à 122 mais
+ 65 à 90. Le tableau tPhon2 ne traite pas la zone 196 à 208 mais
+ 159 à 181. Ces décalages sont probablement dus à des modifications
+ qui n'ont pas été transcrites dans le commentaire. Enfin, le commentaire
+ "tests sur ù ö â ô ë é è î" concerne tPhon2 et non tPhon1.
+ De plus, une erreur est présente dans le programme : le test individuel
+ sur 'µ' doit tester la valeur 147 et non 174. L'effet sur le résultat
+ est peu audible et l'option "mode phonétique" avait été insuffisamment
+ testée (peu utile de toute façon).
+
+3.14. Code commun -> catégorie phonétique
+
+Les tableaux TCatP1 et TCatP2 correspondent respectivement aux tableaux
+ TPhon1 et TPhon2. Le code indiqué est celui de la catégorie phonétique
+ (voyelle, consonne, glissante). Ces deux tableaux ne sont pas utilisés
+ par le programme.
+
+3.15. Messages phonétiques pour la prononciation des nombres
+
+La prononciation des nombres est effectuée par le programme sans
+ passer par les règles de prononciation des mots, car elles ne seraient
+ pas adaptées. Le programme utilise des morceaux du nombre à prononcer,
+ notamment les dix chiffres, mais aussi les formes comme "onze", "douze
+", "treize", "quatorze", etc., "vingt", "trente", etc., "cent", "mille
+", "million", "milliard".
+
+Tous ces morceaux de nombres sont étiquetés par leur nom (Ch1, Ch2,
+ Ch3, Ch100, etc.) utilisé par le programme. Le code 80 marque la
+ fin de la chaine phonétique. Le code suivant, s'il est différent
+ de 0, indique le phonème de liaison lorsque le mot suivant commence
+ par une voyelle.
+
+Derrière cette liste de chaines phonétiques, trois adresses permettent
+ de pointer, soit vers les unités, soit vers les dizaines, soit vers
+ "mille", "million", "milliard".
+
+ (à suivre)
 
 (documentation en cours de création)
 
@@ -462,8 +612,6 @@ Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
 Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
 txt) et faire charger directement les tables par Synthé 3 en réutilisant
  les méthodes de CompiTab.
-
-6. 
 
 
 
