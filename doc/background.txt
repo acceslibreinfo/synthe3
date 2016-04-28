@@ -1,4 +1,4 @@
-﻿Les ressources du logiciel Synthé 3
+Les ressources du logiciel Synthé 3
 
 Synthé 3 utilise deux ressources : le fichier des segments de parole
  Michel.seg et le fichier des tables Synthe.tab. Afin de faciliter
@@ -316,11 +316,18 @@ Ce sont des symboles auxquels une valeur est attribuée à l'aide
 3.2. Phonèmes et marqueurs phonétiques
 
 Les phonèmes sont codés de 0 à 27, le dernier étant le silence
- (pour les transitions entre parole et silence ou l'inverse). Le code
- 28 est l'allongement de voyelle (pour les accents circonflexes, certaines
- nasales, les féminins, pluriels et fins de mots en 'r'). Le code
- 254 (NULP) représente l'absence de phonème dans certains tableaux
- de correspondance.
+ (pour les transitions entre parole et silence ou l'inverse). Il y
+ a donc 28 phonèmes, un de plus que ce qui a été dit plus haut
+ dans le principe. de Synthé 3. En effet, le code 10 (YY) a été
+ ajouté dans le programme pour son rôle en tant que consonne, mais
+ les périodes de diphones qui le concernent correspondent à celles
+ du II, même si son enveloppe (liste des amplitudes en fonction du
+ temps) est différente.
+
+Le code 28 est l'allongement de voyelle (pour les accents circonflexes,
+ certaines nasales, les féminins, pluriels et fins de mots en 'r').
+ Le code 254 (NULP) représente l'absence de phonème dans certains
+ tableaux de correspondance.
 
 3.3. Terminateurs pour arbre
 
@@ -430,8 +437,6 @@ Après la liste des constantes, on reprend à l'adresse 0 (commentaire
  par ':' (adresses).
 
 3.8. Adresses des tables
-
-(reprise)
 
 Comme les données occupent moins de 64 ko, les adresses sont codées
  sur 2 octets (DW). Cette liste d'adresses est utilisée pour fabriquer
@@ -554,10 +559,10 @@ Texte provisoire avant correction des sources : les commentaires
 
 3.14. Code commun -> catégorie phonétique
 
-Les tableaux TCatP1 et TCatP2 correspondent respectivement aux tableaux
- TPhon1 et TPhon2. Le code indiqué est celui de la catégorie phonétique
- (voyelle, consonne, glissante). Ces deux tableaux ne sont pas utilisés
- par le programme.
+Toujours pour le mode phonétique, les tableaux TCatP1 et TCatP2 correspondent
+ respectivement aux tableaux TPhon1 et TPhon2. Le code indiqué est
+ celui de la catégorie phonétique (voyelle, consonne, glissante).
+ Ces deux tableaux ne sont pas utilisés par le programme.
 
 3.15. Messages phonétiques pour la prononciation des nombres
 
@@ -577,6 +582,117 @@ Tous ces morceaux de nombres sont étiquetés par leur nom (Ch1, Ch2,
 Derrière cette liste de chaines phonétiques, trois adresses permettent
  de pointer, soit vers les unités, soit vers les dizaines, soit vers
  "mille", "million", "milliard".
+
+(reprise)
+
+3.16. Tables pour le générateur de parole : table volume
+
+La série de tables qui suit concerne la synthèse proprement dite,
+ c'est-à-dire la génération de la parole à partir du texte phonétique.
+
+
+La table TabVol contient les 16 valeurs de volume, par pas correspondant
+ à un rapport de 1,26, équivalant à 2 tons. La valeur de base du
+ volume est 1000, correspondant au volume 10 (11e valeur du tableau).
+ Pour le programme, c'est en fait le volume 0 qui vaut 1000, les volumes
+ négatifs correspondant à des valeurs inférieures à 1000 et les
+ volumes positifs correspondant à des valeurs supérieures à 1000.
+
+
+3.17. Table débit
+
+La table TabVit contient les 16 valeurs de débit ou vitesse de phonation,
+ par pas correspondant à un rapport de 1,1225, équivalant à 1 ton.
+ La valeur de base du débit est 1000, correspondant au débit 3 (4e
+ valeur du tableau). Pour le programme, c'est en fait le débit 0
+ qui vaut 1000, les débits négatifs correspondant à des valeurs
+ inférieures à 1000 et les débits positifs correspondant à des
+ valeurs supérieures à 1000.
+
+3.18. Table hauteur
+
+La table TabHau contient les 16 valeurs de hauteur, par pas correspondant
+ à un rapport de 1,05946, équivalant à ½ ton. La valeur de base
+ de la hauteur est 1000, correspondant à la hauteur 6 (7e valeur
+ du tableau). Pour le programme, c'est en fait la hauteur 0 qui vaut
+ 1000, les hauteurs négatives correspondant à des valeurs inférieures
+ à 1000 et les hauteurs positives correspondant à des valeurs supérieures
+ à 1000.
+
+3.19. Catégories de phonèmes
+
+Rien à voir avec les catégories définies en 3.14, correspondant
+ au mode phonétique en entrée. Ici, il s'agit des catégories des
+ phonèmes générés par le programme, et utilisées pour fabriquer
+ les enveloppes des phonèmes, c'est-à-dire la forme de l'amplitude
+ en fonction du temps, indispensable pour organiser la génération
+ de la parole. Aux 28 phonèmes (27 + silence), codés de 0 à 27,
+ correspondent 10 catégories codées de 0 à 9 : voyelle, glissante,
+ fricative sourde, fricative voisée, plosive sourde, plosive voisée,
+ nasale, L, R, silence.
+
+3.20. Amplitudes fin phonèmes
+
+Pour chaque catégorie de phonème, on définit des listes d'amplitudes,
+ d'abord montantes jusqu'au milieu du phonème, puis descendantes.
+ La partie montante interagit avec le phonème précédent, tandis
+ que la partie descendante interagit avec le phonème suivant. C'est
+ pourquoi chaque enveloppe est divisée en deux parties : début
+ phonème et fin phonème, dont les formes respectives dépendent
+ de la catégorie du phonème qui précède ou qui suit.
+
+Le tableau FinAmp (categ1, categ2) est un tableau à deux dimensions :
+ il contient les numéros des courbes d'amplitude de la partie descendante
+ des phonèmes, pour chaque catégorie du phonème considéré (lignes)
+ et pour chaque catégorie du phonème qui suit (colonnes). Ces numéros
+ ne sont pas consécutifs, il faut plutôt les considérer comme des
+ identifiants (le chiffre des centaines représente une variante par
+ rapport au reste du nombre).
+
+3.21. Numéros des segments de fin phonèmes
+
+Les segments sont les suites d'échantillons des différents représentants
+ des phonèmes et diphones. Chaque segment a une longueur d'une période.
+ Lors de la sortie sonore, les segments d'un phonème donné sont
+ disposés consécutivement avec comme facteur multiplicatif les courbes
+ d'amplitude (cf. ci-dessus).
+
+Le tableau FinTim (car1) est un tableau à une dimension (bien qu'
+il ait été réparti sur 3 lignes pour la lisibilité) : il contient
+ les numéros des segments des phonèmes pour la partie descendante
+ de ceux-ci. Les phonèmes sont dans l'ordre de leur code (0 à 27),
+ explicité dans le commentaire derrière. Comme pour les amplitudes,
+ les numéros des segments sont des identifiants.
+
+On distingue DebTim et FinTim (début et fin du phonème) car les
+ plosives présentent une discontinuité en leur milieu (avant ou
+ après l'explosion), qui impose cette distinction. Les autres phonèmes
+ sont représentés par les mêmes identifiants dans DebTim et FinTim,
+ seules leurs courbes d'amplitudes diffèrent entre montée et descente.
+
+
+3.22. Amplitudes des transitions
+
+Comme les phonèmes, les diphones sont régis par des courbes d'amplitudes.
+ Le tableau TrAmp (categ1, categ2) est un tableau à deux dimensions :
+ catégorie du phonème précédent en ligne, catégorie du phonème
+ suivant en colonne. Les numéros sont les identifiants des courbes
+ d'amplitude.
+
+3.23. Numéros de segment des transitions
+
+Si le nombre de segments de phonèmes est égal au nombre de phonèmes,
+ le nombre de segments de transitions (c'est-à-dire de diphones) est
+ égal au carré de ce nombre. Le tableau TraTim (car1, car2) comporte
+ 28 lignes (phonème précédent 0 à 27) pour 32 colonnes (phonème
+ suivant). Le nombre de 32 pour chaque bloc avait été choisi pour
+ faciliter la programmation en langage machine. Il y a donc 4 cellules
+ non utilisées à la fin de chaque ligne. Elles sont mises à zéro
+ sauf deux d'entre elles qui avaient été utilisées pour cacher
+ un copyright (2 lettres par ligne) maintenant inutile. Là encore,
+ les numéros sont les identifiants des segments à utiliser.
+
+3.24. Amplitudes début phonèmes
 
  (à suivre)
 
@@ -612,6 +728,4 @@ Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
 Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
 txt) et faire charger directement les tables par Synthé 3 en réutilisant
  les méthodes de CompiTab.
-
-
 
