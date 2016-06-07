@@ -140,8 +140,8 @@ Lorsque la fabrication de la voix arrive à son terme, des petites
  (pour l'époque), plus ronde, plus agréable que celle de Synthé
  1. Le Synthé 3 est produit entre 1986 et 2002 sous forme d'appareils
  à clavier ou de cartes internes par Electrel, puis entre 2002 et
- 2008 sous forme d'appareils à clavier par Aria, soit une carrière
- totale de 23 ans dans ses versions commerciales.
+ 2008 sous forme d'appareils à clavier par Aria (Michel MOREL), soit
+ une carrière totale de 23 ans dans ses versions commerciales.
 
 1.3. La transcription phonétique dans Synthé 3
 
@@ -272,7 +272,7 @@ Prosodie : absente de Synthé 3, la prosodie permet de rendre la
  des syllabes vides ou pleines, la position du groupe dans la phrase,
  la ponctuation.
 
-2. Structure du fichier de parole Michel.seg
+2. Structure du fichier de voix Michel.seg
 
 Le fichier est binaire. Il comporte dans l'ordre les données suivantes :
 
@@ -583,13 +583,11 @@ Derrière cette liste de chaines phonétiques, trois adresses permettent
  de pointer, soit vers les unités, soit vers les dizaines, soit vers
  "mille", "million", "milliard".
 
-(reprise)
-
 3.16. Tables pour le générateur de parole : table volume
 
 La série de tables qui suit concerne la synthèse proprement dite,
  c'est-à-dire la génération de la parole à partir du texte phonétique.
-
+ Toutes ces tables sont décrites de 3.16 à 3.28.
 
 La table TabVol contient les 16 valeurs de volume, par pas correspondant
  à un rapport de 1,26, équivalant à 2 tons. La valeur de base du
@@ -641,13 +639,11 @@ Pour chaque catégorie de phonème, on définit des listes d'amplitudes,
  phonème et fin phonème, dont les formes respectives dépendent
  de la catégorie du phonème qui précède ou qui suit.
 
-Le tableau FinAmp (categ1, categ2) est un tableau à deux dimensions :
+Le tableau FinAmp(categ1, categ2) est un tableau à deux dimensions :
  il contient les numéros des courbes d'amplitude de la partie descendante
  des phonèmes, pour chaque catégorie du phonème considéré (lignes)
  et pour chaque catégorie du phonème qui suit (colonnes). Ces numéros
- ne sont pas consécutifs, il faut plutôt les considérer comme des
- identifiants (le chiffre des centaines représente une variante par
- rapport au reste du nombre).
+ sont donc les identifiants des différentes courbes d'amplitude.
 
 3.21. Numéros des segments de fin phonèmes
 
@@ -657,12 +653,12 @@ Les segments sont les suites d'échantillons des différents représentants
  disposés consécutivement avec comme facteur multiplicatif les courbes
  d'amplitude (cf. ci-dessus).
 
-Le tableau FinTim (car1) est un tableau à une dimension (bien qu'
-il ait été réparti sur 3 lignes pour la lisibilité) : il contient
+Le tableau FinTim(car1) est un tableau à une dimension (bien qu'il
+ ait été réparti sur 3 lignes pour la lisibilité) : il contient
  les numéros des segments des phonèmes pour la partie descendante
  de ceux-ci. Les phonèmes sont dans l'ordre de leur code (0 à 27),
  explicité dans le commentaire derrière. Comme pour les amplitudes,
- les numéros des segments sont des identifiants.
+ les numéros des segments sont leurs identifiants.
 
 On distingue DebTim et FinTim (début et fin du phonème) car les
  plosives présentent une discontinuité en leur milieu (avant ou
@@ -674,29 +670,141 @@ On distingue DebTim et FinTim (début et fin du phonème) car les
 3.22. Amplitudes des transitions
 
 Comme les phonèmes, les diphones sont régis par des courbes d'amplitudes.
- Le tableau TrAmp (categ1, categ2) est un tableau à deux dimensions :
+ Le tableau TrAmp(categ1, categ2) est un tableau à deux dimensions :
  catégorie du phonème précédent en ligne, catégorie du phonème
  suivant en colonne. Les numéros sont les identifiants des courbes
  d'amplitude.
 
 3.23. Numéros de segment des transitions
 
-Si le nombre de segments de phonèmes est égal au nombre de phonèmes,
- le nombre de segments de transitions (c'est-à-dire de diphones) est
- égal au carré de ce nombre. Le tableau TraTim (car1, car2) comporte
- 28 lignes (phonème précédent 0 à 27) pour 32 colonnes (phonème
- suivant). Le nombre de 32 pour chaque bloc avait été choisi pour
- faciliter la programmation en langage machine. Il y a donc 4 cellules
- non utilisées à la fin de chaque ligne. Elles sont mises à zéro
- sauf deux d'entre elles qui avaient été utilisées pour cacher
- un copyright (2 lettres par ligne) maintenant inutile. Là encore,
- les numéros sont les identifiants des segments à utiliser.
+On a vu que le nombre de segments de phonèmes était égal au nombre
+ de phonèmes. De son côté, le nombre de segments de transitions
+ (c'est-à-dire de diphones) est égal au carré de ce nombre. Le
+ tableau TraTim(car1, car2) comporte 28 lignes (phonème précédent
+ 0 à 27) pour 32 colonnes (phonème suivant). Le nombre de 32 pour
+ chaque bloc avait été choisi pour faciliter la programmation en
+ langage machine. Il y a donc 4 cellules non utilisées à la fin
+ de chaque ligne. Elles sont mises à zéro sauf deux d'entre elles
+ qui avaient été utilisées pour cacher un copyright (2 lettres
+ par ligne) maintenant inutile. Là encore, les numéros sont les
+ identifiants des segments à utiliser.
 
 3.24. Amplitudes début phonèmes
 
- (à suivre)
+(reprise)
+
+Le tableau DebAmp(categ1, categ2) est un tableau à deux dimensions :
+ il contient les numéros des courbes d'amplitude de la partie montante
+ des phonèmes, pour chaque catégorie du phonème qui précède (lignes)
+ et pour chaque catégorie du phonème considéré (colonnes). Voir
+ 3.20 pour plus de détails.
+
+3.25. Numéros des segments de début phonèmes
+
+Le tableau DebTim(car2) est un tableau à une dimension (bien qu'il
+ ait été réparti sur 3 lignes pour la lisibilité) : il contient
+ les numéros des segments des phonèmes pour la partie montante de
+ ceux-ci. Les phonèmes sont dans l'ordre de leur code (0 à 27), explicité
+ dans le commentaire derrière. Voir 3.21 pour plus de détails.
+
+3.26. Table des amplitudes
+
+Les tableaux précédents permettent d'accéder aux amplitudes et
+ aux segments en fournissant leurs identifiants en fonction des phonèmes
+ considérés et de leur entourage. Ce tableau TabAmp est celui des
+ courbes d'amplitude, celles-ci étant accessibles par leur adresse,
+ elle-même fournie par le tableau AdAmp ci-dessous. L'amplitude est
+ exprimée en hexadécimal (instruction #H à destination du compilateur),
+ la valeur étant comprise entre 0 et F (soit 15 en décimal). Le
+ codage hexadécimal a été choisi pour cette table afin de pouvoir
+ gérer plus facilement les bits de contrôle, sur la partie gauche
+ du nombre.
+
+La première courbe commence en 0 du tableau. Les valeurs sont codées
+ sur les 4 bits de faible poids (partie droite du nombre). La partie
+ gauche du nombre est à 0 par défaut. Le bit de poids fort est mis
+ à 1 (valeur 80 en hexadécimal) sur la valeur où doit démarrer
+ la courbe d'amplitude suivante. Ce bit permet d'organiser le message
+ en une suite de courbes d'amplitude. Après la rencontre de ce bit,
+ deux courbes d'amplitude se superposent en s'additionnant. Ensuite,
+ quand la première courbe se termine, le 2e bit de poids fort est
+ mis à 1 derrière la dernière amplitude (valeur 40 en hexadécimal),
+ la 2e courbe restant seule et devenant alors la 1ère. Lorsque deux
+ courbes se suivent sans chevauchement, en suivant cette logique, la
+ valeur qui suit la dernière amplitude est C0, indiquant à la fois
+ le début du phonème suivant et la fin du phonème en cours, comme
+ c'est le cas pour la première courbe du tableau.
+
+Les commentaires indiquent le numéro de courbe et entre parenthèses
+ la longueur avant démarrage de la courbe suivante.
+
+3.27. Adresses des amplitudes
+
+Le code  #D indique au compilateur le retour en décimal.
+
+La table AdAmp(n° courbe amplitudes) fait correspondre l'identifiant
+ et l'adresse 16 bits de chaque courbe d'amplitude. Chaque adresse
+ se compose donc d'un octet de poids faible suivi d'un octet de poids
+ fort. Dans le début du tableau, l'adresse correspondant à l'identifiant
+ 0 est donc 0,0, celle correspondant à l'identifiant 1 est 16, 0,
+ etc., la dernière adresse (identifiant 44) étant 113, 1.
+
+3.28. Gestion des segments
+
+Pour les segments, on ne procède pas comme pour les amplitudes. En
+ effet, les segments sont concaténés comme on l'a vu dans le fichier
+ voix Michel.seg, et chargés par le programme dans le tableau tEch
+ (voir 2. Structure du fichier voix). Le tableau d'index des segments
+ est lui aussi contenu dans le fichier voix, et chargé par le programme
+ dans le tableau tAdr. Les numéros de segments donnés dans les tables
+ correspondent aux index du tableau tAdr. Toutes ces correspondances
+ avaient été effectuées manuellement à l'époque de la conception
+ du Synthé 3. La fabrication d'une nouvelle voix avec les outils
+ actuels fournirait directement les numéros de segments des tables
+ DebTim, FinTim et TraTim, décrites ci-dessus.
+
+3.29. Table des adresses pour milieu de mot
+
+Nous revenons ici aux ressources de transcription phonétique, dont
+ la taille dépend du nombre de règles implémentées. Historiquement,
+ cette partie se situe derrière les tables de taille fixe, car elle
+ est restée évolutive tout au long de la carrière du Synthé 3,
+ en fonction des règles de transcription à ajouter. Cette section
+ commence par deux tables de taille fixe, qui renvoient vers les règles
+ arborescentes de taille variable.
+
+La table TabGen (voir 1.3) est utilisée dans le cas général d'une
+ lettre quelconque du mot en cours. Comme on l'a vu, le code commun
+ de la lettre permet d'accéder au pointeur vers le cas général
+ de cette lettre. Ces pointeurs de 16 bits (DW) sont symboliques. Leur
+ nom commence par X, puis la lettre ou le symbole considéré.
+
+3.30. Table des adresses pour début de mot
+
+La table TabDeb est utilisée dans le cas de la première lettre d'
+un mot. En effet, les règles de début de mot peuvent différer quelque
+ peu du cas général. Les pointeurs symboliques commencent par un
+ point, puis la lettre ou le symbole considéré. Lorsque les règles
+ de début de mot ne diffèrent pas du cas général, c'est le pointeur
+ de cas général (commençant par X) qui est utilisé.
+
+3.31. Dictionnaire de morceaux de mots
+
+Une règle arborescente peut pointer vers une entrée de ce dictionnaire.
+ Ceci signifie que le morceau de mot doit être testé (voir 1.3). Par
+ exemple, l'adresse symbolique ".Aber" est testée (plus loin) par
+ la règle de A en début de mot, lorsqu'elle est suivie de B. A l'
+adresse ".Aber:" (la première du dictionnaire de débuts de mots),
+ on teste E et R, et si oui, on transcrit le début du mot et on va
+ en Xer3, qui permet de traiter les fins de mots en "er" lorsque les
+ deux lettres sont prononcées (aber, fer, mer, amer, etc.).
+
+On distingue dictionnaire de débuts de mots et dictionnaire de milieux
+ de mots pour pouvoir distinguer par exemple "amer" et "ramer".
 
 (documentation en cours de création)
+
+(à suivre)
 
 4. Utilitaire CompiTab fournissant synthe.tab
 
@@ -728,4 +836,6 @@ Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
 Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
 txt) et faire charger directement les tables par Synthé 3 en réutilisant
  les méthodes de CompiTab.
+
+
 
