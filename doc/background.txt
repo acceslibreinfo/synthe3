@@ -691,8 +691,6 @@ On a vu que le nombre de segments de phonèmes était égal au nombre
 
 3.24. Amplitudes début phonèmes
 
-(reprise)
-
 Le tableau DebAmp(categ1, categ2) est un tableau à deux dimensions :
  il contient les numéros des courbes d'amplitude de la partie montante
  des phonèmes, pour chaque catégorie du phonème qui précède (lignes)
@@ -712,13 +710,11 @@ Le tableau DebTim(car2) est un tableau à une dimension (bien qu'il
 Les tableaux précédents permettent d'accéder aux amplitudes et
  aux segments en fournissant leurs identifiants en fonction des phonèmes
  considérés et de leur entourage. Ce tableau TabAmp est celui des
- courbes d'amplitude, celles-ci étant accessibles par leur adresse,
- elle-même fournie par le tableau AdAmp ci-dessous. L'amplitude est
- exprimée en hexadécimal (instruction #H à destination du compilateur),
- la valeur étant comprise entre 0 et F (soit 15 en décimal). Le
- codage hexadécimal a été choisi pour cette table afin de pouvoir
- gérer plus facilement les bits de contrôle, sur la partie gauche
- du nombre.
+ courbes d'amplitude. L'amplitude est exprimée en hexadécimal (instruction
+ #H à destination du compilateur), la valeur étant comprise entre
+ 0 et F (soit 15 en décimal). Le codage hexadécimal a été choisi
+ pour cette table afin de pouvoir gérer plus facilement les bits
+ de contrôle, sur la partie gauche du nombre.
 
 La première courbe commence en 0 du tableau. Les valeurs sont codées
  sur les 4 bits de faible poids (partie droite du nombre). La partie
@@ -740,7 +736,7 @@ Les commentaires indiquent le numéro de courbe et entre parenthèses
 
 3.27. Adresses des amplitudes
 
-Le code  #D indique au compilateur le retour en décimal.
+Le code  #D indique au compilateur le retour en mode décimal.
 
 La table AdAmp(n° courbe amplitudes) fait correspondre l'identifiant
  et l'adresse 16 bits de chaque courbe d'amplitude. Chaque adresse
@@ -795,26 +791,115 @@ Une règle arborescente peut pointer vers une entrée de ce dictionnaire.
  exemple, l'adresse symbolique ".Aber" est testée (plus loin) par
  la règle de A en début de mot, lorsqu'elle est suivie de B. A l'
 adresse ".Aber:" (la première du dictionnaire de débuts de mots),
- on teste E et R, et si oui, on transcrit le début du mot et on va
- en Xer3, qui permet de traiter les fins de mots en "er" lorsque les
- deux lettres sont prononcées (aber, fer, mer, amer, etc.).
+ ayant déjà A et B, on teste E et R, et si oui, on transcrit le
+ début du mot et on va en Xer3, qui traite les fins de mots en "er
+" lorsque les deux lettres sont prononcées (aber, fer, mer, amer,
+ etc.).
 
-On distingue dictionnaire de débuts de mots et dictionnaire de milieux
- de mots pour pouvoir distinguer par exemple "amer" et "ramer".
+On distingue dictionnaire de débuts de mots (commençant par point)
+ et dictionnaire général (milieux de mots, commençant par X) pour
+ pouvoir distinguer par exemple "amer" et "ramer".
 
-(documentation en cours de création)
+Le moteur de Synthé ignore la casse. Les majuscules sont utilisées
+ seulement en début de mot ainsi que pour le X du cas général, pour
+ la lisibilité. Mais les premières règles de 1986 étant entièrement
+ en majuscules, tout n'a pas été corrigé, d'où une certaine variation
+ – sans conséquences – dans la casse.
 
-(à suivre)
+3.32. Arbre
+
+Il s'agit des règles arborescentes, dont chaque étiquette représente
+ une branche. On trouve tout d'abord les règles de début de mot,
+ dont la première étiquette est .A, puis les règles générales
+ (milieu de mot), dont la première étiquette est Xa2.
+
+Les règles effectuent un ou plusieurs tests, mais toutes se terminent
+ par le test de TTT, afin de ne laisser passer aucun cas non traité.
+
+
+Là encore, la casse est ignorée et les majuscules servent à la
+ lisibilité. Mais, là encore, beaucoup de majuscules subsistent
+ depuis l'établissement des premières règles.
+
+3.33. Table vers racines
+
+La dernière table de ce fichier permet d'insérer un éventuel phonème
+ de liaison à la fin d'un mot. Les adresses introduites par PG (voir
+ 3.3.) ne sont pas directement celles d'un des deux tableaux racines
+ de l'arbre, TabDeb ou TabGen, mais l'une des étiquettes de la "table
+ vers racines". Pour aller au tableau TabDeb (début de mot), on passe
+ d'abord par NonL (pas de liaison), LiaE (élision du e si le mot
+ suivant commence par une voyelle, conservation du e sinon), LiaN
+ (liaison N si le mot suivant commence par une voyelle), de même
+ LiaP, LiaT et LiaZ. La conservation du e grâce à LiaE se fait seulement
+ si le mot en cours se termine par au moins deux consonnes phonétiques
+ devant le e ("prendre l'air" vs "belle journée").
+
+Le passage par LiaCir permet d'ajouter un symbole d'allongement de
+ voyelle. Ainsi, le a dans "il a encore faim" est allongé pour éviter
+ un hiatus trop bref qui aurait tendance à gommer le a.
+
+L'étiquette Gen mène, elle, directement à TabGen, sans ajout.
+
+L'étiquette lgTab n'avait d'utilité que pour indiquer la taille
+ des données en mémoire.
 
 4. Utilitaire CompiTab fournissant synthe.tab
 
+Dans les versions de Synthé à microprocesseur, le compilateur du
+ programme compilait également les tables, fournissant un fichier
+ binaire destiné à programmer la mémoire. Ici, les tables se présentant
+ sous forme de fichier, elles peuvent être chargées directement
+ par Synthé au lancement. Cependant, afin d'accélérer le chargement
+ de la ressource, le programme en C++, développé en 2001, prévoyait
+ une compilation séparée des tables, fournissant un fichier binaire
+ plus compact synthe.tab, servant de ressource pour le programme. Ce
+ procédé en deux temps est moins pertinent aujourd'hui, mais présente
+ encore l'avantage de détecter certaines erreurs de la table en fournissant
+ un bilan de la compilation (voir ci-dessous). La fusion éventuelle
+ de cet utilitaire avec l'entrée du programme Synthé reste donc
+ d'un intérêt limité.
+
+(reprise)
+
+4.1. Structure Symbole
+
+La compilation de synthe.txt repose sur la création d'une table de
+ symboles. Chaque symbole est défini par son nom (char*) et sa valeur
+ (attribuée par une égalité ou par la position dans le code en
+ tant qu'étiquette). Deux autres entiers sont associés à chaque
+ symbole : le nombre de fois où il est défini et le nombre de fois
+ où il est référencé. Après lecture du fichier, chaque symbole
+ doit être défini une fois et une seule (sinon erreur), et référencé
+ au moins une fois (sinon il est inutilisé).
+
+4.2. Programme CompiTab
+
+Il effectue deux passes sur le fichier synthe.txt. Dans la première
+ passe, il fabrique la table des symboles et fournit le fichier bilan.
+txt qui contient le nombre de symboles, ainsi que, le cas échéant,
+ les symboles non définis, multi-définis ou non référencés. Dans
+ la deuxième passe, le programme CompiTab fabrique le fichier binaire
+ synthe.tab.
+
+Des commentaires ont été ajoutés dans la source afin de comprendre
+ facilement le fonctionnement de ce petit programme.
+
+5. Sources de Synthé 3
+
+(reprise)
+
 (documentation en cours de création)
 
+6. Améliorations possibles de Synthé 3
 
-
-5. Améliorations possibles de Synthé 3
+(à suivre)
 
 (documentation en cours de création)
+
+Compte tenu de son principe rudimentaire, Synthé 3 n'a pas vocation
+ à rivaliser avec les synthèses actuelles, même celles par diphones
+ comme Kali.
 
 Quelques idées à développer :
 
