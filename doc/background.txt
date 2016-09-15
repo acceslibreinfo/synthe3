@@ -545,18 +545,6 @@ Le tableau tPhon1 traite les 26 lettres non accentuées. Certaines
  non contigus à ces tableaux, sont traités individuellement par
  le programme.
 
-Texte provisoire avant correction des sources : les commentaires
- accompagnant ces tableaux, probablement vrais en 1986, sont maintenant
- erronés. Le tableau tPhon1 ne traite plus la zone 97 à 122 mais
- 65 à 90. Le tableau tPhon2 ne traite pas la zone 196 à 208 mais
- 159 à 181. Ces décalages sont probablement dus à des modifications
- qui n'ont pas été transcrites dans le commentaire. Enfin, le commentaire
- "tests sur ù ö â ô ë é è î" concerne tPhon2 et non tPhon1.
- De plus, une erreur est présente dans le programme : le test individuel
- sur 'µ' doit tester la valeur 147 et non 174. L'effet sur le résultat
- est peu audible et l'option "mode phonétique" avait été insuffisamment
- testée (peu utile de toute façon).
-
 3.14. Code commun -> catégorie phonétique
 
 Toujours pour le mode phonétique, les tableaux TCatP1 et TCatP2 correspondent
@@ -860,8 +848,6 @@ Dans les versions de Synthé à microprocesseur, le compilateur du
  de cet utilitaire avec l'entrée du programme Synthé reste donc
  d'un intérêt limité.
 
-(reprise)
-
 4.1. Structure Symbole
 
 La compilation de synthe.txt repose sur la création d'une table de
@@ -873,14 +859,14 @@ La compilation de synthe.txt repose sur la création d'une table de
  doit être défini une fois et une seule (sinon erreur), et référencé
  au moins une fois (sinon il est inutilisé).
 
-4.2. Programme CompiTab
+4.2. Sources de CompiTab
 
-Il effectue deux passes sur le fichier synthe.txt. Dans la première
- passe, il fabrique la table des symboles et fournit le fichier bilan.
-txt qui contient le nombre de symboles, ainsi que, le cas échéant,
- les symboles non définis, multi-définis ou non référencés. Dans
- la deuxième passe, le programme CompiTab fabrique le fichier binaire
- synthe.tab.
+Le programme effectue deux passes sur le fichier synthe.txt. Dans
+ la première passe, il fabrique la table des symboles et fournit
+ le fichier bilan.txt qui contient le nombre de symboles, ainsi que,
+ le cas échéant, les symboles non définis, multi-définis ou non
+ référencés. Dans la deuxième passe, le programme CompiTab fabrique
+ le fichier binaire synthe.tab.
 
 Des commentaires ont été ajoutés dans la source afin de comprendre
  facilement le fonctionnement de ce petit programme.
@@ -889,13 +875,176 @@ Des commentaires ont été ajoutés dans la source afin de comprendre
 
 (reprise)
 
-(documentation en cours de création)
+Les 10 fichiers .cpp sont décrits ici de façon plus ou moins poussée,
+ mais la description détaillée des ressources (ci-dessus) permet
+ de comprendre une bonne partie du code. Certains points pourront
+ être détaillés ultérieurement selon les besoins.
 
-6. Améliorations possibles de Synthé 3
+5.1. Le fichier SynMain.h
+
+Ce header est utilisé par tous les modules de Synthé. Il contient
+ les déclarations communes à ces modules : constantes (notamment
+ les phonèmes et catégories), structures et tableaux communs, fonctions
+ globales.
+
+5.2. Le fichier Synthe.cpp (headers Synthe.h et SynMain.h)
+
+C'est le programme principal. Il contient les fonctions publiques
+ qui permettent de gérer la synthèse vocale.
+
+La fonction principale est synTexte. Elle prend en paramètres le
+ texte à lire, puis les paramètre de la voix : volume, débit, hauteur,
+ phonétique/alphabétique, mode de lecture plus ou moins bavard, interprétation
+ ou non du séparateur de milliers pour les nombres, sortie ou non
+ du son, sortie ou non d'un fichier wave, nom éventuel de ce fichier.
+
+
+L'envoi de cette fonction arrête d'abord toute lecture en cours sans
+ attendre qu'elle soit terminée. C'est le cas le plus fréquent lorsqu'
+on parcourt un document ou des menus. Si on souhaite attendre la fin
+ de la lecture en cours (lecture continue), il faut utiliser d'abord
+ une autre fonction (ci-dessous) qui permet d'attendre la fin de la
+ lecture.
+
+Ensuite, des opérations sont effectuées sur la longueur du texte
+ pour éviter tout dépassement, puis le texte est converti en Latin1
+ s'il est en UTF-8, afin de simplifier la suite des opérations, avec
+ un seul octet par caractère. Ensuite un test : l'utilisateur peut
+ demander le numéro de version de Synthé avec le mot-clé "nversionsyn
+". Ensuite, la fonction compte les index de lecture, qui sont de la
+ forme "øí", association de lettres très improbable dans un texte.
+ Si l'utilisateur n'a pas placé d'index, c'est le programme qui s'
+en charge. Il en place un entre chaque mot afin que l'on puisse interroger
+ Synthé sur la progression de la lecture.
+
+Enfin, la fonction crée le thread fThAlpha, qui continue les opérations
+ en tâche de fond, rendant la main au programme principal qui a appelé
+ Synthé.
+
+La deuxième fonction publique est synIndex. Elle retourne le nombre
+ d'index restant à lire. Quand ce nombre arrive à zéro, la lecture
+ est terminée.
+
+La troisième fonction publique est synPosLec. Elle retourne la position
+ de lecture, ce qui permet par exemple d'afficher cette position sur
+ le texte en cours de lecture.
+
+La quatrième fonction publique est synStop. Elle arrête la lecture
+ en cours.
+
+La fonction privée fThAlpha, appelée en lançant le thread de lecture,
+ ne fait qu'appeler synTex, suite du traitement décrit en 5.5.
+
+La fonction privée demandeStopEtAttendFinThread, utilisée par synStop,
+ arrête la lecture en cours, en positionnant une variable globale
+ sur stop puis en attendant la fin du thread. L'index est mis à zéro
+ et l'objet son est détruit.
+
+La fonction privée copieEtAjouteIndexSiPas compte les index de lecture
+ et les ajoute s'ils sont absents.
+
+Les deux dernières fonctions, initSynthe et quitteSynthe, publiques,
+ sont obligatoires pour initialiser Synthé au lancement avant tout
+ autre appel de fonction et pour quitter. La fonction initSynthe initialise
+ les tables de conversion UTF-8 Latin1, les variables pour les sections
+ critiques, les index, le stop, les paramètres de lecture à leur
+ valeur de base, et construit les ressources linguistiques : la voix
+ à partir du fichier Michel.seg, et les tables à partir du fichier
+ synthe.tab. Enfin, il dit "Synthé prêt". De son côté, la fonction
+ quitteSynthe stoppe un éventuel message en cours et détruit toutes
+ les ressources.
+
+5.3. Le fichier utf-8.cpp (header SynMain.h)
+
+Pour le français en UTF-8, le premier octet peut être C2, C3, C5,
+ C6 ou CB. On construit donc 5 tableaux latinC2, etc. qui contiennent
+ en index les 256 valeurs possibles du deuxième octet. Chaque caractère
+ Latin1 a été placé dans le tableau correspondant à l'index correspondant,
+ par la fonction initSynthe de Synthe.cpp.
+
+La seule fonction de utf-8.cpp est UTF8Latin1, qui prend en paramètres
+ les pointeurs de la chaine à lire et de la chaine à écrire. La
+ variable bilan est incrémentée de 10 quand un caractère UTF-8
+ valide et convertible en Latin1 est trouvé, décrémentée de 1
+ s'il n'est pas convertible, décrémentée de 10 s'il n'est pas un
+ UTF-8 valide. Cette variable permet de diagnostiquer le codage en
+ UTF-8 et de retourner vrai ou faux selon que la chaine à lire est
+ considérée codée en UTF-8 ou non.
+
+Une série de test est d'abord effectuée pour les caractères spéciaux
+ qui ne pouvaient pas être facilement regroupés. Les caractères
+ commençant par E0 ou plus sont codés sur 3 octets (guillemets, apostrophes
+ penchées, tiret non sécable, euro, trade-mark, etc.) Les caractères
+ commençant par C0 à DF sont codés sur 2 octets. Les tests sur
+ le premier octet permettent de choisir le tableau applicable, puis
+ d'en tirer le caractère Latin1.
+
+5.4. Le fichier synVoix.cpp (headers SynVoix.h et SynMain.h)
+
+Ce fichier contient les ressources linguistiques des voix et tables :
+ classe Voix et classe Tab.
+
+Le constructeur de la voix lit le nombre de segments, le nombre d'
+échantillons (voir en 2. Structure du fichier voix) et remplit les
+ tableaux.
+
+Le constructeur des tables lit d'abord les adresses des tables (en
+ fait leurs index en 16 bits), puis leurs contenus dans le tableau
+ tTab. La variable decal permet de repositionner tTab au début des
+ adresses, de façon à ce que tTab + indice table pointe sur la table
+ choisie.
+
+5.5. Le fichier SynTex.cpp (headers SynMain.h, SynParle.h, SynTrans.
+h)
+
+Ce fichier traite le texte en lui faisant effectuer les différents
+ traitements jusqu'à la parole. Les traitements principaux sont la
+ transcription graphème-phonème, effectuée par la classe Transcription
+ dans SynTrans.cpp, et la parole, par la classe Parle, dans synParle.
+cpp (voir plus loin). Les headers de ces modules, SynTrans.h et SynParle.
+h, sont nécessaires. Les paramètres globaux et certaines fonctions,
+ qui doivent être accessible depuis tous les recoins du logiciel,
+ sont gérés par la classe Global dans SynGlobal.cpp.
+
+La fonction synTex positionne les paramètres reçus en effectuant
+ les réglages dans l'objet synGlobal (seul objet de la classe Global),
+ puis crée l'objet synTranscription pour effectuer un prétraitement
+ de normalisation du texte (voir plus loin) et ensuite la conversion
+ en phonétique, et enfin crée l'objet synParle pour faire prononcer
+ le texte phonétique. Après ces traitements, la fonction détruit
+ les objets créés et positionne l'index à zéro.
+
+5.6. Le fichier synTrans.cpp
 
 (à suivre)
 
-(documentation en cours de création)
+(Documentation en cours de création)
+
+xxx
+
+5.7. Le fichier synParle.cpp
+
+xxx
+
+5.8. Le fichier synCalcul.cpp
+
+xxx
+
+5.9. Le fichier synSon.cpp
+
+xxx
+
+5.10. Les fichiers DirectSon.cpp et alsa.cpp
+
+xxx
+
+5.11. Le fichier synGlobal.cpp
+
+xxx
+
+6. Améliorations possibles de Synthé 3
+
+(Documentation en cours de création)
 
 Compte tenu de son principe rudimentaire, Synthé 3 n'a pas vocation
  à rivaliser avec les synthèses actuelles, même celles par diphones
@@ -921,6 +1070,5 @@ Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
 Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
 txt) et faire charger directement les tables par Synthé 3 en réutilisant
  les méthodes de CompiTab.
-
 
 
