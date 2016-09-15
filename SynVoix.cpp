@@ -116,7 +116,7 @@ char Tab::tPhon(unsigned char c) {
 	if (c<91) return (tTab+aTPhon1)[c-65];
 	if (c<97) return NULP;
 	if (c<123) return (tTab+aTPhon1)[c-97];
-	if (c==174) return UU;
+	if (c==147) return UU;
 	if (c<FOIS-30) return NULP;
 	if (c<FOIS-7) return (tTab+aTPhon2)[c-FOIS+30];
 	return NULP;
