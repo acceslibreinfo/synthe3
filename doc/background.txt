@@ -98,16 +98,15 @@ Grâce à ce programme de développement, des essais peuvent être
  d'échantillonnage est fixée à 10 kHz, ce qui est un peu faible
  (limitant la fréquence maximale à 5 kHz) mais acceptable et économique.
  Autre type d'essai : sur les énoncés, on ne conserve qu'une période
- ici ou là et on fabrique les autres par interpolation (fondu enchainé).
- L'utilisation d'une période par phonème permet alors de simuler
- le Synthé 1 sur des énoncés réels, puis d'essayer diverses façons
- d'ajouter des périodes. L'ajout d'une période dans la transition
- entre phonèmes améliore considérablement le résultat : la distance
- spectrale entre les périodes à combiner étant réduite, l'oreille
- reconstitue à peu près la transition complète. Les mémoires de
- l'époque ne permettant pas encore de stocker la transition (ou diphone)
- entièrement, le choix est fait d'une période par phonème + une
- par diphone.
+ ici ou là et on fabrique les autres par interpolation. L'utilisation
+ d'une période par phonème permet alors de simuler le Synthé 1
+ sur des énoncés réels, puis d'essayer diverses façons d'ajouter
+ des périodes. L'ajout d'une période dans la transition entre phonèmes
+ améliore considérablement le résultat : la distance spectrale
+ entre les périodes à combiner étant réduite, l'oreille reconstitue
+ à peu près la transition complète. Les mémoires de l'époque
+ ne permettant pas encore de stocker la transition (ou diphone) entièrement,
+ le choix est fait d'une période par phonème + une par diphone.
 
 Le jeu de phonèmes reste le même que celui de Synthé 1 :
 
@@ -131,7 +130,9 @@ Un tableau de 27 x 27 est fabriqué (26 phonèmes + silence), dans
  position de production (f, v, p, b, m, ou encore s, z, t, d, n, par
  exemple), certains segments peuvent être utilisés dans plusieurs
  diphones différents. Chaque diphone est testé avec plusieurs segments
- possibles, les résultats étant comparés perceptivement.
+ possibles, les résultats étant comparés perceptivement. Cette
+ méthode serait bien sûr inutile pour une nouvelle voix dans la
+ version logicielle.
 
 Lorsque la fabrication de la voix arrive à son terme, des petites
  phrases contenant de nombreuses combinaisons possibles de phonèmes
@@ -873,14 +874,12 @@ Des commentaires ont été ajoutés dans la source afin de comprendre
 
 5. Sources de Synthé 3
 
-(reprise)
-
 Les 10 fichiers .cpp sont décrits ici de façon plus ou moins poussée,
  mais la description détaillée des ressources (ci-dessus) permet
  de comprendre une bonne partie du code. Certains points pourront
  être détaillés ultérieurement selon les besoins.
 
-5.1. Le fichier SynMain.h
+5.1. Le fichier SynMain.h (header inclus SynGlobal.h)
 
 Ce header est utilisé par tous les modules de Synthé. Il contient
  les déclarations communes à ces modules : constantes (notamment
@@ -892,7 +891,7 @@ Ce header est utilisé par tous les modules de Synthé. Il contient
 C'est le programme principal. Il contient les fonctions publiques
  qui permettent de gérer la synthèse vocale.
 
-La fonction principale est synTexte. Elle prend en paramètres le
+La fonction principale est SynTexte. Elle prend en paramètres le
  texte à lire, puis les paramètre de la voix : volume, débit, hauteur,
  phonétique/alphabétique, mode de lecture plus ou moins bavard, interprétation
  ou non du séparateur de milliers pour les nombres, sortie ou non
@@ -923,11 +922,13 @@ Enfin, la fonction crée le thread fThAlpha, qui continue les opérations
 
 La deuxième fonction publique est synIndex. Elle retourne le nombre
  d'index restant à lire. Quand ce nombre arrive à zéro, la lecture
- est terminée.
+ est terminée. On l'utilise surtout pour attendre la fin de la lecture.
 
-La troisième fonction publique est synPosLec. Elle retourne la position
- de lecture, ce qui permet par exemple d'afficher cette position sur
- le texte en cours de lecture.
+
+La troisième fonction publique est synPosLec. Plus élaborée que
+ synIndex, elle retourne la position de lecture, ce qui permet par
+ exemple d'afficher cette position sur le texte en cours de lecture.
+
 
 La quatrième fonction publique est synStop. Elle arrête la lecture
  en cours.
@@ -957,21 +958,22 @@ Les deux dernières fonctions, initSynthe et quitteSynthe, publiques,
 5.3. Le fichier utf-8.cpp (header SynMain.h)
 
 Pour le français en UTF-8, le premier octet peut être C2, C3, C5,
- C6 ou CB. On construit donc 5 tableaux latinC2, etc. qui contiennent
- en index les 256 valeurs possibles du deuxième octet. Chaque caractère
- Latin1 a été placé dans le tableau correspondant à l'index correspondant,
+ C6 ou CB, rarement autre chose (caractères spéciaux). On construit
+ donc 5 tableaux latinC2, latinC3, etc. qui contiennent en index les
+ 256 valeurs possibles du deuxième octet. Chaque caractère Latin1
+ a été placé dans le tableau correspondant à l'index correspondant,
  par la fonction initSynthe de Synthe.cpp.
 
 La seule fonction de utf-8.cpp est UTF8Latin1, qui prend en paramètres
  les pointeurs de la chaine à lire et de la chaine à écrire. La
  variable bilan est incrémentée de 10 quand un caractère UTF-8
  valide et convertible en Latin1 est trouvé, décrémentée de 1
- s'il n'est pas convertible, décrémentée de 10 s'il n'est pas un
- UTF-8 valide. Cette variable permet de diagnostiquer le codage en
- UTF-8 et de retourner vrai ou faux selon que la chaine à lire est
- considérée codée en UTF-8 ou non.
+ s'il est inconnu, décrémentée de 10 s'il n'est pas un UTF-8 valide.
+ Cette variable permet de diagnostiquer le codage en UTF-8 et de retourner
+ vrai ou faux selon que la chaine à lire est considérée codée
+ en UTF-8 ou non.
 
-Une série de test est d'abord effectuée pour les caractères spéciaux
+Une série de tests est d'abord effectuée pour les caractères spéciaux
  qui ne pouvaient pas être facilement regroupés. Les caractères
  commençant par E0 ou plus sont codés sur 3 octets (guillemets, apostrophes
  penchées, tiret non sécable, euro, trade-mark, etc.) Les caractères
@@ -979,7 +981,7 @@ Une série de test est d'abord effectuée pour les caractères spéciaux
  le premier octet permettent de choisir le tableau applicable, puis
  d'en tirer le caractère Latin1.
 
-5.4. Le fichier synVoix.cpp (headers SynVoix.h et SynMain.h)
+5.4. Le fichier SynVoix.cpp (headers SynVoix.h et SynMain.h)
 
 Ce fichier contient les ressources linguistiques des voix et tables :
  classe Voix et classe Tab.
@@ -989,7 +991,7 @@ Le constructeur de la voix lit le nombre de segments, le nombre d'
  tableaux.
 
 Le constructeur des tables lit d'abord les adresses des tables (en
- fait leurs index en 16 bits), puis leurs contenus dans le tableau
+ fait leurs index sur 16 bits), puis leurs contenus dans le tableau
  tTab. La variable decal permet de repositionner tTab au début des
  adresses, de façon à ce que tTab + indice table pointe sur la table
  choisie.
@@ -1000,7 +1002,7 @@ h)
 Ce fichier traite le texte en lui faisant effectuer les différents
  traitements jusqu'à la parole. Les traitements principaux sont la
  transcription graphème-phonème, effectuée par la classe Transcription
- dans SynTrans.cpp, et la parole, par la classe Parle, dans synParle.
+ dans SynTrans.cpp, et la parole, par la classe Parle, dans SynParle.
 cpp (voir plus loin). Les headers de ces modules, SynTrans.h et SynParle.
 h, sont nécessaires. Les paramètres globaux et certaines fonctions,
  qui doivent être accessible depuis tous les recoins du logiciel,
@@ -1014,61 +1016,476 @@ La fonction synTex positionne les paramètres reçus en effectuant
  le texte phonétique. Après ces traitements, la fonction détruit
  les objets créés et positionne l'index à zéro.
 
-5.6. Le fichier synTrans.cpp
+5.6. Le fichier SynTrans.cpp (headers SynTrans.h, SynMain.h et SynVoix.
+h)
 
-(à suivre)
+(reprise)
 
-(Documentation en cours de création)
+Ce fichier contient toutes les fonctions de la classe Transcription :
 
-xxx
 
-5.7. Le fichier synParle.cpp
+La fonction phonemePhoneme convertit les phonèmes du texte (représentés
+ par des lettres) en phonèmes internes à Synthé par le tableau
+ tPhon. Utile uniquement dans le cas où l'utilisateur envoie les
+ textes en mode phonétique.
 
-xxx
+La fonction minMajNFois est un prétraitement du texte : les chaînes
+ de caractères identiques (répétés au moins 3 fois) sont remplacées
+ par l'annonce du nombre de caractères et de celui-ci, par exemple
+ "45 fois étoile") afin d'éviter une longue répétition du même
+ caractère ("étoile étoile étoile étoile" etc.) Les majuscules
+ sont converties en minuscules, dans le code commun interne à Synthé.
 
-5.8. Le fichier synCalcul.cpp
 
-xxx
+La fonction graphemePhoneme est la principale fonction de ce module.
+ Elle convertit le texte alphabétique (code commun interne à Synthé)
+ en texte phonétique (interne à Synthé). Le principe est décrit
+ en détail en 1.3. En un point donné de l'arbre, le programme parcours
+ les règles du nœud en cherchant celle qui s'applique : cela peut
+ être un caractère, une catégorie, le mode bavard s'il est activé
+ (verbosité sur la ponctuation), le développement ou non des abréviations.
+ Si une règle est validée, le programme la traite et prépare l'
+adresse suivante. Les chiffres sont l'objet d'un traitement particulier
+ (ci-dessous). Les sigles formés uniquement de consonnes sont épelés.
+ Les règles de type dictionnaire provoquent une recherche dans le
+ dictionnaire de morceaux de mots. Les caractères de liaison sont
+ également traités. Il y a toujours une règle validée, car la
+ dernière de chaque nœud (TTT) s'applique par défaut en l'absence
+ de succès des règles précédentes.
 
-5.9. Le fichier synSon.cpp
+La fonction traiteNombre convertit en phonétique les nombres exprimés
+ en chiffres. Dans la première boucle, les grands nombres sont découpés
+ en segments de 12 chiffres maximum (999 milliards). En mode "compta
+", les espaces séparateurs de milliers sont ignorés, mais les espaces
+ délimitant des groupes de plus ou moins de 3 chiffres sont conservés.
+ Dans la deuxième boucle, les zéros qui précèdent le nombre sont
+ prononcés (exemple "007"). Dans la troisième boucle, le nombre
+ est phonétisé. Dans chaque groupe de 3 chiffres, les centaines,
+ dizaines et unités doivent être prononcées, puis "milliards", "millions
+", "mille" ou rien pour le dernier groupe. Les tests permettent de
+ distinguer les cas où un groupe comporte 1, 2 ou 3 chiffres ainsi
+ que les exceptions pour les dizaines (exemples "13", "31", "75", 91
+"). Les liaisons éventuelles sont prévues.
 
-xxx
+La fonction finNombre est appelée par traiteNombre quand on arrive
+ au dernier chiffre afin de traiter les liaisons éventuelles : quand
+ le dernier chiffre est un 8, le 't' n'est pas prononcé si le mot
+ suivant commence par une consonne phonétique ("8 jours"). Quand
+ le dernier chiffre est un 6 (sauf 16, 76 et 96) ou que la fin du
+ nombre est 10, 70 ou 90, on place le pointeur sur la règle .Dix1,
+ qui offre 3 possibilités (s, z ou rien) selon que le nombre est
+ suivi d'une pause ou d'une voyelle ou d'une consonne (exemples, respectivement
+ "10", "10 ans", "10 jours").
 
-5.10. Les fichiers DirectSon.cpp et alsa.cpp
+La fonction phonChif phonétise le chiffre ou plus généralement
+ la portion de nombre qui est pointée jusqu'au terminateur 80. Une
+ liaison éventuelle est préparée si elle est présente derrière
+ le terminateur.
 
-xxx
+La fonction carSuiv lit le caractère suivant du texte à lire en
+ interprétant une éventuelle balise d'index.
 
-5.11. Le fichier synGlobal.cpp
+La fonction ecritPhon écrit un caractère phonétique en ajoutant
+ un phonème de liaison s'il est présent et que la liaison est possible.
 
-xxx
 
-6. Améliorations possibles de Synthé 3
+Enfin, la fonction ecrit écrit le phonème dans le texte phonétique,
+ avec une sécurité sur la longueur.
 
-(Documentation en cours de création)
+5.7. Le fichier SynParle.cpp (headers SynParle.h, SynMain.h, SynSon.
+h, SynCalcul.h et SynVoix.h)
+
+C'est ici que la parole se fabrique. Ce fichier (le plus gros) contient
+ les fonctions de la classe Parle ainsi que deux petites fonctions
+ globales.
+
+Concernant les headers :
+
+SynParle.h définit quatre structures ainsi que le prototype de la
+ classe Parle. Les morceaux de phonèmes et de diphones sont appelés
+ ici sous-diphones. Comme il y a interpolation dans les parties intermédiaires
+ entre un sous-diphone et le suivant, on considère qu'on est toujours
+ dans le mélange entre deux sous-diphones, même si un seul des deux
+ est présent, l'autre étant à zéro (voir 1.2). Les variables contenant
+ "DS" concernent le début d'un sous-diphone, celles contenant "FS
+" concernent la fin d'un sous-diphone.
+
+De même qu'il y a une interpolation à l'échelle du sous-diphone,
+ il y en a également une à l'échelle de la période. Selon la fréquence
+ et la vitesse de la parole, les périodes peuvent être tronquées
+ ou allongées, certaines peuvent être supprimées ou au contraire
+ dupliquées. Pour passer de l'une à l'autre sans discontinuité,
+ il y a un fondu enchaîné entre les deux grâce à une fenêtre
+ sinusoïdale servant de facteur multiplicatif. Les variables contenant
+ "croit" concernent la fenêtre croissante (allant de 0 à 100% en
+ suivant une sinusoïde), celles contenant "decroit" concernent la
+ fenêtre décroissante (allant de 100% à 0 de la même façon).
+
+Considérant l'interpolation entre les sous-diphones et celle entre
+ les périodes, il y a donc en tout 4 segments à additionner lors
+ du calcul de chaque période, avec des facteurs multiplicatifs différents.
+ Les structures définies dans SynParle.h contiennent ainsi chacune
+ 4 variables : DSDecroit, DSCroit, FSDecroit, FSCroit. Ces structures
+ sont :
+
+Marq : indique la présence ou l'absence de chacun des 4 segments
+ à additionner.
+
+UChar : sert pour le numéro de segment, la valeur de la période
+ et celle de l'amplitude de chacun des 4 segments à additionner. Il
+ serait bon de remplacer les unsigned char par des short pour les
+ numéros de segments si on veut pouvoir utiliser plus de 256 segments.
+
+
+PUChar : pointeur sur l'amplitude des 4 segments à additionner.
+
+PSChar : pointeur sur les 4 segments à additionner.
+
+Le header SynSon.h contient quelques constantes pour gérer le son
+ et le prototype de la classe classSon.
+
+Le header SynCalcul.h contient quelques constantes pour les calculs
+ et le prototype des fonctions fenCroit et fenDecroit qui réalisent
+ le fondu enchaîné entre périodes.
+
+
+
+Le fichier SynParle.cpp (objet de ce chapitre) contient principalement
+ les fonctions de la classe Parle. Il contient au début quelques
+ constantes (PI serait à retirer car déjà défini comme const double
+ dans SynCalcul.h). Il contient également quelques variables sur
+ la portée du module.
+
+La principale fonction de la classe Parle est traiteTextePhonetique.
+ Elle prend la chaîne phonétique en entrée et la prononce. Après
+ de nombreuses initialisations, dont la création de l'objet synSon
+ qui gère la carte-son, la parole se fait par une fonction répétée
+ en boucle :
+
+while (traiteUnePeriode());
+
+Après cette boucle, il n'y a plus d'échantillon à fabriquer, mais
+ le buffer contient encore un reliquat pas encore lu. L'instruction :
+
+
+synSon->sonExit()
+
+lui ajoute une série zéros sous DirectSound (Windows) avant de rendre
+ la main pour éviter de couper la fin. Sous ALSA (Linux), la fonction
+ ne fait rien (inutile).
+
+La fonction traiteUnePeriode cherche d'abord la prochaine période
+ croissante, qui peut être la suivante (normal), la même (débit
+ lent), plus loin que la suivante (débit rapide), puis elle fabrique
+ en boucle la suite des échantillons de la période résultante en
+ combinant les différents segments. L'instruction :
+
+synSon->transfert((void*)&ech)
+
+envoie chaque échantillon au gestionnaire de la carte-son.
+
+Puis de nouvelles mises à jour sont effectuées avant la fin de traiteUnePeriode
+ pour préparer la suivante (notamment l'appel de la fonction perioSuiv).
+ C'est là que la fin éventuelle du message est détectée, retournant
+ faux.
+
+La fonction initDecroitSurCroit, appelée pour préparer la prochaine
+ période, reprend toutes les valeurs des variables "croit" dans les
+ variables "decroit" car, dans la période suivante, les échantillons
+ utilisés précédemment dans la fenêtre croissante seront utilisés
+ dans la fenêtre décroissante.
+
+La fonction perioSuiv prépare la prochaine période à fabriquer
+ pour la fenêtre considérée, croissante ou décroissante. Elle
+ gère les marqueurs DS et FS de début et fin de sous-diphone. Si
+ un bit de début de sous-diphone est rencontré dans un DS, le sous
+-diphone en cours passe en FS et le prochain sous-diphone est recherché
+ pour le prochain DS. Si le bit de fin de sous-diphone est rencontré
+ en FS, c'est que le FS en cours est terminé, il ne reste que le
+ DS jusqu'à ce qu'il rencontre lui aussi un bit de début. Si le
+ bit de "phonème avec bruit" est rencontré, le phonème n'est pas
+ périodique, la période suivante n'est pas la répétition de la
+ même mais la suite du signal. A la fin de la fonction, la durée
+ de la période est calculée en fonction du poids des différents
+ signaux mélangés.
+
+La fonction nouveauSousDiph met à jour les variables correspondant
+ à ce sous-diphone. Comme expliqué en 3.20 à 3.25, les diphones
+ sont divisés en trois sous-diphones : fin du phonème précédent,
+ transition du phonème précédent au phonème suivant, début du
+ phonème suivant. Chaque sous-diphone correspond à une table d'échantillons
+ différente et à une courbe d'amplitude différente. La variable
+ nSousDiph, valant 0, 1 ou 2, permet de savoir dans quel type de sous
+-phonème on se trouve. C'est dans cette fonction que les adresses
+ des tables à utiliser sont définies.
+
+La fonction phonSuiv, comme son nom l'indique, retourne le prochain
+ phonème du texte phonétique. Elle est appelée par la fonction
+ précédente quand le dernier tronçon d'un diphone a été traité
+ et que le premier du prochain diphone doit être calculé. La variable
+ iLecPhonX est l'index de lecture dans le texte phonétique, phonG
+ étant le phonème de gauche (donc le précédent). Le cas de voyelles
+ consécutives identiques est traité comme un allongement de la voyelle
+ en cours (sans passer par un timbre intermédiaire). La fin éventuelle
+ du texte est détectée dans cette fonction, qui retourne alors -1.
+ En fait, cette valeur de retour est retardée d'un cran grâce à
+ phonMem, pour donner le temps d'un diphone entre le dernier phonème
+ et le silence symbolisé par VR=virgule (sinon, le dernier phonème
+ serait coupé avant la fin).
+
+La fonction calculeEchPerioDecroit calcule un échantillon de la période
+ décroissante. Pour calculer le fondu enchaîné entre deux périodes,
+ on évite autant que possible la partie de plus forte amplitude de
+ ces périodes, pour éviter la diaphonie qui serait créée par deux
+ sons simultanés d'amplitude forte. Durant la vibration des cordes
+ vocales, l'ouverture crée une impulsion sonore, qui résonne dans
+ les cavités (nez, bouche) et décroît jusqu'à la prochaine ouverture.
+ Comme les périodes sont cadrées à partir de la partie la plus
+ calme du signal, on a considéré, pour simplifier, que la partie
+ la plus puissante du signal se situait en moyenne un quart de période
+ plus loin. D'où la variable xCadre, qui permet de recadrer la période.
+ Lorsque la période résultante (donc la cible) est inférieure à
+ la période décroissante (la source), la fenêtre prend la largeur
+ de la période résultante, pour arriver à zéro au bon moment. A
+ l'inverse, lorsque la période résultante est supérieure à la
+ période décroissante, c'est la période décroissante qui est choisie
+ pour éviter de sortir de la période source avant la fin de la période
+ cible. Dans l'intervalle qui suit (donc avant la fin de la période
+ résultante), on retourne des zéros.
+
+La fonction calculeEchPerioCroit fonctionne de la même façon, pour
+ la période croissante.
+
+Après les fonctions de la classe Parle, deux fonctions de la portée
+ du module sont présentes : initWave initialise ou termine la fabrication
+ d'un éventuel fichier wave (dans l'option fabrication d'un fichier
+ wave). En initialisation (paramètre init=true), le fichier est créé
+ et les paramètres de son entête sont copiés en respectant le format
+ wave. Dans cette option, le signal sonore est fabriqué par les fonctions
+ de la classe Parle, les échantillons étant copiés derrière l'
+entête. A la fin, initWave est appelé avec le paramètre init=false,
+ ce qui permet de compléter le fichier avec sa longueur dans l'entête
+ et de fermer le fichier.
+
+La fonction sonDestruction, qui peut être appelée depuis différents
+ modules, détruit l'objet son, qui lui aussi est global au module.
+
+
+5.8. Le fichier SynCalcul.cpp (header SynCalcul.h)
+
+Ce fichier contient uniquement les fonctions fenCroit et fenDecroit,
+ appelées par calculeEchPerioCroit et calculeEchPerioDecroit. Elles
+ fournissent le coefficient de la fenêtre sinusoïdale en fonction
+ de la position dans la fenêtre, sans pouvoir sortir des limites
+ de celle-ci. Ces deux petites fonctions pourraient avantageusement
+ être rapatriées dans SynParle.cpp, et même dans la classe Parle,
+ puisqu'elles ne concernent que celle-ci. De même, les constantes
+ de SynCalcul.h devraient être transférées dans SynParle.h.
+
+5.9. Le fichier SynSon.cpp (headers SynSon.h, SynMain.h)
+
+Ce fichier contient les membres de la classe classSon. Cette classe
+ gère l'envoi des échantillons vers la carte-son sans rentrer dans
+ le détail des différents pilotes, qui font l'objet de fichiers
+ séparés. Néanmoins, des conditions de compilation sont nécessaires
+ selon le pilote (lié au système d'exploitation). Le constructeur
+ initialise les variables, alloue de la mémoire pour certaines et
+ ouvre la carte-son (c'est-à-dire construit son pilote).
+
+Le destructeur désalloue la mémoire et ferme la carte-son.
+
+La fonction ouvertOK retourne true si la carte-son a été ouverte
+ avec succès lorsque l'objet son a été construit.
+
+La fonction finirSon n'est utilisée que dans le cas de DirectSound.
+ Elle est appelée avec le paramètre false dès que la carte-son
+ a été ouverte avec succès, pour indiquer que l'on peut transférer
+ les échantillons. A la fin, quand tous les échantillons ont été
+ fabriqués, La fonction est appelée avec le paramètre true. Cela
+ permet de positionner les limites de la lecture dans le buffer et
+ d'envoyer des zéros après les derniers échantillons pour éviter
+ un son inopportun si le pointeur de lecture dépasse celui d'écriture.
+ Il reste alors à attendre que les derniers échantillons soient
+ diffusés par la carte-son. En effet, DirectSound est un peu imprécis
+ sur le calcul de la position courante de lecture. Cette opération
+ est inutile avec ALSA.
+
+La fonction transfert transfère vers la carte-son les échantillons
+ fabriqués, paquet par paquet. Les tests concernent essentiellement
+ DirectSound. Sous Linux, avec ALSA, seule la fonction transferePaquet
+ est appelée chaque fois qu'un paquet est rempli.
+
+La fonction attendSiEcrOuLecRattrape est utilisée seulement par DirectSound,
+ même en dehors des conditions de compilation. Il faudrait transférer
+ tous les traitements propres à DirectSound dans le fichier DirectSon.
+cpp, pour ne garder que les parties communes dans SynSon.cpp, comme
+ on le fait dans Kali depuis peu. Comme le buffer est géré par l'
+utilisateur dans DirectSound, la fonction appelle positionLecture,
+ qui retourne la position – approximative – du pointeur de lecture
+ et utilise des tests pour s'assurer que les pointeurs de lecture
+ et d'écriture ne se doublent jamais. L'incertitude sur la position
+ de lecture, associée au caractère circulaire du tampon (impliquant
+ un bouclage) compliquent quelque peu les tests. Sous DirectSound,
+ l'index de lecture est géré par un tableau contenant un index par
+ paquet. Il est mis à jour chaque fois qu'un paquet est lu. Sous
+ ALSA, comme on n'accède pas à la position de lecture, l'index est
+ calculé en fonction du temps, ce qui marche très bien, sachant
+ que la fréquence d'échantillonnage est constante.
+
+5.10. Les fichiers alsa.cpp et DirectSon.cpp (headers SynSon.h, SynGlobal.
+h)
+
+Ces fichiers gèrent la carte-son, l'un pour Linux, l'autre pour Windows.
+ C'est la partie de classSon qui est spécifique à chaque système.
+ Comme on l'a vu, DirectSon.cpp devrait rapatrier quelques fonctions
+ de SynSon.cpp pour plus de clarté.
+
+5.10.1. Le fichier alsa.cpp
+
+La fonction open_snd ouvre la carte-son.
+
+La fonction close_snd ferme la carte-son.
+
+La fonction set_snd_params fixe la valeur des paramètres du son (fréquence
+ d'échantillonnage, nombre de bits, etc.)
+
+La fonction transferePaquet envoie chaque paquet d'échantillons à
+ la carte-son.
+
+Les fonctions sonExit, pauseSiJoue, joueSiPause et positionLecture
+ ne font rien ici car elles ne sont utilisées que par DirectSound.
+
+
+5.10.2. Le fichier DirectSon.cpp
+
+La fonction open_snd ouvre la carte-son.
+
+La fonction close_snd ferme la carte-son.
+
+La fonction set_snd_params ne fait rien (car utile seulement à ALSA).
+
+
+La fonction sonExit écrit des échantillons nuls jusqu'à la fin
+ de la lecture.
+
+La fonction initWindow remet à jour l'objet DirectSound en cas de
+ changement de focus (évite que le son se coupe).
+
+La fonction pauseSiJoue arrête le son si la lecture rattrape l'écriture
+ (ne devrait pas se produire si la fréquence disponible du processeur
+ est supérieure à 100 MHz).
+
+La fonction joueSiPause relance le son.
+
+La fonction positionLecture retourne la position de lecture du buffer
+ de son, pour gérer la lecture et l'écriture de ce buffer.
+
+La fonction creeBufferSecondaire crée le buffer secondaire et fixe
+ la valeur des paramètres du son. Ce buffer est celui qui reçoit
+ les paquets d'échantillons et les lit. Plusieurs applications peuvent
+ créer des buffers secondaires différents, qui sont mixés automatiquement
+ dans le buffer primaire.
+
+La fonction modifieBufferPrimaire fixe également les paramètres
+ du son, identiques à ceux du buffer secondaire (sinon, le mixage
+ pose des problèmes).
+
+La fonction transferePaquet envoie chaque paquet d'échantillons à
+ la carte-son.
+
+5.11. Le fichier SynGlobal.cpp (header SynGlobal.h)
+
+Ce fichier contient les fonctions de la classe Global. Le header SynGlobal.
+h contient les prototypes de ces fonctions ainsi que les variables
+ de cette classe. Il contient aussi des constantes et des fonctions
+ de portée globale qui pourraient être déplacées dans SynMain.
+h pour plus de clarté.
+
+Les fonctions getNbIndexLec et setNbIndexLec permettent d'accéder
+ à l'index de lecture depuis tout point du logiciel. Les fonctions
+ getNbIndexEcr et setNbIndexEcr permettent d'accéder à l'index écrit
+ dans le tampon circulaire (DirectSound seulement) au moment de l'
+écriture des échantillons, index qui sera récupéré comme index
+ de lecture au moment où cette partie du tampon sera lue. Les fonctions
+ getNbIndexMax et setNbIndexMax permettent d'accéder à la valeur
+ de l'index avant le début de la lecture, donc au nombre total d'
+index de la phrase (ALSA seulement).
+
+Les fonctions getDemandeStop et setDemandeStop permettent de gérer
+ l'arrêt de la lecture.
+
+Les fonctions getThreadOK et setThreadOK servent à savoir si on est
+ dans le thread de synthèse (débogage seulement).
+
+Les fonctions getVolume, setVolume, getDebit, setDebit, getHauteur,
+ setHauteur gèrent les paramètres de la voix. Les fonctions getPhon
+ et setPhon gèrent le mode phonétique (entrée texte alphabétique
+ ou phonétique). Les fonctions getModeLecture et setModeLecture gèrent
+ le mode de lecture (ponctuation prononcée ou interprétée). Les
+ fonctions getModeCompta et setModeCompta gèrent le mode comptabilité
+ (séparateurs de milliers ou non).
+
+Les fonctions getSortieSon, setSortieSon, getSortieWave, setSortieWave,
+ getNomFichierWave, setNomFichierWave gèrent le type de sortie du
+ son (carte-son ou écriture wave).
+
+Les fonctions getktime0us, setktime0usS, getktime0s et setktime0s
+ permettent de gérer le chronomètre pour le calcul de l'index de
+ lecture. La fonction initTNEch initialise le tableau de correspondance
+ nombre d'échantillons/index, la fonction destTNEch le détruit, les
+ fonctions getTNEch et setTNEch gèrent ses valeurs. Les fonctions
+ getCtEch, setCtEch et incrCtEch gèrent le compteur d'échantillons
+ entre deux index, dont la valeur finale est copiée dans le tableau
+ par setTNEch.
+
+Derrière les fonctions de la classe Globale se trouvent les variables
+ utilisées pour créer des sections critiques, ainsi que les fonctions
+ pour les initialiser, les détruire, y entrer ou en sortir.
+
+6. Améliorations envisageables de Synthé 3
 
 Compte tenu de son principe rudimentaire, Synthé 3 n'a pas vocation
  à rivaliser avec les synthèses actuelles, même celles par diphones
- comme Kali.
+ comme Kali. Il faut garder le principe d'une période par diphone
+ (logiciel très léger). Au-delà, on retombe sur la problématique
+ de la synthèse par diphones (cf. Kali), avec des fichiers 50 fois
+ plus gros et des traitements évolués pour raccorder la hauteur,
+ l'intensité, le timbre.
 
-Quelques idées à développer :
+Quelques petites corrections peuvent être réalisées rapidement
+ ou à assez court terme :
 
-Garder le principe d'une période par diphone (logiciel très léger).
- Au-delà, on retombe sur la problématique de la synthèse par diphones
- (cf. Kali), avec des fichiers 50 fois plus gros et des traitements
- évolués pour raccorder la hauteur, l'intensité, le timbre.
+1. dans la structure UChar, remplacer les numéros de segments par
+ des short, comme suggéré en 5.7,
 
-Voix : choisir une voix souple, agréable, enregistrer les 27 périodes
- de phonèmes (+ des périodes excédentaires pour les fricatives
- et les plosives) et les 729 périodes des diphones (compter environ
- 60 ko pour la voix, contre 20 ko pour la version actuelle). Les variables
- nbEch et tAdr passeraient en 32 bits. On peut aussi améliorer sensiblement
- la qualité en passant de 8 bits à 16 bits pour le signal (taille
- 120 ko pour la voix). J'envisage (un jour lointain) de faire générer
- par Kali les voix au format Synthé 3 pour lui donner 3 voix en français
- et 2 voix en anglais.
+2. supprimer l'une des définitions de PI,
 
-Tables : supprimer l'étape CompiTab, partir du format texte (synthe.
-txt) et faire charger directement les tables par Synthé 3 en réutilisant
- les méthodes de CompiTab.
+3. déplacer dans SynMain.h les globales qui n'appartiennent pas à
+ la classe Global,
+
+4. transférer dans directson.cpp les traitements qui sont propres
+ à DirectSound.
+
+A plus long terme, quelques idées peuvent être développées :
+
+5. Nouvelle voix : choisir une voix souple, agréable, puis à l'
+aide d'un logiciel approprié, enregistrer les 27 périodes de phonèmes
+ (+ des périodes excédentaires pour les fricatives et les plosives,
+ comme prévu dans Synthé) et les 729 périodes des diphones (compter
+ environ 60 ko pour la voix, contre 20 ko dans la version actuelle).
+ Les variables nbEch et tAdr passeraient en 32 bits. On améliorerait
+ sensiblement la qualité en passant de 8 bits à 16 bits pour le
+ signal (taille 120 ko pour la voix). On pourrait remplacer la version
+ moyenne des phonèmes o, e, é par les timbres ouvert et fermé de
+ chacun d'eux, ce qui donnerait 30x30=900 périodes de diphones. J'
+envisage (un jour lointain) de faire générer par Kali les voix au
+ format Synthé 3 pour lui donner 3 voix en français et 2 voix en
+ anglais.
+
+6. Dictionnaire de transcription : n'étant plus limités à des
+ adresses de 16 bits, on pourrait ajouter d'autres formes ainsi qu'
+un véritable dictionnaire de mots, qui serait testé dès la première
+ lettre de chaque mot
+
 
 
