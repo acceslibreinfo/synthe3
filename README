@@ -15,7 +15,7 @@ This will produce a shared library (libsynthe3.so) and a test executable
 (synthe3).
 
 At the moment, the TTS can not be installed (no make install target yet).
-It can unly be run directly from its sources through the run-synthe3 
+It can only be run directly from its sources through the run-synthe3 
 script:
 
 ./synthe3
